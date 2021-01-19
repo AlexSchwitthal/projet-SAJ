@@ -13,8 +13,8 @@ import javax.persistence.*;
 public class Spemedecin implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private SpemedecinPK id;
+	@Id
+	private int idSpeMedecin;
 
 	//bi-directional many-to-one association to Centremedical
 	@ManyToOne
@@ -34,12 +34,12 @@ public class Spemedecin implements Serializable {
 	public Spemedecin() {
 	}
 
-	public SpemedecinPK getId() {
-		return this.id;
+	public int getIdSpeMedecin() {
+		return this.idSpeMedecin;
 	}
 
-	public void setId(SpemedecinPK id) {
-		this.id = id;
+	public void setIdSpeMedecin(int idSpeMedecin) {
+		this.idSpeMedecin = idSpeMedecin;
 	}
 
 	public Centremedical getCentremedical() {

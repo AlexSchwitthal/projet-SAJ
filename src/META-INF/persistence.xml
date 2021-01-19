@@ -11,6 +11,5 @@
 		<class>fr.dauphine.mido.as.projet.beans.Rendezvous</class>
 		<class>fr.dauphine.mido.as.projet.beans.Specialite</class>
 		<class>fr.dauphine.mido.as.projet.beans.Spemedecin</class>
-		<class>fr.dauphine.mido.as.projet.beans.SpemedecinPK</class>
 	</persistence-unit>
 </persistence>

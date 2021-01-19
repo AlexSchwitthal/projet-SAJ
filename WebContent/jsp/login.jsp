@@ -4,10 +4,11 @@
     <%@include file="header.jsp" %>
     <body>
         <div class="container">
+        <%@include file="menu.jsp" %>
             <br>
             <h1>Bonjour, veuillez rentrer vos identifiants</h1>
             <hr>
-            <form method="post" action="LoginServlet">
+            <form method="post" action="ServetLogin">
                 <div class="form-group">
                     <div>
                         <label for="login">Nom :</label>

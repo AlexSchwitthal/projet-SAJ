@@ -1,11 +1,8 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-	<div class="collapse navbar-collapse" id="navbarsExample02">
+	<div class="collapse navbar-collapse">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link" href="contact">Contact
-					<span class="sr-only">(current)</span>
-			</a></li>
 			<li class="nav-item active"><a class="nav-link"
-				href="factorielle">Factorielle</a></li>
+				href="registerPatient">Inscription (patient)</a></li>
 			<li class="nav-item active">
 				<%
                 if (session.getAttribute("login") == null) {
