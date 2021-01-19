@@ -22,8 +22,6 @@ public class Personne implements Serializable {
 	@Column(name="date_naissance")
 	private Date dateNaissance;
 
-	private int idAdresse;
-
 	private String nom;
 
 	private String prenom;
@@ -39,6 +37,11 @@ public class Personne implements Serializable {
 	//bi-directional many-to-one association to Patient
 	@OneToMany(mappedBy="personne")
 	private List<Patient> patients;
+
+	//bi-directional many-to-one association to Adresse
+	@ManyToOne
+	@JoinColumn(name="idAdresse")
+	private Adresse adresse;
 
 	public Personne() {
 	}
@@ -57,14 +60,6 @@ public class Personne implements Serializable {
 
 	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
-	}
-
-	public int getIdAdresse() {
-		return this.idAdresse;
-	}
-
-	public void setIdAdresse(int idAdresse) {
-		this.idAdresse = idAdresse;
 	}
 
 	public String getNom() {
@@ -147,6 +142,14 @@ public class Personne implements Serializable {
 		patient.setPersonne(null);
 
 		return patient;
+	}
+
+	public Adresse getAdresse() {
+		return this.adresse;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
 	}
 
 }

@@ -2,8 +2,15 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="projet-SAJ">
 		<class>fr.dauphine.mido.as.projet.beans.Administrateur</class>
+		<class>fr.dauphine.mido.as.projet.beans.Adresse</class>
+		<class>fr.dauphine.mido.as.projet.beans.Centremedical</class>
 		<class>fr.dauphine.mido.as.projet.beans.Medecin</class>
 		<class>fr.dauphine.mido.as.projet.beans.Patient</class>
 		<class>fr.dauphine.mido.as.projet.beans.Personne</class>
+		<class>fr.dauphine.mido.as.projet.beans.Planning</class>
+		<class>fr.dauphine.mido.as.projet.beans.Rendezvous</class>
+		<class>fr.dauphine.mido.as.projet.beans.Specialite</class>
+		<class>fr.dauphine.mido.as.projet.beans.Spemedecin</class>
+		<class>fr.dauphine.mido.as.projet.beans.SpemedecinPK</class>
 	</persistence-unit>
 </persistence>

@@ -2,6 +2,7 @@ package fr.dauphine.mido.as.projet.beans;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -26,6 +27,10 @@ public class Patient implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idPersonne")
 	private Personne personne;
+
+	//bi-directional many-to-one association to Rendezvous
+	@OneToMany(mappedBy="patient")
+	private List<Rendezvous> rendezvouses;
 
 	public Patient() {
 	}
@@ -68,6 +73,28 @@ public class Patient implements Serializable {
 
 	public void setPersonne(Personne personne) {
 		this.personne = personne;
+	}
+
+	public List<Rendezvous> getRendezvouses() {
+		return this.rendezvouses;
+	}
+
+	public void setRendezvouses(List<Rendezvous> rendezvouses) {
+		this.rendezvouses = rendezvouses;
+	}
+
+	public Rendezvous addRendezvous(Rendezvous rendezvous) {
+		getRendezvouses().add(rendezvous);
+		rendezvous.setPatient(this);
+
+		return rendezvous;
+	}
+
+	public Rendezvous removeRendezvous(Rendezvous rendezvous) {
+		getRendezvouses().remove(rendezvous);
+		rendezvous.setPatient(null);
+
+		return rendezvous;
 	}
 
 }

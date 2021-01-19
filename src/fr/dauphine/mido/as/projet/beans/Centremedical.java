@@ -6,61 +6,51 @@ import java.util.List;
 
 
 /**
- * The persistent class for the medecin database table.
+ * The persistent class for the centremedical database table.
  * 
  */
 @Entity
-@NamedQuery(name="Medecin.findAll", query="SELECT m FROM Medecin m")
-public class Medecin implements Serializable {
+@NamedQuery(name="Centremedical.findAll", query="SELECT c FROM Centremedical c")
+public class Centremedical implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int idMedecin;
+	private int idCentre;
 
-	private String email;
-
-	private String motDePasse;
+	private String nom;
 
 	private String telephone;
 
-	//bi-directional many-to-one association to Personne
+	//bi-directional many-to-one association to Adresse
 	@ManyToOne
-	@JoinColumn(name="idPersonne")
-	private Personne personne;
+	@JoinColumn(name="idAdresse")
+	private Adresse adresse;
 
 	//bi-directional many-to-one association to Planning
-	@OneToMany(mappedBy="medecin")
+	@OneToMany(mappedBy="centremedical")
 	private List<Planning> plannings;
 
 	//bi-directional many-to-one association to Spemedecin
-	@OneToMany(mappedBy="medecin")
+	@OneToMany(mappedBy="centremedical")
 	private List<Spemedecin> spemedecins;
 
-	public Medecin() {
+	public Centremedical() {
 	}
 
-	public int getIdMedecin() {
-		return this.idMedecin;
+	public int getIdCentre() {
+		return this.idCentre;
 	}
 
-	public void setIdMedecin(int idMedecin) {
-		this.idMedecin = idMedecin;
+	public void setIdCentre(int idCentre) {
+		this.idCentre = idCentre;
 	}
 
-	public String getEmail() {
-		return this.email;
+	public String getNom() {
+		return this.nom;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMotDePasse() {
-		return this.motDePasse;
-	}
-
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	public String getTelephone() {
@@ -71,12 +61,12 @@ public class Medecin implements Serializable {
 		this.telephone = telephone;
 	}
 
-	public Personne getPersonne() {
-		return this.personne;
+	public Adresse getAdresse() {
+		return this.adresse;
 	}
 
-	public void setPersonne(Personne personne) {
-		this.personne = personne;
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
 	}
 
 	public List<Planning> getPlannings() {
@@ -89,14 +79,14 @@ public class Medecin implements Serializable {
 
 	public Planning addPlanning(Planning planning) {
 		getPlannings().add(planning);
-		planning.setMedecin(this);
+		planning.setCentremedical(this);
 
 		return planning;
 	}
 
 	public Planning removePlanning(Planning planning) {
 		getPlannings().remove(planning);
-		planning.setMedecin(null);
+		planning.setCentremedical(null);
 
 		return planning;
 	}
@@ -111,14 +101,14 @@ public class Medecin implements Serializable {
 
 	public Spemedecin addSpemedecin(Spemedecin spemedecin) {
 		getSpemedecins().add(spemedecin);
-		spemedecin.setMedecin(this);
+		spemedecin.setCentremedical(this);
 
 		return spemedecin;
 	}
 
 	public Spemedecin removeSpemedecin(Spemedecin spemedecin) {
 		getSpemedecins().remove(spemedecin);
-		spemedecin.setMedecin(null);
+		spemedecin.setCentremedical(null);
 
 		return spemedecin;
 	}
