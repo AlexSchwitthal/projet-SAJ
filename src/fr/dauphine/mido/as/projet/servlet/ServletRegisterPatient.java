@@ -20,13 +20,13 @@ import fr.dauphine.mido.as.projet.beans.Personne;
  * Servlet implementation class ServeltRegisterPatient
  */
 @WebServlet(name = "ServeltRegisterPatient", urlPatterns = {"/registerPatient"})
-public class ServeltRegisterPatient extends HttpServlet {
+public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServeltRegisterPatient() {
+    public ServletRegisterPatient() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,12 +48,12 @@ public class ServeltRegisterPatient extends HttpServlet {
 	        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	        // NOT WORKING
 	        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
-	        //EntityManager em = emf.createEntityManager();
+	        EntityManager em = emf.createEntityManager();
 	            
 	        Personne personne = new Personne();
 	        Patient patient = new Patient();
 	        Adresse adresse = new Adresse();
-	        response.setContentType("text/html");
+	        //response.setContentType("text/html");
 
 	        personne.setNom(request.getParameter("nom"));
 	        personne.setPrenom(request.getParameter("prenom"));
@@ -62,21 +62,23 @@ public class ServeltRegisterPatient extends HttpServlet {
 	        adresse.setAdresseComplete(request.getParameter("adresse"));
 	        adresse.setCodePostal(request.getParameter("cp"));
 	        adresse.setPays(request.getParameter("pays"));
+	        adresse.setVille(request.getParameter("ville"));
 	        
 	        patient.setEmail(request.getParameter("email"));
-	        patient.setTelephone(request.getParameter("tel"));
+	        patient.setTelephone(request.getParameter("telephone"));
 	        patient.setMotDePasse(request.getParameter("mdp"));
-	        
-	        patient.setPersonne(personne);
-	        personne.setAdresse(adresse);
 
-	     //   em.getTransaction().begin();
-	    //    em.persist(adresse);
-	    //    em.persist(personne);
-	     //   em.persist(patient);
-	    //   em.getTransaction().commit();
+	        em.getTransaction().begin();
+	        
+	        em.persist(adresse);
+	        personne.setAdresse(adresse);
+	        em.persist(personne);
+	        patient.setPersonne(personne);
+	        em.persist(patient);
+	        
+	       	em.getTransaction().commit();
 	      
-	       //em.close();
+	        em.close();
 	        emf.close();
 		}
 		catch (Exception e) {
