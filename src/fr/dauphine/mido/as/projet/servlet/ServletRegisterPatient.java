@@ -45,7 +45,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 	        response.setContentType("text/html");
-	        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	        // NOT WORKING
 	        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 	        EntityManager em = emf.createEntityManager();

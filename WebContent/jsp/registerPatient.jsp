@@ -13,7 +13,7 @@
                 
                     <div>
                         <label for="email">E-mail :</label>
-                        <input type="text" id="email" name="email" class="form-control" maxlength="15" required>
+                        <input type="text" id="email" name="email" class="form-control" maxlength="50" required>
                         <br />
                     </div>
                     
