@@ -3,9 +3,7 @@ package fr.dauphine.mido.as.projet.servlet;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,14 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Personne;
+import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 
 /**
  * Servlet implementation class ServeltRegisterPatient
  */
+
 @WebServlet(name = "ServeltRegisterPatient", urlPatterns = {"/registerPatient"})
 public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+    @EJB
+    ServicesPersonne servicesPersonne;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,9 +48,6 @@ public class ServletRegisterPatient extends HttpServlet {
 		try {
 	        response.setContentType("text/html");
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        // NOT WORKING
-	        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
-	        EntityManager em = emf.createEntityManager();
 	            
 	        Personne personne = new Personne();
 	        Patient patient = new Patient();
@@ -68,18 +67,13 @@ public class ServletRegisterPatient extends HttpServlet {
 	        patient.setTelephone(request.getParameter("telephone"));
 	        patient.setMotDePasse(request.getParameter("mdp"));
 
-	        em.getTransaction().begin();
-	        
-	        em.persist(adresse);
-	        personne.setAdresse(adresse);
-	        em.persist(personne);
-	        patient.setPersonne(personne);
-	        em.persist(patient);
-	        
-	       	em.getTransaction().commit();
-	      
-	        em.close();
-	        emf.close();
+	        boolean insert = servicesPersonne.ajoutPatient(patient, personne, adresse);
+	        if(insert) {
+	        	System.out.println("success !");
+	        }
+	        else {
+	        	System.out.println("Error !");
+	        }
 		}
 		catch (Exception e) {
             e.printStackTrace();
