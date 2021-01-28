@@ -69,13 +69,20 @@ public class ServletRegisterPatient extends HttpServlet {
 
 	        boolean insert = servicesPersonne.ajoutPatient(patient, personne, adresse);
 	        if(insert) {
+	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
+		        this.getServletContext().getRequestDispatcher("/login").forward(request, response);
 	        	System.out.println("success !");
 	        }
 	        else {
+	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
+		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
 	        	System.out.println("Error !");
 	        }
+
 		}
 		catch (Exception e) {
+            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
+	        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
             e.printStackTrace();
         };
 	}

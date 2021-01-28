@@ -8,6 +8,15 @@
             <br>
             <h1>Bonjour, veuillez rentrer vos identifiants</h1>
             <hr>
+            <% 
+            if(request.getAttribute("success") != null) {
+                %>
+                 <div class="alert alert-success" role="alert">
+                	<%= request.getAttribute("success") %>
+            	</div>
+                <%
+            }
+            %>
             <form method="post" action="ServetLogin">
                 <div class="form-group">
                     <div>
