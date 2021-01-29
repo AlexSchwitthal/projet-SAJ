@@ -19,7 +19,7 @@ import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
  * Servlet implementation class ServeltRegisterPatient
  */
 
-@WebServlet(name = "ServeltRegisterPatient", urlPatterns = {"/registerPatient"})
+@WebServlet(name = "ServletRegisterPatient", urlPatterns = {"/registerPatient"})
 public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

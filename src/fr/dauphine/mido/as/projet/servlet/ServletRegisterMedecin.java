@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.dauphine.mido.as.projet.beans.Adresse;
+import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesSpecialite;
 /**
  * Servlet implementation class ServletRegisterMedecin
  */
-@WebServlet(name = "ServeltRegisterMedecin", urlPatterns = {"/registerMedecin"})
+@WebServlet(name = "ServletRegisterMedecin", urlPatterns = {"/registerMedecin"})
 public class ServletRegisterMedecin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -43,8 +46,28 @@ public class ServletRegisterMedecin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.setContentType("text/html");
+		
+		Personne personne = new Personne();
+		Adresse adresse = new Adresse();
+		Medecin medecin = new Medecin();
+		
+        personne.setNom(request.getParameter("nom"));
+        personne.setPrenom(request.getParameter("prenom"));
+        
+        adresse.setAdresseComplete(request.getParameter("adresse"));
+        
+        medecin.setEmail(request.getParameter("email"));
+        medecin.setTelephone(request.getParameter("telephone"));
+        medecin.setMotDePasse(request.getParameter("mdp"));
+        
+        String[] lines = request.getParameterValues("specialite");
+        System.out.println(lines);
+   //     for(String s : lines) {
+    //    	System.out.println(s);
+    //    }
+       // System.out.println(request.getParameter("specialite[1]"));
+		//System.out.println("test");
 	}
 
 }

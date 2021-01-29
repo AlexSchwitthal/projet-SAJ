@@ -59,7 +59,7 @@
 		                        <div class="col-md-5">
 		                        	<div class="form-group">
 									  <label for="centreMedical">Centre Médical :</label>
-									  <select class="form-control" id="centreMedical" name="centreMedical">
+									  <select class="form-control" id="centreMedical" name="centreMedical[]">
 									  	<%
 									  	List<Centremedical> listeCentre = (List<Centremedical>) request.getAttribute("listeCentre");
 									  	for(Centremedical c : listeCentre) {
