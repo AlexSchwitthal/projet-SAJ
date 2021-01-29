@@ -2,8 +2,13 @@
 	<div class="collapse navbar-collapse">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active"><a class="nav-link"
-				href="registerPatient">Inscription (patient)</a></li>
+				href="registerPatient">Inscription (patient)</a>
+			</li>
+			<li class="nav-item active"><a class="nav-link"
+				href="registerMedecin">Inscription (medecin)</a>
+			</li>
 			<li class="nav-item active">
+			
 				<%
                 if (session.getAttribute("login") == null) {
                     %><a class="nav-link" href="login">Connexion</a> <%
