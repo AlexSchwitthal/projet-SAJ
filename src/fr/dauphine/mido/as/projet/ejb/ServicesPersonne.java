@@ -1,5 +1,7 @@
 package fr.dauphine.mido.as.projet.ejb;
 
+import java.util.Map;
+
 import javax.ejb.*;
 
 import fr.dauphine.mido.as.projet.beans.Adresse;
@@ -12,4 +14,10 @@ public interface ServicesPersonne {
 	public boolean ajoutPatient(Patient patient, Personne personne, Adresse adresse);
 	
 	public boolean ajoutMedecin(Medecin medecin, Personne personne, Adresse adresse, String[] listeCentre, String[] listeSpecialite);
+	
+	public Patient getPatientByEmail(String email);
+	
+	public Patient updatePatient(int patientId, Map<String, String[]> parameters);
+	
+	public boolean deletePatient(int patientId);
 }

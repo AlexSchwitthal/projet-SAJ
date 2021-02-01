@@ -24,6 +24,8 @@ public class Patient implements Serializable {
 
 	private String telephone;
 
+	private String etat = "Actif";
+	
 	//bi-directional many-to-one association to Personne
 	@ManyToOne
 	@JoinColumn(name="idPersonne")
@@ -68,6 +70,14 @@ public class Patient implements Serializable {
 		this.telephone = telephone;
 	}
 
+	public String getEtat() {
+		return this.etat;
+	}
+	
+	public void setEtat(String etat) {
+		this.etat = etat;
+	}
+	
 	public Personne getPersonne() {
 		return this.personne;
 	}

@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import fr.dauphine.mido.as.projet.beans.Specialite;
 
 /**
- * Session Bean implementation class ServicesCentreBean
+ * Session Bean implementation class ServicesSpecialiteBean
  */
 @Stateless
 @LocalBean
