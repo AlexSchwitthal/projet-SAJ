@@ -8,15 +8,7 @@
             <br>
             <h1>Inscription patient</h1>
             <hr>
-            <% 
-            if(request.getAttribute("warning") != null) {
-                %>
-                 <div class="alert alert-danger" role="alert">
-                	<%= request.getAttribute("warning") %>
-            	</div>
-                <%
-            }
-            %>
+            <%@include file="alert.jsp" %>
             <form method="post" action="registerPatient">
                 <div class="form-group">
                     <div>

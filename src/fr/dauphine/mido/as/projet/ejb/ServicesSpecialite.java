@@ -9,4 +9,5 @@ import fr.dauphine.mido.as.projet.beans.Specialite;
 @Remote
 public interface ServicesSpecialite {
 	public List<Specialite> getAllSpecialite();
+	public Specialite getSpecialiteById(int id);
 }

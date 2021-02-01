@@ -13,6 +13,7 @@ import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
+import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 import fr.dauphine.mido.as.projet.ejb.ServicesSpecialite;
 /**
  * Servlet implementation class ServletRegisterMedecin
@@ -26,6 +27,10 @@ public class ServletRegisterMedecin extends HttpServlet {
     
     @EJB
     ServicesSpecialite servicesSpecialite;
+    
+    @EJB
+    ServicesPersonne servicesPersonne;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -61,13 +66,17 @@ public class ServletRegisterMedecin extends HttpServlet {
         medecin.setTelephone(request.getParameter("telephone"));
         medecin.setMotDePasse(request.getParameter("mdp"));
         
-        String[] lines = request.getParameterValues("specialite");
-        System.out.println(lines);
-   //     for(String s : lines) {
-    //    	System.out.println(s);
-    //    }
-       // System.out.println(request.getParameter("specialite[1]"));
-		//System.out.println("test");
+        String[] listeCentre = request.getParameterValues("centreMedical");
+        String[] listeSpecialite = request.getParameterValues("specialite");
+
+        boolean insert = servicesPersonne.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
+        if(insert) {
+            request.setAttribute("success", "Le medecin a bien été inscrit !");
+        }
+        else {
+            request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
+        }
+        this.doGet(request, response);
 	}
 
 }

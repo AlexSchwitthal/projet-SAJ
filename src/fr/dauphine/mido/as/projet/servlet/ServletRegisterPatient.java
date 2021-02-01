@@ -69,12 +69,10 @@ public class ServletRegisterPatient extends HttpServlet {
 	        if(insert) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/login").forward(request, response);
-	        	System.out.println("success !");
 	        }
 	        else {
 	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
 		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
-	        	System.out.println("Error !");
 	        }
 
 		}

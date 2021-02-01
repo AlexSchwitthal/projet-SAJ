@@ -12,15 +12,7 @@
             <br>
             <h1>Inscription Medecin</h1>
             <hr>
-            <% 
-            if(request.getAttribute("warning") != null) {
-                %>
-                 <div class="alert alert-danger" role="alert">
-                	<%= request.getAttribute("warning") %>
-            	</div>
-                <%
-            }
-            %>
+            <%@include file="alert.jsp" %>
             <form method="post" action="registerMedecin">
                 <div class="form-group">
                     <div>
@@ -59,7 +51,7 @@
 		                        <div class="col-md-5">
 		                        	<div class="form-group">
 									  <label for="centreMedical">Centre Médical :</label>
-									  <select class="form-control" id="centreMedical" name="centreMedical[]">
+									  <select class="form-control" id="centreMedical" name="centreMedical">
 									  	<%
 									  	List<Centremedical> listeCentre = (List<Centremedical>) request.getAttribute("listeCentre");
 									  	for(Centremedical c : listeCentre) {
