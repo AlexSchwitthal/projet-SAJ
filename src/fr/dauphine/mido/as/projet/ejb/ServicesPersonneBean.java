@@ -19,6 +19,7 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
+import fr.dauphine.mido.as.projet.beans.Specialite;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 /**
@@ -169,7 +170,16 @@ public class ServicesPersonneBean implements ServicesPersonne {
 			EntityManager em = emf.createEntityManager();
 			
 			Patient patient = em.find(Patient.class, patientId);
-			Rendezvous rdv = em.find(Rendezvous.class, patientId);
+			
+			// A METTRE DANS UNE FUTUR CLASSE servicesRDV (maybe ?)
+			Query query = em.createQuery("select r from Rendezvous r where r.patient.idPatient = ?1");
+			query.setParameter(1, patientId);
+			List<Rendezvous> results = query.getResultList();
+			for(Rendezvous r : results) {
+				r.setEtat("Annulé");
+				em.merge(r);
+			}
+			
 			patient.setEtat("Supprimé");
 			em.merge(patient);
 		    em.flush();

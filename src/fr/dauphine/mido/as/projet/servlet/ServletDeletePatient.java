@@ -48,8 +48,12 @@ public class ServletDeletePatient extends HttpServlet {
 	        this.getServletContext().getRequestDispatcher("/login").forward(request, response);
 		}
 		else {
-			request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
-			this.getServletContext().getRequestDispatcher("/gestionPatient").forward(request, response);
+			if(patient != null) {
+				request.setAttribute("patient", patient);
+				request.setAttribute("warning", "Une erreur est survenue lors de la suppression du compte !");
+				this.getServletContext().getRequestDispatcher("/gestionPatient").forward(request, response);
+			}
+
 		}
 		
 	}
