@@ -52,7 +52,8 @@ public class ServletGestionPatient extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Patient patient = this.servicesPersonne.getPatientByEmail("a.b@gmail.com");
+		String email = (String) request.getSession().getAttribute("login");
+		Patient patient = this.servicesPersonne.getPatientByEmail(email);
 		Map<String, String[]> parameters = request.getParameterMap();
 		Patient updatedPatient = this.servicesPersonne.updatePatient(patient.getIdPatient(), parameters);
 		if(updatedPatient != null) {
