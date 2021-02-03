@@ -34,10 +34,17 @@ public class ServletGestionPatient extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Patient patient = this.servicesPersonne.getPatientByEmail("a.b@gmail.com");
-		if(patient != null) {
-            request.setAttribute("patient", patient);
-	        this.getServletContext().getRequestDispatcher("/jsp/gestionPatient.jsp").forward(request, response);
+		if(request.getSession().getAttribute("type") == "patient") {
+			String email = (String) request.getSession().getAttribute("login");
+			Patient patient = this.servicesPersonne.getPatientByEmail(email);
+			request.setAttribute("patient", patient);
+		    this.getServletContext().getRequestDispatcher("/jsp/gestionPatient.jsp").forward(request, response);
+		}
+		else if(request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		}
+		else {
+			response.sendRedirect("login");
 		}
 	}
 

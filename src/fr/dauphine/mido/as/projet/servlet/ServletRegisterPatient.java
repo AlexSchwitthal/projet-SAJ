@@ -36,7 +36,12 @@ public class ServletRegisterPatient extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+		if(request.getSession().getAttribute("login") == null) {
+			this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+		}
+		else {
+			response.sendRedirect("home");
+		}
 	}
 
 	/**

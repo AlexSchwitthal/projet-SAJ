@@ -1,6 +1,5 @@
 package fr.dauphine.mido.as.projet.ejb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;

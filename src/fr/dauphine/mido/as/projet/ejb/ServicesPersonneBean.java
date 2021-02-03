@@ -1,6 +1,5 @@
 package fr.dauphine.mido.as.projet.ejb;
 
-import java.util.Optional;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -19,7 +17,6 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
-import fr.dauphine.mido.as.projet.beans.Specialite;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 /**
@@ -40,7 +37,11 @@ public class ServicesPersonneBean implements ServicesPersonne {
 		try {
 	        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 	        EntityManager em = emf.createEntityManager();
-
+	        
+	        if(this.isEmailAlreadyExist(patient.getEmail())) {
+	        	return false;
+	        }
+	        
 	        em.persist(adresse);
 	        personne.setAdresse(adresse);
 	        em.persist(personne);
@@ -61,6 +62,11 @@ public class ServicesPersonneBean implements ServicesPersonne {
 	@Override
 	public boolean ajoutMedecin(Medecin medecin, Personne personne, Adresse adresse, String[] listeCentre, String[] listeSpecialite) {
 		try {
+			
+	        if(this.isEmailAlreadyExist(medecin.getEmail())) {
+	        	return false;
+	        }
+	        
 			if(listeCentre.length != listeSpecialite.length) {
 				return false;
 			}
@@ -192,5 +198,30 @@ public class ServicesPersonneBean implements ServicesPersonne {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public boolean isEmailAlreadyExist(String email) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+		EntityManager em = emf.createEntityManager();
+		
+		Query queryPatient = em.createQuery("select p from Patient p where p.email = ?1");
+		queryPatient.setParameter(1, email);
+		if(queryPatient.getResultList().size() != 0) {
+			return true;
+		}
+		
+		Query queryMedecin = em.createQuery("select m from Medecin m where m.email = ?1");
+		queryMedecin.setParameter(1, email);
+		if(queryMedecin.getResultList().size() != 0) {
+			return true;
+		}
+		
+		Query queryAdmin = em.createQuery("select a from Administrateur a where a.email = ?1");
+		queryAdmin.setParameter(1, email);
+		if(queryAdmin.getResultList().size() != 0) {
+			return true;
+		}
+		
+		return false;
 	}
 }

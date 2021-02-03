@@ -6,10 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import fr.dauphine.mido.as.projet.beans.Specialite;
 
 /**
  * Session Bean implementation class ServicesAuthBean
@@ -19,39 +16,45 @@ import fr.dauphine.mido.as.projet.beans.Specialite;
 public class ServicesAuthBean implements ServicesAuth {
 
 	@Override
-	public boolean login(HttpServletRequest request, String email, String mdp) {
-        
-		HttpSession session = request.getSession(true);
+	public String login(String email, String mdp) {
+       
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 		EntityManager em = emf.createEntityManager();
 		
+		Query queryPatient = em.createQuery("select p from Patient p where p.email = ?1 and p.motDePasse = ?2");
+		queryPatient.setParameter(1, email);
+		queryPatient.setParameter(2, mdp);
+		if(queryPatient.getResultList().size() == 1) {
+			em.close();
+			emf.close();
+			return "patient";
+		}
+		
+		Query queryMedecin = em.createQuery("select m from Medecin m where m.email = ?1 and m.motDePasse = ?2");
+		queryMedecin.setParameter(1, email);
+		queryMedecin.setParameter(2, mdp);
+		if(queryMedecin.getResultList().size() == 1) {
+			em.close();
+			emf.close();
+			return "medecin";
+		}
+		
+		Query queryAdmin = em.createQuery("select a from Administrateur a where a.email = ?1 and a.motDePasse = ?2");
+		queryAdmin.setParameter(1, email);
+		queryAdmin.setParameter(2, mdp);
+		if(queryAdmin.getResultList().size() == 1) {
+			em.close();
+			emf.close();
+			return "administrateur";
+		}
+		
 		em.close();
 		emf.close();
-		return false;
+		return "erreur";
 	}
 
 	@Override
-	public boolean logout(HttpServletRequest request) {
-        try {
-    		HttpSession session = request.getSession();
-            session.invalidate();
-            return true;
-        }
-        catch(Exception e) {
-			e.printStackTrace();	
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isLogged(HttpServletRequest request) {
-		 
-		HttpSession session = request.getSession(true);
-        if (session.getAttribute("login") != null) {
-        	return true;
-        }
-        else {
-        	return false;
-        }
+	public boolean isLogged() {
+      return false;
 	}
 }

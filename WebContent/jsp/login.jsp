@@ -9,10 +9,10 @@
             <h1>Bonjour, veuillez rentrer vos identifiants</h1>
             <hr>
             <%@include file="alert.jsp" %>
-            <form method="post" action="ServetLogin">
+            <form method="post" action="login">
                 <div class="form-group">
                     <div>
-                        <label for="login">Nom :</label>
+                        <label for="login">Adresse E-mail :</label>
                         <input type="text" id="login" name="login" class="form-control" maxlength="15" required>
                         <br />
                     </div>

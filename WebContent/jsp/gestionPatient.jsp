@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </form>
-            <form method="post" action="deletePatient">
+            <form onSubmit="return confirm('Voulez-vous vraiment supprimer votre compte ?')" method="post" action="deletePatient">
              	<input type="submit" value="Supprimer le compte" class="btn btn-danger">
 			</form>
         </div>
