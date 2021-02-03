@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<div class="collapse navbar-collapse">
 		<ul class="navbar-nav mr-auto">
+			
 				<%
                 if (session.getAttribute("login") == null) {
                     %>
@@ -47,6 +48,13 @@
                 }
                 %>
 		</ul>
+			<%
+			if(session.getAttribute("prenom") != null && session.getAttribute("nom") != null) {
+				%>
+				<div style="color:white">Connecté en tant que : <%= session.getAttribute("prenom") %> <%= session.getAttribute("nom") %></div>
+				<%
+			}
+			%>
 	</div>
 </nav>
 <hr>

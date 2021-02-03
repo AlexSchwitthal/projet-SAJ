@@ -17,6 +17,8 @@ public interface ServicesPersonne {
 	
 	public Patient getPatientByEmail(String email);
 	
+	public Personne getPersonneByEmail(String type, String email);
+	
 	public Patient updatePatient(int patientId, Map<String, String[]> parameters);
 	
 	public boolean deletePatient(int patientId);

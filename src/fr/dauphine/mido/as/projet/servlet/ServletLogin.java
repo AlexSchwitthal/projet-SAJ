@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.ejb.ServicesAuth;
+import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 
 /**
  * Servlet implementation class ServletTest
@@ -22,6 +24,9 @@ public class ServletLogin extends HttpServlet {
 	@EJB
 	ServicesAuth servicesAuth;
 	  
+    @EJB
+    ServicesPersonne servicesPersonne;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -45,15 +50,18 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String result = this.servicesAuth.login(request.getParameter("login"), request.getParameter("mdp"));
-		if(result.equals("erreur")) {
+		String type = this.servicesAuth.login(request.getParameter("login"), request.getParameter("mdp"));
+		if(type.equals("erreur")) {
 			 request.setAttribute("warning", "Identifiant incorrect !");
 			 this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 		}
 		else {
+			Personne personneLogged = this.servicesPersonne.getPersonneByEmail(type, request.getParameter("login"));
 			HttpSession session = request.getSession(true);
 			session.setAttribute("login", request.getParameter("login"));
-			session.setAttribute("type", result);
+			session.setAttribute("type", type);
+			session.setAttribute("nom", personneLogged.getNom());
+			session.setAttribute("prenom", personneLogged.getPrenom());
             session.setMaxInactiveInterval(3600);
             response.sendRedirect("home");
 		}

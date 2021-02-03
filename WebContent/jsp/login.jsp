@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <div>
                         <label for="login">Adresse E-mail :</label>
-                        <input type="text" id="login" name="login" class="form-control" maxlength="15" required>
+                        <input type="text" id="login" name="login" class="form-control" maxlength="50" required>
                         <br />
                     </div>
                     <div>
