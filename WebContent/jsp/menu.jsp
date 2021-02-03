@@ -13,6 +13,11 @@
                     <%
                 } 
                 else {
+                	%>
+                    <li class="nav-item active">	
+                   		<a class="nav-link" href="home">Accueil</a>
+                    </li> 
+                    <%
                 	if(session.getAttribute("type") == "patient") {
                 		%>
                 		<li class="nav-item active"><a class="nav-link"
