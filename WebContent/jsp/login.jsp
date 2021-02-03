@@ -4,11 +4,23 @@
     <%@include file="header.jsp" %>
     <body>
         <div class="container">
-        <%@include file="menu.jsp" %>
-            <br>
-            <h1>Bonjour, veuillez rentrer vos identifiants</h1>
-            <hr>
-            <%@include file="alert.jsp" %>
+        	<%@include file="alert.jsp" %>
+            <div id="menu">	 
+				<section class="dark-wrapper opaqued parallax" data-parallax="scroll" data-image-src="assets/img/dna.jpg" data-speed="0.7">
+			            <div class="section-inner ">
+			                <div class="container">
+			                    <div class="row">
+			                        <div class="col-lg-12 mt30 wow text-center">
+			                            <h2 class="section-heading">Connexion à l'application</h2>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			     </section>
+			</div>
+	<jsp:include page="menu.jsp" />
+            <br/><br/>
+            
             <form method="post" action="login">
                 <div class="form-group">
                     <div>
