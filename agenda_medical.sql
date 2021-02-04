@@ -39,6 +39,9 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
   KEY `fk_idpersonneadmin` (`idPersonne`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO administrateur (email, telephone, motDePasse, idPersonne) VALUES 
+('admin@admin.com', '0101010101', 'admin', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `adresse` (
 --
 
 INSERT INTO `adresse` (`idAdresse`, `adresseComplete`, `ville`, `codePostal`, `pays`) VALUES
+(1, '20 rue de la paix', 'Paris', '75002', 'France'),
 (15, '40, avenue du balek', 'PARIS', '57600', 'FRANCE'),
 (16, 'sqd', 'a', '5760000', 'd'),
 (17, 'sqd', 'a', '5760000', 'd'),
@@ -86,8 +90,8 @@ CREATE TABLE IF NOT EXISTS `centremedical` (
 --
 
 INSERT INTO `centremedical` (`idCentre`, `nom`, `telephone`, `idAdresse`) VALUES
-(1, 'le premier centre', '0635348769', 15),
-(2, 'le deuxième centre', '0123456789', 16);
+(1, 'Clinique Beausourire', '0635348769', 15),
+(2, 'Centre Grandsoin', '0123456789', 16);
 
 -- --------------------------------------------------------
 
@@ -156,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `personne` (
 --
 
 INSERT INTO `personne` (`idPersonne`, `nom`, `prenom`, `date_naissance`, `idAdresse`) VALUES
+(1,'Ministrateur', 'Gad', '1966-08-25', 1),
 (14, 'Schwitthal', 'Alexandre', '1991-04-01', 15),
 (15, 'z', 'q', '1995-07-22', 16),
 (16, 'z', 'q', '1995-07-22', 17),
