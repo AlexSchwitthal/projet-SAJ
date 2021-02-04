@@ -5,6 +5,9 @@
     <body>
         <div class="container">        	
             <div id="menu">	 
+            	<div id="includeMenu">
+       				<jsp:include page="menu.jsp" />
+       			</div>          
 				<section class="dark-wrapper opaqued parallax" data-parallax="scroll" data-image-src="assets/img/dna.jpg" data-speed="0.7">
 			            <div class="section-inner ">
 			                <div class="container">
@@ -13,11 +16,11 @@
 			                            <h2 class="section-heading">Connexion à l'application</h2>
 			                        </div>
 			                    </div>
-			                </div>
+			                </div>			                
 			            </div>
 			     </section>
 			</div>
-	<jsp:include page="menu.jsp" />
+	
             <br/><br/>
             <%@include file="alert.jsp" %>
             <form method="post" action="login">

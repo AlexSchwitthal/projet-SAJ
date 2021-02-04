@@ -1,12 +1,22 @@
 #itemsMenu, #itemsMenu li{
 	display: inline;
+	
 }
 
 #itemsMenu li{
 	padding-right: 2em;
+	
 }
 
 form{
 	margin-right:10em;
 	margin-left:10em;
+}
+
+.navbar-fixed-top{
+	position:relative;
+}
+
+#includeMenu{
+	position:absolute;
 }

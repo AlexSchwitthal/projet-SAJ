@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	
 	<body id="page-top" class="index">	
 		<div class="master-wrapper">
 			<nav class="navbar navbar-default navbar-fixed-top fadeInDown" data-wow-delay="0.5s">
@@ -9,56 +10,50 @@
 								<%
 				                if (session.getAttribute("login") == null) {
 				                    %>
-				                    <li class="dropdown">	
+				                    <li>	
 				                    	<a href="login">Connexion</a>
 				                    </li> 
-				                    <li class="dropdown"><a class="nav-link"
+				                    <li><a class="nav-link"
 										href="registerPatient">Inscription (patient)</a>
 									</li>	
 				                    <%
 				                } 
 				                else {
 				                	%>
-				                    <li class="dropdown">	
+				                    <li>	
 				                   		<a href="home">Accueil</a>
 				                    </li> 
 				                    <%
 				                	if(session.getAttribute("type") == "patient") {
 				                		%>
-				                		<li class="dropdown"><a href="gestionPatient">Gestion (patient)</a>
+				                		<li><a href="gestionPatient">Gestion (patient)</a>
 										</li>
 				                		<%
 				                	}
 				                	else if(session.getAttribute("type") == "medecin") {
 				                		%>
-				                		<li class="dropdown"><a href="gestionMedecin">Gestion (medecin)</a>
+				                		<li><a href="gestionMedecin">Gestion (medecin)</a>
 				                		</li>
 				                		<%
 				                	}
 				                	else if(session.getAttribute("type") == "administrateur") {
 				                		%>
-				                		<li class="dropdown"><a href="registerMedecin">Inscription (medecin)</a>
+				                		<li><a href="registerMedecin">Inscription (medecin)</a>
 				                		</li>
 				                		<%
 				                	}
 				                    %>
-				                    <li class="dropdown">	
+				                    <li>	
 				                    	<a href="logout">Deconnexion</a> 
 				                    </li> 
 				                    <%
 				                }
 				                %>
 						</ul>
-							<%
-							if(session.getAttribute("prenom") != null && session.getAttribute("nom") != null) {
-								%>
-								<div style="color:white">Connecté en tant que : <%= session.getAttribute("prenom") %> <%= session.getAttribute("nom") %></div>
-								<%
-							}
-							%>
 					</div>
 				</div>
 			</nav>
 		</div>
+	
 	</body>
 </html>
