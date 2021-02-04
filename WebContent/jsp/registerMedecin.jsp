@@ -8,10 +8,29 @@
     <script src="js/registerMedecin.js"></script>
     <body>
         <div class="container">
-        <%@include file="menu.jsp" %>
-            <br>
-            <h1>Inscription Medecin</h1>
-            <hr>
+	        <div id="menu">	        		
+	        		 <div id="includeMenu">
+	        				<jsp:include page="menu.jsp" />
+	        			</div>          
+					<section class="dark-wrapper opaqued parallax" data-parallax="scroll" data-image-src="assets/img/equipe-medecins.jpg" data-speed="0.7">	
+						 						
+				            <div class="section-inner ">				            	
+				                <div class="container">
+				                	
+				                    <div class="row">				                    	
+				                        <div class="col-lg-12 mt30 wow text-center">
+				                            <h2 class="section-heading">Création d'un compte Medecin</h2>
+				                            
+				                        </div>
+				                    </div>
+				                     
+				                </div>
+				               
+				            </div>
+				     </section>
+				</div>
+		
+            <br/><br/>
             <%@include file="alert.jsp" %>
             <form method="post" action="registerMedecin">
                 <div class="form-group">
@@ -48,10 +67,10 @@
                     <div id="listeCentre">
 	                    <div class="ligne">
 		                    <div class="row">
-		                        <div class="col-md-5">
+		                        <div class="col-md-5 ">
 		                        	<div class="form-group">
 									  <label for="centreMedical">Centre Médical :</label>
-									  <select class="form-control" id="centreMedical" name="centreMedical">
+									  <select id="centreMedical" name="centreMedical">
 									  	<%
 									  	List<Centremedical> listeCentre = (List<Centremedical>) request.getAttribute("listeCentre");
 									  	for(Centremedical c : listeCentre) {
@@ -63,10 +82,10 @@
 		                        </div>
 		                        <div class="col-md-1">
 		                        </div>
-		                        <div class="col-md-5">
+		                        <div class="col-md-5 listeDeroulante">
 		                        	<div class="form-group">
 									  <label for="specialite">Spécialité :</label>
-									  <select class="form-control" id="specialite" name="specialite">
+									  <select id="specialite" name="specialite">
 									  	<%
 									  	List<Specialite> listeSpecialite = (List<Specialite>) request.getAttribute("listeSpecialite");
 									  	for(Specialite s : listeSpecialite) {

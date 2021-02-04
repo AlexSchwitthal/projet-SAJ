@@ -50,6 +50,13 @@
 				                }
 				                %>
 						</ul>
+						<%
+							if(session.getAttribute("prenom") != null && session.getAttribute("nom") != null) {
+								%>
+								<div style="color:white">Connecté en tant que : <%= session.getAttribute("prenom") %> <%= session.getAttribute("nom") %></div>
+								<%
+							}
+							%>
 					</div>
 				</div>
 			</nav>
