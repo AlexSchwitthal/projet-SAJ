@@ -1,0 +1,18 @@
+.table-agenda {
+}
+
+.table-agenda .not-init {
+	background-color: grey;
+}
+
+.table-agenda .avail {
+	background-color: green;
+}
+
+.table-agenda .not-avail {
+	background-color: red;
+}
+
+.table-agenda .taken {
+	background-color: blue;
+}

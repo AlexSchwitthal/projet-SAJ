@@ -3,7 +3,10 @@ package fr.dauphine.mido.as.projet.beans;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -14,6 +17,9 @@ import java.util.Date;
 @NamedQuery(name="Planning.findAll", query="SELECT p FROM Planning p")
 public class Planning implements Serializable {
 	private static final long serialVersionUID = 1L;
+	/*private static final Locale LOCALE_FR = new Locale("fr", "FR");
+	private static final DateTimeFormatter LOCALIZED_DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy", LOCALE_FR);
+	private static final DateTimeFormatter LOCALIZED_DAY_OF_WEEK_FMT = DateTimeFormatter.ofPattern("EEEE", LOCALE_FR);*/
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -99,5 +105,12 @@ public class Planning implements Serializable {
 	public void setRendezvous(Rendezvous rendezvous) {
 		this.rendezvous = rendezvous;
 	}
+	/*
+	public String getLocalizedDate() {
+		return this.date.toLocalDate().format(LOCALIZED_DATE_FMT);
+	}
 
+	public String getLocalizedDayOfWeek() {
+		return this.date.toLocalDate().format(LOCALIZED_DAY_OF_WEEK_FMT);
+	}*/
 }

@@ -7,6 +7,9 @@
 			<li class="nav-item active"><a class="nav-link"
 				href="registerMedecin">Inscription (medecin)</a>
 			</li>
+			<li class="nav-item active"><a class="nav-link"
+				href="agenda">Agenda (medecin)</a>
+			</li>
 			<li class="nav-item active">
 			
 				<%
