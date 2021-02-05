@@ -14,6 +14,7 @@ import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
  * Servlet implementation class ServeltRegisterPatient
@@ -74,6 +75,8 @@ public class ServletRegisterPatient extends HttpServlet {
 	        if(insert) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+		        MailSender sender = new MailSender();
+		        sender.sendMail("test@test.com", patient.getEmail(), "he", "Tu es bien incrit :)");
 	        }
 	        else {
 	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
