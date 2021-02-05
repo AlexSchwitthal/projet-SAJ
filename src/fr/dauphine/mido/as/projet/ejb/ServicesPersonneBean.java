@@ -135,6 +135,32 @@ public class ServicesPersonneBean implements ServicesPersonne {
 			return null;
 		}
 	}
+	
+	@Override
+	public Medecin getMedecinByEmail(String email) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			
+			Query query = em.createQuery("select m from Medecin m where m.email = ?1");
+			query.setParameter(1, email);
+			query.setMaxResults(1);
+			
+			List<Medecin> results = query.getResultList();
+		    if (results == null || results.isEmpty()) {
+		        return null;
+		    }
+		    else {
+		        em.close();
+		        emf.close(); 
+		    	return results.get(0);
+		    }
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@Override
 	public Patient updatePatient(int patientId, Map<String, String[]> parameters) {
@@ -259,5 +285,41 @@ public class ServicesPersonneBean implements ServicesPersonne {
 			em.close();
 			return null;
 		}
+	}
+
+	@Override
+	public Medecin updateMedecin(int medecinId, Map<String, String[]> parameters) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			Medecin medecin = em.find(Medecin.class, medecinId);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	          
+			medecin.getPersonne().setNom(parameters.get("nom")[0]);
+			medecin.getPersonne().setPrenom(parameters.get("prenom")[0]);
+	
+			medecin.getPersonne().getAdresse().setAdresseComplete(parameters.get("adresse")[0]);
+		        
+			medecin.setEmail(parameters.get("email")[0]);
+			medecin.setTelephone(parameters.get("telephone")[0]);
+			medecin.setMotDePasse(parameters.get("mdp")[0]);
+		    		    
+		    em.merge(medecin);
+		    em.flush();
+		    emf.close();
+		    em.close();
+		    
+		    return medecin;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public boolean deleteMedecin(int medecinId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
