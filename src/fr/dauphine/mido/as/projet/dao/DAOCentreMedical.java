@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 
-public class DAOCentre {
+public class DAOCentreMedical {
 	public List<Centremedical> getAllCentre() {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");

@@ -6,7 +6,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
-import fr.dauphine.mido.as.projet.dao.DAOCentre;
+import fr.dauphine.mido.as.projet.dao.DAOCentreMedical;
 
 /**
  * Session Bean implementation class ServicesCentreBean
@@ -15,12 +15,12 @@ import fr.dauphine.mido.as.projet.dao.DAOCentre;
 @LocalBean
 public class ServicesCentreBean implements ServicesCentre {
 
-	private DAOCentre daoCentre = new DAOCentre();
+	private DAOCentreMedical daoCentreMedical = new DAOCentreMedical();
 	
 	@Override
 	public List<Centremedical> getAllCentre() {
 		try {
-			return daoCentre.getAllCentre();
+			return daoCentreMedical.getAllCentre();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class ServicesCentreBean implements ServicesCentre {
 	@Override
 	public Centremedical getCentreById(int id) {
 		try {
-			return daoCentre.getCentreById(id);
+			return daoCentreMedical.getCentreById(id);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -15,7 +15,7 @@ import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 public class DAOMedecin {
 
-	private DAOCentre daoCentre = new DAOCentre();
+	private DAOCentreMedical daoCentreMedical = new DAOCentreMedical();
 	private DAOSpecialite daoSpecialite = new DAOSpecialite();
 		
 	public boolean ajoutMedecin(Medecin medecin, Personne personne, Adresse adresse, String[] listeCentre, String[] listeSpecialite) {
@@ -31,7 +31,7 @@ public class DAOMedecin {
 	        
 	        for(int i = 0; i < listeCentre.length; i++) {
 	        	Spemedecin speMedecin = new Spemedecin();
-	        	speMedecin.setCentremedical(daoCentre.getCentreById(Integer.parseInt(listeCentre[i])));
+	        	speMedecin.setCentremedical(daoCentreMedical.getCentreById(Integer.parseInt(listeCentre[i])));
 	        	speMedecin.setSpecialite(daoSpecialite.getSpecialiteById(Integer.parseInt(listeSpecialite[i])));
 	        	speMedecin.setMedecin(medecin);
 	        	em.persist(speMedecin);
