@@ -28,6 +28,7 @@
 				                		%>
 				                		<li><a href="gestionPatient">Gestion (patient)</a>
 										</li>
+										<li><a href="rendezVous">Prendre un rendez-vous</a></li>
 				                		<%
 				                	}
 				                	else if(session.getAttribute("type") == "medecin") {

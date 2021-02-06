@@ -45,6 +45,7 @@ public class ServletRendezVous extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("listeSpecialites", servicesSpecialite.getAllSpecialite());
 		request.setAttribute("listeCentres", servicesCentre.getAllCentre());
+		//request.setAttribute("listeCreneaux", );
 		this.getServletContext().getRequestDispatcher("/jsp/prendreRendezVous.jsp").forward(request, response);
 	}
 
@@ -68,39 +69,10 @@ public class ServletRendezVous extends HttpServlet {
 	protected void rechercheParNom(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		String nomMedecin = request.getParameter("nomMedecin");
-		servicesRendezVous.rechercherCreneauxDisponible(15, 1);
-		ArrayList<Medecin> resultatsMedecins = servicesRendezVous.rechercheMedecin(nomMedecin);
-		ArrayList<Planning> resultatsPlannings = null;
-		HashMap<Medecin, ArrayList<Planning>> medecinsPlannings = new HashMap<Medecin, ArrayList<Planning>>();
 		
-		for (Medecin m : resultatsMedecins) {
-			resultatsPlannings = servicesRendezVous.rechercherCreneauxDisponibles(m.getIdMedecin());
-			//System.out.println(m.getIdMedecin() + " : " + resultatsPlannings);
-			medecinsPlannings.put(m, resultatsPlannings);
-		}
-		
-		
-		/*request.setAttribute("medecinRecherche", nomMedecin);
-		request.setAttribute("medecinsPlannings", medecinsPlannings);
-		for (Medecin m : medecinsPlannings.keySet()) {
-			System.out.println(m.getPersonne().getNom());
-			for (Planning p : medecinsPlannings.get(m)) {
-				System.out.println(" = " + p.getHeureDebut());
-			}
-		}
-		System.out.println("done");*/
-		//this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux.jsp").forward(request, response);
-	}
-
-	/*protected void rechercheParNom(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		String nomMedecin = request.getParameter("nomMedecin");
-		ArrayList<Medecin> resultats = servicesRendezVous.rechercheMedecin(nomMedecin);
-		HttpSession session = request.getSession();
-		session.setAttribute("userMedecinInput", nomMedecin);
-		session.setAttribute("lesMedecins", resultats);
+		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux.jsp").forward(request, response);
-	}*/
+	}
 
 	protected void rechercheMulticriteres(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
@@ -113,5 +85,7 @@ public class ServletRendezVous extends HttpServlet {
 			}
 		}
 	}
+	
+	//public ArrayList
 
 }
