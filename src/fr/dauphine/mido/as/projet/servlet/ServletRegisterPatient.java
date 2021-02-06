@@ -23,6 +23,8 @@ import fr.dauphine.mido.as.projet.mail.MailSender;
 @WebServlet(name = "ServletRegisterPatient", urlPatterns = {"/registerPatient"})
 public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String MAIL_SUBJECT = "Bienvenue sur notre plateforme";
+	private String mailContent;
 	
     @EJB
     ServicesPatient servicesPatient;
@@ -75,8 +77,9 @@ public class ServletRegisterPatient extends HttpServlet {
 	        if(insert) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous vous êtes inscrit sur notre plateforme.<br/><br/> Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom());
 		        MailSender sender = new MailSender();
-		        sender.sendMail("test@test.com", patient.getEmail(), "he", "Tu es bien incrit :)");
+		        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 	        }
 	        else {
 	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
