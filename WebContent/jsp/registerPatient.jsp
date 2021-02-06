@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <%@include file="header.jsp" %>
+    <script src="js/registerPatient.js"></script>
     <body>
         <div class="container">
 	        <div id="menu">	        		
@@ -38,19 +39,19 @@
                     
                     <div>
                         <label for="nom">Nom :</label>
-                        <input type="text" id="nom" name="nom" class="form-control" maxlength="15" required>
+                        <input type="text" id="nom" pattern="^[-'a-zA-ZÀ-ÖØ-öø-ÿ ]+$" title="un nom valide" name="nom" class="form-control" maxlength="15" required>
                         <br />
                     </div>
                     
                     <div>
                         <label for="prenom">Prenom :</label>
-                        <input type="text" id="prenom" name="prenom" class="form-control" maxlength="15" required>
+                        <input type="text" id="prenom" pattern="^[-'a-zA-ZÀ-ÖØ-öø-ÿ ]+$" title="un prenom valide" name="prenom" class="form-control" maxlength="15" required>
                         <br />
                     </div>
                     
                     <div>
                         <label for="telephone">Téléphone :</label>
-                        <input type="tel" pattern="[0-9]{10}" title="10 chiffres" id="telephone" name="telephone" class="form-control" maxlength="10" required>
+                        <input type="tel" pattern="((\+)33|0|0033)[1-9](\d{2}){4}$" title="un numéro de téléphone français" id="telephone" name="telephone" class="form-control" maxlength="12" required>
                         <br />
                     </div>
                     
@@ -72,7 +73,7 @@
                         <br />
                         
                         <label for="pays">Pays :</label>
-                        <input type="text" id="pays" name="pays" class="form-control" maxlength="15" required>
+                        <input type="text" id="pays" pattern="^[-'a-zA-ZÀ-ÖØ-öø-ÿ ]+$" name="pays" class="form-control" maxlength="15" required>
                         <br />
                    </div>
                     
