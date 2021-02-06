@@ -11,10 +11,7 @@ import fr.dauphine.mido.as.projet.beans.Personne;
 @Remote
 public interface ServicesPatient {
 	public boolean ajoutPatient(Patient patient, Personne personne, Adresse adresse);
-	
 	public Patient getPatientByEmail(String email);
-	
 	public Patient updatePatient(int patientId, Map<String, String[]> parameters);
-	
 	public boolean deletePatient(int patientId);
 }

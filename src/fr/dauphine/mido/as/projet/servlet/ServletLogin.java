@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.dauphine.mido.as.projet.beans.Personne;
-import fr.dauphine.mido.as.projet.ejb.ServicesAuth;
 import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 
 /**
@@ -21,9 +20,6 @@ import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	@EJB
-	ServicesAuth servicesAuth;
-	  
     @EJB
     ServicesPersonne servicesPersonne;
     
@@ -50,7 +46,7 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String type = this.servicesAuth.login(request.getParameter("login"), request.getParameter("mdp"));
+		String type = this.servicesPersonne.login(request.getParameter("login"), request.getParameter("mdp"));
 		if(type.equals("erreur")) {
 			 request.setAttribute("warning", "Identifiant incorrect !");
 			 this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
