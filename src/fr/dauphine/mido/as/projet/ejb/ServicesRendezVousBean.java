@@ -15,10 +15,16 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
+import fr.dauphine.mido.as.projet.dao.DAOMedecin;
+import fr.dauphine.mido.as.projet.dao.DAORendezVous;
 
 @Stateless
 @Local
-public class ServicesRendezVousBean implements ServicesRendezVous{
+public class ServicesRendezVousBean implements ServicesRendezVous {
+	
+	private DAORendezVous daoRendezVous = new DAORendezVous();
+	private DAOMedecin daoMedecin = new DAOMedecin();
+	
 	@PersistenceUnit
 	private EntityManagerFactory emf;
 
@@ -89,4 +95,24 @@ public class ServicesRendezVousBean implements ServicesRendezVous{
 		}
 	}
 
+	@Override
+	public boolean hasRendezVousActif(String email) {
+		try {
+			Medecin medecin = daoMedecin.getMedecinByEmail(email);
+			if(medecin == null) {
+				return false;
+			}
+			List<Rendezvous> listRDV = daoRendezVous.getListeRendezVousMedecin(medecin.getIdMedecin());
+			if(listRDV.size() == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();	
+			return false;
+		}
+	}
 }

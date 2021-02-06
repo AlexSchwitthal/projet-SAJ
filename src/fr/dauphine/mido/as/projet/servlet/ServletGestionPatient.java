@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
@@ -57,6 +58,11 @@ public class ServletGestionPatient extends HttpServlet {
 		Map<String, String[]> parameters = request.getParameterMap();
 		Patient updatedPatient = this.servicesPatient.updatePatient(patient.getIdPatient(), parameters);
 		if(updatedPatient != null) {
+			HttpSession session = request.getSession(true);
+			session.setAttribute("login", updatedPatient.getEmail());
+			session.setAttribute("nom", updatedPatient.getPersonne().getNom());
+			session.setAttribute("prenom", updatedPatient.getPersonne().getPrenom());
+			
 			request.setAttribute("patient", updatedPatient);
 			request.setAttribute("success", "Vos données ont bien été mis à jour !");
 		    this.getServletContext().getRequestDispatcher("/jsp/gestionPatient.jsp").forward(request, response);

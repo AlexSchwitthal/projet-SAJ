@@ -102,6 +102,24 @@ public class DAOMedecin {
 	}
 	
 	public boolean deleteMedecin(int medecinId) {
-		return false;
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			
+			Medecin medecin = em.find(Medecin.class, medecinId);
+			
+			em.remove(medecin);
+			em.remove(medecin.getPersonne());
+			em.remove(medecin.getPersonne().getAdresse());
+			
+			em.flush();
+			emf.close();
+			em.close();
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();	
+			return false;
+		}
 	}
 }

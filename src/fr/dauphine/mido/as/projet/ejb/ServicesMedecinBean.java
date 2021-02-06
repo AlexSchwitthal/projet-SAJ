@@ -83,6 +83,12 @@ public class ServicesMedecinBean implements ServicesMedecin {
 
 	@Override
 	public boolean deleteMedecin(int medecinId) {
-		return false;
+		try {
+			return daoMedecin.deleteMedecin(medecinId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
