@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Personne;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
@@ -25,7 +25,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
     @EJB
-    ServicesPersonne servicesPersonne;
+    ServicesPatient servicesPatient;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -71,7 +71,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	        patient.setTelephone(request.getParameter("telephone"));
 	        patient.setMotDePasse(request.getParameter("mdp"));
 
-	        boolean insert = servicesPersonne.ajoutPatient(patient, personne, adresse);
+	        boolean insert = servicesPatient.ajoutPatient(patient, personne, adresse);
 	        if(insert) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);

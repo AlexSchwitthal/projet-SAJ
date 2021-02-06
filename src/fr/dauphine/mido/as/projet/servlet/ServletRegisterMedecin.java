@@ -13,7 +13,7 @@ import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesSpecialite;
 /**
  * Servlet implementation class ServletRegisterMedecin
@@ -29,7 +29,7 @@ public class ServletRegisterMedecin extends HttpServlet {
     ServicesSpecialite servicesSpecialite;
     
     @EJB
-    ServicesPersonne servicesPersonne;
+    ServicesMedecin servicesMedecin;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -78,7 +78,7 @@ public class ServletRegisterMedecin extends HttpServlet {
         String[] listeCentre = request.getParameterValues("centreMedical");
         String[] listeSpecialite = request.getParameterValues("specialite");
 
-        boolean insert = servicesPersonne.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
+        boolean insert = servicesMedecin.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
         if(insert) {
             request.setAttribute("success", "Le medecin a bien été inscrit !");
         }

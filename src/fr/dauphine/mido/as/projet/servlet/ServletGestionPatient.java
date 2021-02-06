@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Patient;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 
 /**
  * Servlet implementation class ServletGestionPatient
@@ -21,7 +21,7 @@ public class ServletGestionPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     @EJB
-    ServicesPersonne servicesPersonne;
+    ServicesPatient servicesPatient;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,7 +36,7 @@ public class ServletGestionPatient extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("type") == "patient") {
 			String email = (String) request.getSession().getAttribute("login");
-			Patient patient = this.servicesPersonne.getPatientByEmail(email);
+			Patient patient = this.servicesPatient.getPatientByEmail(email);
 			request.setAttribute("patient", patient);
 		    this.getServletContext().getRequestDispatcher("/jsp/gestionPatient.jsp").forward(request, response);
 		}
@@ -53,9 +53,9 @@ public class ServletGestionPatient extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String) request.getSession().getAttribute("login");
-		Patient patient = this.servicesPersonne.getPatientByEmail(email);
+		Patient patient = this.servicesPatient.getPatientByEmail(email);
 		Map<String, String[]> parameters = request.getParameterMap();
-		Patient updatedPatient = this.servicesPersonne.updatePatient(patient.getIdPatient(), parameters);
+		Patient updatedPatient = this.servicesPatient.updatePatient(patient.getIdPatient(), parameters);
 		if(updatedPatient != null) {
 			request.setAttribute("patient", updatedPatient);
 			request.setAttribute("success", "Vos données ont bien été mis à jour !");
