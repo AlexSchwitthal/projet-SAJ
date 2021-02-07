@@ -81,8 +81,8 @@ public class ServletRegisterMedecin extends HttpServlet {
         String[] listeCentre = request.getParameterValues("centreMedical");
         String[] listeSpecialite = request.getParameterValues("specialite");
 
-        boolean insert = servicesMedecin.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
-        if(insert) {
+        String insert = servicesMedecin.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
+        if(insert.equals("ok")) {
             request.setAttribute("success", "Le medecin a bien été inscrit !");
             if(listeCentre.length==1) {
             	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez été inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Votre centre affilié est %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons à changer rapidement à des fins de sécurité. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom(),listeCentre[0], medecin.getEmail(), medecin.getMotDePasse());
@@ -97,7 +97,18 @@ public class ServletRegisterMedecin extends HttpServlet {
        
         }
         else {
-            request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
+        	request.setAttribute("medecin", medecin);
+        	request.setAttribute("personne", personne);
+        	request.setAttribute("adresse", adresse);
+        	if(insert.equals("email")) {
+            	request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
+            }
+        	else if(insert.equals("centre")) {
+        		request.setAttribute("warning", "Vous ne pouvez pas inscrire plusieurs fois le même médecin dans un même centre !");
+            }
+        	else {
+        		request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
+            }
         }
         this.doGet(request, response);
 	}

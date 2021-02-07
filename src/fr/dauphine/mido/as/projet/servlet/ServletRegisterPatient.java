@@ -81,23 +81,19 @@ public class ServletRegisterPatient extends HttpServlet {
 		        MailSender sender = new MailSender();
 		        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 	        }
-	        else if(insert.equals("email")) {
-	        	request.setAttribute("patient", patient);
-	        	request.setAttribute("adresse", adresse);
-	        	request.setAttribute("personne", personne);
-	        	request.setAttribute("date", request.getParameter("dateNaissance"));
-	            request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
-		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
-	        }
 	        else {
 	        	request.setAttribute("patient", patient);
 	        	request.setAttribute("adresse", adresse);
 	        	request.setAttribute("personne", personne);
 	        	request.setAttribute("date", request.getParameter("dateNaissance"));
-	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
-		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+	        	if(insert.equals("email")) {
+		            request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
+	        	}
+	        	else { 
+		            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
+	        	}
+	        	 this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
 	        }
-
 		}
 		catch (Exception e) {
             request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");

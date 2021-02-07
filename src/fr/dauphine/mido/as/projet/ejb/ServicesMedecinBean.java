@@ -22,22 +22,22 @@ public class ServicesMedecinBean implements ServicesMedecin {
 	private DAOPersonne daoPersonne = new DAOPersonne();
 
 	@Override
-	public boolean ajoutMedecin(Medecin medecin, Personne personne, Adresse adresse, String[] listeCentre, String[] listeSpecialite) {
+	public String ajoutMedecin(Medecin medecin, Personne personne, Adresse adresse, String[] listeCentre, String[] listeSpecialite) {
 		try {
 			
 	        if(daoPersonne.isEmailAlreadyExist(medecin.getEmail())) {
-	        	return false;
+	        	return "email";
 	        }
 	        
 			if(listeCentre.length != listeSpecialite.length) {
-				return false;
+				return "erreur";
 			}
 			// vérification que tout les centres sont différents
 			for(int i = 0; i < listeCentre.length; i++) {
 				for(int j = 0; j < listeCentre.length; j++) {
 					if(i != j) {
 						if(listeCentre[i].equals(listeCentre[j])) {
-							return false;
+							return "centre";
 						}
 					}
 				}
@@ -45,15 +45,15 @@ public class ServicesMedecinBean implements ServicesMedecin {
 			
 			boolean result = daoMedecin.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
 			if(result) {
-				return true;
+				return "ok";
 			}
 			else {
-				return false;
+				return "ko";
 			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();	
-			return false;
+			return "ko";
 		}
 	}
 	
