@@ -73,15 +73,27 @@ public class ServletRegisterPatient extends HttpServlet {
 	        patient.setTelephone(request.getParameter("telephone"));
 	        patient.setMotDePasse(request.getParameter("mdp"));
 
-	        boolean insert = servicesPatient.ajoutPatient(patient, personne, adresse);
-	        if(insert) {
+	        String insert = servicesPatient.ajoutPatient(patient, personne, adresse);
+	        if(insert.equals("ok")) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous vous êtes inscrit sur notre plateforme.<br/><br/> Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom());
 		        MailSender sender = new MailSender();
 		        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 	        }
+	        else if(insert.equals("email")) {
+	        	request.setAttribute("patient", patient);
+	        	request.setAttribute("adresse", adresse);
+	        	request.setAttribute("personne", personne);
+	        	request.setAttribute("date", request.getParameter("dateNaissance"));
+	            request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
+		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+	        }
 	        else {
+	        	request.setAttribute("patient", patient);
+	        	request.setAttribute("adresse", adresse);
+	        	request.setAttribute("personne", personne);
+	        	request.setAttribute("date", request.getParameter("dateNaissance"));
 	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
 		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
 	        }

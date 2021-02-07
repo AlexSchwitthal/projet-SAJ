@@ -21,10 +21,10 @@ public class ServicesPatientBean implements ServicesPatient {
 	private DAOPersonne DAOPersonne = new DAOPersonne();
 	
 	@Override
-	public boolean ajoutPatient(Patient patient, Personne personne, Adresse adresse) {
+	public String ajoutPatient(Patient patient, Personne personne, Adresse adresse) {
 		try {
 	        if(DAOPersonne.isEmailAlreadyExist(patient.getEmail())) {
-	        	return false;
+	        	return "email";
 	        }
 	        else {
 	        	 return daoPatient.ajoutPatient(patient, personne, adresse);
@@ -32,7 +32,7 @@ public class ServicesPatientBean implements ServicesPatient {
 		}
 		catch(Exception e) {
 			e.printStackTrace();	
-			return false;
+			return "erreur";
 		}
 	}
 	

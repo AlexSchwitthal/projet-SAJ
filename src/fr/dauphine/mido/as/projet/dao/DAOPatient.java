@@ -15,19 +15,26 @@ import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 
 public class DAOPatient {
-	public boolean ajoutPatient(Patient patient, Personne personne, Adresse adresse) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
-        EntityManager em = emf.createEntityManager();
-        
-        em.persist(adresse);
-        personne.setAdresse(adresse);
-        em.persist(personne);
-        patient.setPersonne(personne);
-        em.persist(patient);
-        
-        em.close();
-        emf.close(); 
-        return true;
+	public String ajoutPatient(Patient patient, Personne personne, Adresse adresse) { 
+		try {
+	        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+	        EntityManager em = emf.createEntityManager();
+	        
+	        em.persist(adresse);
+	        personne.setAdresse(adresse);
+	        em.persist(personne);
+	        patient.setPersonne(personne);
+	        em.persist(patient);
+	        
+	        em.close();
+	        emf.close(); 
+	        
+	        return "ok";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return "null";
+		}
 	}
 	
 	public Patient getPatientByEmail(String email) {
