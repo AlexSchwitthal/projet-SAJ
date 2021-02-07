@@ -13,14 +13,17 @@ import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Personne;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesSpecialite;
+import fr.dauphine.mido.as.projet.mail.MailSender;
 /**
  * Servlet implementation class ServletRegisterMedecin
  */
 @WebServlet(name = "ServletRegisterMedecin", urlPatterns = {"/registerMedecin"})
 public class ServletRegisterMedecin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String MAIL_SUBJECT = "Bienvenue sur notre plateforme";
+	private String mailContent;
        
     @EJB
     ServicesCentre servicesCentre;
@@ -29,7 +32,7 @@ public class ServletRegisterMedecin extends HttpServlet {
     ServicesSpecialite servicesSpecialite;
     
     @EJB
-    ServicesPersonne servicesPersonne;
+    ServicesMedecin servicesMedecin;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -78,12 +81,34 @@ public class ServletRegisterMedecin extends HttpServlet {
         String[] listeCentre = request.getParameterValues("centreMedical");
         String[] listeSpecialite = request.getParameterValues("specialite");
 
-        boolean insert = servicesPersonne.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
-        if(insert) {
+        String insert = servicesMedecin.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
+        if(insert.equals("ok")) {
             request.setAttribute("success", "Le medecin a bien été inscrit !");
+            if(listeCentre.length==1) {
+            	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez été inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Votre centre affilié est %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons à changer rapidement à des fins de sécurité. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom(),listeCentre[0], medecin.getEmail(), medecin.getMotDePasse());
+     	       
+            }else {
+            	String centres = String.join(",", listeCentre);
+            	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez été inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Vos centres affiliés sont %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons à changer rapidement à des fins de sécurité. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom(), centres, medecin.getEmail(), medecin.getMotDePasse());
+      	       
+            }
+            MailSender sender = new MailSender();
+	        sender.sendMail("test@test.com", medecin.getEmail(), MAIL_SUBJECT, mailContent);
+       
         }
         else {
-            request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
+        	request.setAttribute("medecin", medecin);
+        	request.setAttribute("personne", personne);
+        	request.setAttribute("adresse", adresse);
+        	if(insert.equals("email")) {
+            	request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
+            }
+        	else if(insert.equals("centre")) {
+        		request.setAttribute("warning", "Vous ne pouvez pas inscrire plusieurs fois le même médecin dans un même centre !");
+            }
+        	else {
+        		request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
+            }
         }
         this.doGet(request, response);
 	}

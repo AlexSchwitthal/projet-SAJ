@@ -8,9 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.dauphine.mido.as.projet.beans.Patient;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 
 /**
  * Servlet implementation class ServletDeletePatient
@@ -20,7 +21,7 @@ public class ServletDeletePatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     @EJB
-    ServicesPersonne servicesPersonne;
+    ServicesPatient servicesPatient;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,12 +41,14 @@ public class ServletDeletePatient extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Patient patient = this.servicesPersonne.getPatientByEmail("a.b@gmail.com");
-		boolean isDeleted = this.servicesPersonne.deletePatient(patient.getIdPatient());
-		
+		HttpSession session = request.getSession(true);
+		String email = (String) session.getAttribute("login");
+		Patient patient = this.servicesPatient.getPatientByEmail(email);
+		boolean isDeleted = this.servicesPatient.deletePatient(patient.getIdPatient());
 		if(isDeleted) {
+			session.invalidate();
 			request.setAttribute("success", "Votre compte a bien été supprimé !");
-	        this.getServletContext().getRequestDispatcher("/login").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 		}
 		else {
 			if(patient != null) {

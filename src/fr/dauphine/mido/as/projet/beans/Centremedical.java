@@ -114,5 +114,14 @@ public class Centremedical implements Serializable {
 
 		return spemedecin;
 	}
+	
+	public Specialite getMedecinSpecialite(int idMedecin) {
+		for (Spemedecin sm : this.spemedecins) {
+			if (sm.getMedecin().getIdMedecin() == idMedecin) {
+				return sm.getSpecialite();
+			}
+		}
+		return null;
+	}
 
 }

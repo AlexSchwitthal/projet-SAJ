@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import fr.dauphine.mido.as.projet.beans.Adresse;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Personne;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
+import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
  * Servlet implementation class ServeltRegisterPatient
@@ -22,9 +23,12 @@ import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 @WebServlet(name = "ServletRegisterPatient", urlPatterns = {"/registerPatient"})
 public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final String MAIL_SUBJECT = "Bienvenue sur notre plateforme";
+	private MailSender sender;
+	private String mailContent;
 	
     @EJB
-    ServicesPersonne servicesPersonne;
+    ServicesPatient servicesPatient;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -70,16 +74,27 @@ public class ServletRegisterPatient extends HttpServlet {
 	        patient.setTelephone(request.getParameter("telephone"));
 	        patient.setMotDePasse(request.getParameter("mdp"));
 
-	        boolean insert = servicesPersonne.ajoutPatient(patient, personne, adresse);
-	        if(insert) {
+	        String insert = servicesPatient.ajoutPatient(patient, personne, adresse);
+	        if(insert.equals("ok")) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous vous êtes inscrit sur notre plateforme.<br/><br/> Vous pouvez désormais prendre des rendez-vous médicaux sur notre site. Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom());
+		        this.sender = new MailSender();
+		        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 	        }
 	        else {
-	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
-		        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+	        	request.setAttribute("patient", patient);
+	        	request.setAttribute("adresse", adresse);
+	        	request.setAttribute("personne", personne);
+	        	request.setAttribute("date", request.getParameter("dateNaissance"));
+	        	if(insert.equals("email")) {
+		            request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
+	        	}
+	        	else { 
+		            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
+	        	}
+	        	 this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
 	        }
-
 		}
 		catch (Exception e) {
             request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");

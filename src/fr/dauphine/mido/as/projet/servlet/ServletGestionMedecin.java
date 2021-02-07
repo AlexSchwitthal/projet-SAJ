@@ -9,10 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.dauphine.mido.as.projet.beans.Medecin;
-import fr.dauphine.mido.as.projet.beans.Patient;
-import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
+import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 
 /**
  * Servlet implementation class ServletGestionMedecin
@@ -22,7 +22,7 @@ public class ServletGestionMedecin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	@EJB
- 	ServicesPersonne servicesPersonne;
+ 	ServicesMedecin servicesMedecin;
  
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,7 +37,7 @@ public class ServletGestionMedecin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("type") == "medecin") {
 			String email = (String) request.getSession().getAttribute("login");
-			Medecin medecin = this.servicesPersonne.getMedecinByEmail(email);
+			Medecin medecin = this.servicesMedecin.getMedecinByEmail(email);
 			request.setAttribute("medecin", medecin);
 			this.getServletContext().getRequestDispatcher("/jsp/gestionMedecin.jsp").forward(request, response);
 		}
@@ -56,10 +56,14 @@ public class ServletGestionMedecin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String) request.getSession().getAttribute("login");
-		Medecin medecin = this.servicesPersonne.getMedecinByEmail(email);
+		Medecin medecin = this.servicesMedecin.getMedecinByEmail(email);
 		Map<String, String[]> parameters = request.getParameterMap();
-		Medecin updatedMedecin = this.servicesPersonne.updateMedecin(medecin.getIdMedecin(), parameters);
+		Medecin updatedMedecin = this.servicesMedecin.updateMedecin(medecin.getIdMedecin(), parameters);
 		if(updatedMedecin != null) {
+			HttpSession session = request.getSession(true);
+			session.setAttribute("login", updatedMedecin.getEmail());
+			session.setAttribute("nom", updatedMedecin.getPersonne().getNom());
+			session.setAttribute("prenom", updatedMedecin.getPersonne().getPrenom());
 			request.setAttribute("medecin", updatedMedecin);
 			request.setAttribute("success", "Vos données ont bien été mis à jour !");
 		    this.getServletContext().getRequestDispatcher("/jsp/gestionMedecin.jsp").forward(request, response);
