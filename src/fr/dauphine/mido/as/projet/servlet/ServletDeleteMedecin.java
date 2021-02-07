@@ -14,6 +14,7 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.dao.DAORendezVous;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
+import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
  * Servlet implementation class ServletDeleteMedecin
@@ -21,7 +22,10 @@ import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 @WebServlet(name = "ServletDeleteMedecin", urlPatterns = {"/deleteMedecin"})
 public class ServletDeleteMedecin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private final String MAIL_SUBJECT = "Suppression de votre compte";
+	private MailSender sender;
+	private String mailContent;
+	
 	@EJB
 	ServicesRendezVous servicesRendezVous;
 	
@@ -56,6 +60,10 @@ public class ServletDeleteMedecin extends HttpServlet {
 					session.invalidate();
 					request.setAttribute("success", "Votre compte a bien été supprimé !");
 			        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+			        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/> Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", medecin.getPersonne().getPrenom(), medecin.getPersonne().getNom());
+			        this.sender = new MailSender();
+			        sender.sendMail("test@test.com", medecin.getEmail(), MAIL_SUBJECT, mailContent);
+		        
 				}
 				else {
 					request.setAttribute("medecin", medecin);
