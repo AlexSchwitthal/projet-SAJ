@@ -42,9 +42,18 @@ public class ServletRegisterMedecin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("listeCentre", servicesCentre.getAllCentre());
-		request.setAttribute("listeSpecialite", servicesSpecialite.getAllSpecialite());
-        this.getServletContext().getRequestDispatcher("/jsp/registerMedecin.jsp").forward(request, response);
+		if(request.getSession().getAttribute("type") == "administrateur") {
+			request.setAttribute("listeCentre", servicesCentre.getAllCentre());
+			request.setAttribute("listeSpecialite", servicesSpecialite.getAllSpecialite());
+	        this.getServletContext().getRequestDispatcher("/jsp/registerMedecin.jsp").forward(request, response);
+		}
+		else if(request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		}
+		else {
+			response.sendRedirect("login");
+		}
+		
 	}
 
 	/**

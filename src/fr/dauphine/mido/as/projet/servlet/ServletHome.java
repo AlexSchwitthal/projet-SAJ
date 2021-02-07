@@ -1,37 +1,24 @@
 package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
-
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
-import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
-import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
-
-import java.time.LocalDate;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ServletTest
+ * Servlet implementation class ServletHome
  */
-@WebServlet(name = "ServletAgenda", urlPatterns = {"/agenda"})
-public class ServletAgenda extends HttpServlet {
+@WebServlet(name = "ServletHome", urlPatterns = {"/home"})
+public class ServletHome extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	@EJB
-    ServicesAgenda servicesAgenda;
-	
-	@EJB
-    ServicesPlanning servicesPlanning;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletAgenda() {
+    public ServletHome() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,12 +27,13 @@ public class ServletAgenda extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(7));
-		request.setAttribute("listTimeAgenda", servicesAgenda.getWorkTime("08:00", "20:00"));
-		
-		request.setAttribute("mapPlanning", servicesPlanning.getPlannings(null, null));
-		
-        this.getServletContext().getRequestDispatcher("/jsp/showAgenda.jsp").forward(request, response);
+		if(request.getSession().getAttribute("login") != null) {
+			request.setAttribute("login", request.getSession().getAttribute("login"));
+			this.getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(request, response);
+		}
+		else {
+			response.sendRedirect("login");
+		}
 	}
 
 	/**

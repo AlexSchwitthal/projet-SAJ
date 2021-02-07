@@ -6,8 +6,10 @@ import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.MappingMatch;
 
 import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
@@ -18,8 +20,8 @@ import java.time.LocalDate;
 /**
  * Servlet implementation class ServletTest
  */
-@WebServlet(name = "ServletAgenda", urlPatterns = {"/agenda"})
-public class ServletAgenda extends HttpServlet {
+@WebServlet(name = "ServletEditAgenda", urlPatterns = {"/editAgenda", "/activateAgenda"})
+public class ServletEditAgenda extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
@@ -31,7 +33,7 @@ public class ServletAgenda extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletAgenda() {
+    public ServletEditAgenda() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,12 +42,27 @@ public class ServletAgenda extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(7));
-		request.setAttribute("listTimeAgenda", servicesAgenda.getWorkTime("08:00", "20:00"));
+		HttpServletMapping httpServletMapping = request.getHttpServletMapping();
+		MappingMatch mappingMatch = httpServletMapping.getMappingMatch();
 		
-		request.setAttribute("mapPlanning", servicesPlanning.getPlannings(null, null));
+		String pattern = httpServletMapping.getPattern();
+		System.out.println("----------starta-----------");
+
+		if (pattern.equals("/activateAgenda")) {
+			// activate
+			System.out.println("----------startb-----------");
+			servicesPlanning.initPlanning(LocalDate.now(), null);
+			System.out.println("----------startc-----------");
+			response.sendRedirect("agenda");
+			
+		} else {
+			// edit
+			System.out.println("----------startd-----------");
+			request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(7));
+			request.setAttribute("listTimeAgenda", servicesAgenda.getWorkTime("08:00", "20:00"));
+	        this.getServletContext().getRequestDispatcher("/jsp/editAgenda.jsp").forward(request, response);
+		}
 		
-        this.getServletContext().getRequestDispatcher("/jsp/showAgenda.jsp").forward(request, response);
 	}
 
 	/**

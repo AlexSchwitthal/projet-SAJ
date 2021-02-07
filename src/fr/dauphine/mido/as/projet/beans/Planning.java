@@ -1,12 +1,19 @@
 package fr.dauphine.mido.as.projet.beans;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -14,12 +21,10 @@ import java.util.Locale;
  * 
  */
 @Entity
+@Table (name="planning")
 @NamedQuery(name="Planning.findAll", query="SELECT p FROM Planning p")
 public class Planning implements Serializable {
 	private static final long serialVersionUID = 1L;
-	/*private static final Locale LOCALE_FR = new Locale("fr", "FR");
-	private static final DateTimeFormatter LOCALIZED_DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy", LOCALE_FR);
-	private static final DateTimeFormatter LOCALIZED_DAY_OF_WEEK_FMT = DateTimeFormatter.ofPattern("EEEE", LOCALE_FR);*/
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,6 +36,8 @@ public class Planning implements Serializable {
 	private Time heureDebut;
 
 	private Time heureFin;
+	
+	private boolean disponible;
 
 	//bi-directional many-to-one association to Centremedical
 	@ManyToOne
@@ -105,12 +112,12 @@ public class Planning implements Serializable {
 	public void setRendezvous(Rendezvous rendezvous) {
 		this.rendezvous = rendezvous;
 	}
-	/*
-	public String getLocalizedDate() {
-		return this.date.toLocalDate().format(LOCALIZED_DATE_FMT);
+
+	public boolean getDisponible() {
+		return disponible;
 	}
 
-	public String getLocalizedDayOfWeek() {
-		return this.date.toLocalDate().format(LOCALIZED_DAY_OF_WEEK_FMT);
-	}*/
+	public void setDisponible(boolean b) {
+		this.disponible = b;
+	}
 }

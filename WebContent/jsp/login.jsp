@@ -3,17 +3,31 @@
 <html>
     <%@include file="header.jsp" %>
     <body>
-        <div class="container">
-        <%@include file="menu.jsp" %>
-            <br>
-            <h1>Bonjour, veuillez rentrer vos identifiants</h1>
-            <hr>
+        <div class="container">        	
+            <div id="menu">	 
+            	<div id="includeMenu">
+       				<jsp:include page="menu.jsp" />
+       			</div>          
+				<section class="dark-wrapper opaqued parallax" data-parallax="scroll" data-image-src="assets/img/dna.jpg" data-speed="0.7">
+			            <div class="section-inner ">
+			                <div class="container">
+			                    <div class="row">
+			                        <div class="col-lg-12 mt30 wow text-center">
+			                            <h2 class="section-heading">Connexion à l'application</h2>
+			                        </div>
+			                    </div>
+			                </div>			                
+			            </div>
+			     </section>
+			</div>
+	
+            <br/><br/>
             <%@include file="alert.jsp" %>
-            <form method="post" action="ServetLogin">
+            <form method="post" action="login">
                 <div class="form-group">
                     <div>
-                        <label for="login">Nom :</label>
-                        <input type="text" id="login" name="login" class="form-control" maxlength="15" required>
+                        <label for="login">Adresse E-mail :</label>
+                        <input type="text" id="login" name="login" class="form-control" maxlength="50" required>
                         <br />
                     </div>
                     <div>

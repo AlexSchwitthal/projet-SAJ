@@ -1,6 +1,5 @@
 package fr.dauphine.mido.as.projet.ejb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -13,7 +12,7 @@ import javax.persistence.Query;
 import fr.dauphine.mido.as.projet.beans.Specialite;
 
 /**
- * Session Bean implementation class ServicesCentreBean
+ * Session Bean implementation class ServicesSpecialiteBean
  */
 @Stateless
 @LocalBean

@@ -36,7 +36,12 @@ public class ServletRegisterPatient extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+		if(request.getSession().getAttribute("login") == null) {
+			this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
+		}
+		else {
+			response.sendRedirect("home");
+		}
 	}
 
 	/**
@@ -68,7 +73,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	        boolean insert = servicesPersonne.ajoutPatient(patient, personne, adresse);
 	        if(insert) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
-		        this.getServletContext().getRequestDispatcher("/login").forward(request, response);
+		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 	        }
 	        else {
 	            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
