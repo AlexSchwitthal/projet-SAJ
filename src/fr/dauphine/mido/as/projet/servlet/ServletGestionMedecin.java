@@ -64,11 +64,13 @@ public class ServletGestionMedecin extends HttpServlet {
 		Map<String, String[]> parameters = request.getParameterMap();
 		Medecin updatedMedecin = this.servicesMedecin.updateMedecin(medecin.getIdMedecin(), parameters);
 		if(updatedMedecin != null) {
+			Map<Centremedical, Specialite> map = this.servicesMedecin.getCentreSpeById(updatedMedecin.getIdMedecin());
 			HttpSession session = request.getSession(true);
 			session.setAttribute("login", updatedMedecin.getEmail());
 			session.setAttribute("nom", updatedMedecin.getPersonne().getNom());
 			session.setAttribute("prenom", updatedMedecin.getPersonne().getPrenom());
 			request.setAttribute("medecin", updatedMedecin);
+			request.setAttribute("map", map);
 			request.setAttribute("success", "Vos données ont bien été mis à jour !");
 		    this.getServletContext().getRequestDispatcher("/jsp/gestionMedecin.jsp").forward(request, response);
 		}
