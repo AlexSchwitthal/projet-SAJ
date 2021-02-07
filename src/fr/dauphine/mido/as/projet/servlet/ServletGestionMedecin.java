@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.beans.Specialite;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 
 /**
@@ -38,6 +40,8 @@ public class ServletGestionMedecin extends HttpServlet {
 		if(request.getSession().getAttribute("type") == "medecin") {
 			String email = (String) request.getSession().getAttribute("login");
 			Medecin medecin = this.servicesMedecin.getMedecinByEmail(email);
+			Map<Centremedical, Specialite> map = this.servicesMedecin.getCentreSpeById(medecin.getIdMedecin());
+			request.setAttribute("map", map);
 			request.setAttribute("medecin", medecin);
 			this.getServletContext().getRequestDispatcher("/jsp/gestionMedecin.jsp").forward(request, response);
 		}

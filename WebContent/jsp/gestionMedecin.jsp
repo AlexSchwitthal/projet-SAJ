@@ -1,6 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Medecin"%>
+<%@page import="fr.dauphine.mido.as.projet.beans.Centremedical"%>
+<%@page import="fr.dauphine.mido.as.projet.beans.Specialite"%>
 <!DOCTYPE html>
 <html>
     <%@include file="header.jsp" %>
@@ -33,6 +36,14 @@
             <%@include file="alert.jsp" %>
             <%            
                 Medecin medecin = (Medecin) request.getAttribute("medecin");
+            	Map<Centremedical, Specialite> m = (Map<Centremedical, Specialite>) request.getAttribute("map");
+            %>
+            <%
+	            for (Map.Entry<Centremedical, Specialite> entry : m.entrySet()) {
+	            	%>
+	            	<div><%= entry.getKey().getNom() %> : <%= entry.getValue().getLibelle() %></div>
+	               <%
+	            }
             %>
             <form method="post" action="gestionMedecin">
                 <div class="form-group">

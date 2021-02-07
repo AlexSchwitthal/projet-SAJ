@@ -1,15 +1,21 @@
 package fr.dauphine.mido.as.projet.ejb;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import fr.dauphine.mido.as.projet.beans.Adresse;
+import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Personne;
+import fr.dauphine.mido.as.projet.beans.Specialite;
+import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.dao.DAOMedecin;
 import fr.dauphine.mido.as.projet.dao.DAOPersonne;
+import fr.dauphine.mido.as.projet.dao.DAOSpeMedecin;
 
 /**
  * Session Bean implementation class ServicesMedecinBean
@@ -20,6 +26,7 @@ public class ServicesMedecinBean implements ServicesMedecin {
 	
 	private DAOMedecin daoMedecin = new DAOMedecin();
 	private DAOPersonne daoPersonne = new DAOPersonne();
+	private DAOSpeMedecin daoSpeMedecin = new DAOSpeMedecin();
 
 	@Override
 	public String ajoutMedecin(Medecin medecin, Personne personne, Adresse adresse, String[] listeCentre, String[] listeSpecialite) {
@@ -90,5 +97,22 @@ public class ServicesMedecinBean implements ServicesMedecin {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public Map<Centremedical, Specialite> getCentreSpeById(int medecinId) {
+		try {
+			Map<Centremedical, Specialite> mapCentreSpe = new HashMap<Centremedical, Specialite>();
+			List<Spemedecin> listSpeMedecin = daoSpeMedecin.getCentresByIdMedecin(medecinId);
+			for(Spemedecin s : listSpeMedecin) {
+				mapCentreSpe.put(s.getCentremedical(), s.getSpecialite());
+			}
+			return mapCentreSpe;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 }
