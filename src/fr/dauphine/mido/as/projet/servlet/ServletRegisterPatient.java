@@ -24,6 +24,7 @@ import fr.dauphine.mido.as.projet.mail.MailSender;
 public class ServletRegisterPatient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String MAIL_SUBJECT = "Bienvenue sur notre plateforme";
+	private MailSender sender;
 	private String mailContent;
 	
     @EJB
@@ -77,8 +78,8 @@ public class ServletRegisterPatient extends HttpServlet {
 	        if(insert.equals("ok")) {
 	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous vous êtes inscrit sur notre plateforme.<br/><br/> Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom());
-		        MailSender sender = new MailSender();
+		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous vous êtes inscrit sur notre plateforme.<br/><br/> Vous pouvez désormais prendre des rendez-vous médicaux sur notre site. Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom());
+		        this.sender = new MailSender();
 		        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 	        }
 	        else {

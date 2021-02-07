@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 01 fév. 2021 à 23:05
--- Version du serveur :  5.7.28-log
+-- Généré le :  Dim 07 fév. 2021 à 21:23
+-- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -37,10 +37,14 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
   `idPersonne` int(11) NOT NULL,
   PRIMARY KEY (`idAdmin`),
   KEY `fk_idpersonneadmin` (`idPersonne`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO administrateur (email, telephone, motDePasse, idPersonne) VALUES 
-('admin@admin.com', '0101010101', 'admin', 1);
+--
+-- Déchargement des données de la table `administrateur`
+--
+
+INSERT INTO `administrateur` (`idAdmin`, `email`, `telephone`, `motDePasse`, `idPersonne`) VALUES
+(1, 'admin@admin.com', '0101010101', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -56,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `adresse` (
   `codePostal` varchar(20) DEFAULT NULL,
   `pays` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`idAdresse`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `adresse`
@@ -67,7 +71,8 @@ INSERT INTO `adresse` (`idAdresse`, `adresseComplete`, `ville`, `codePostal`, `p
 (15, '40, avenue du balek', 'PARIS', '57600', 'FRANCE'),
 (16, 'sqd', 'a', '5760000', 'd'),
 (17, 'sqd', 'a', '5760000', 'd'),
-(34, '10 rue osef', 'PARIS', '75000', 'FRANCE');
+(34, '10 rue osef', 'PARIS', '75000', 'FRANCE'),
+(36, 'Rue medecin', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -108,7 +113,14 @@ CREATE TABLE IF NOT EXISTS `medecin` (
   `idPersonne` int(11) NOT NULL,
   PRIMARY KEY (`idMedecin`),
   KEY `fk_idpersonnemedecin` (`idPersonne`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `medecin`
+--
+
+INSERT INTO `medecin` (`idMedecin`, `email`, `telephone`, `motDePasse`, `idPersonne`) VALUES
+(14, 'medecin@hotmail.com', '0101010101', 'medecin', 35);
 
 -- --------------------------------------------------------
 
@@ -153,18 +165,19 @@ CREATE TABLE IF NOT EXISTS `personne` (
   `idAdresse` int(11) NOT NULL,
   PRIMARY KEY (`idPersonne`),
   KEY `fk_idadressepersonne` (`idAdresse`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `personne`
 --
 
 INSERT INTO `personne` (`idPersonne`, `nom`, `prenom`, `date_naissance`, `idAdresse`) VALUES
-(1,'Ministrateur', 'Gad', '1966-08-25', 1),
+(1, 'Ministrateur', 'Gad', '1966-08-25', 1),
 (14, 'Schwitthal', 'Alexandre', '1991-04-01', 15),
 (15, 'z', 'q', '1995-07-22', 16),
 (16, 'z', 'q', '1995-07-22', 17),
-(33, 'schwitthal', 'Alexandre', '1997-04-14', 34);
+(33, 'schwitthal', 'Alexandre', '1997-04-14', 34),
+(35, 'medecin', 'medecin', NULL, 36);
 
 -- --------------------------------------------------------
 
@@ -178,14 +191,22 @@ CREATE TABLE IF NOT EXISTS `planning` (
   `date` date NOT NULL,
   `heureDebut` time NOT NULL,
   `heureFin` time NOT NULL,
-  `idCentre` int(11) NOT NULL,
-  `idMedecin` int(11) NOT NULL,
-  `idRendezVous` int(11) NOT NULL,
+  `idCentre` int(11) DEFAULT NULL,
+  `idMedecin` int(11) DEFAULT NULL,
+  `idRendezVous` int(11) DEFAULT NULL,
+  `disponible` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idPlanning`),
   KEY `fk_idmedecinplanning` (`idMedecin`),
   KEY `fk_idcentreplanning` (`idCentre`),
   KEY `fk_idrendezvousplanning` (`idRendezVous`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `planning`
+--
+
+INSERT INTO `planning` (`idPlanning`, `date`, `heureDebut`, `heureFin`, `idCentre`, `idMedecin`, `idRendezVous`, `disponible`) VALUES
+(1, '2021-02-07', '08:00:00', '08:30:00', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -238,7 +259,14 @@ CREATE TABLE IF NOT EXISTS `spemedecin` (
   KEY `fk_idspecialite` (`idSpecialite`),
   KEY `fk_idcentre` (`idCentre`),
   KEY `fk_idmedecin` (`idMedecin`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `spemedecin`
+--
+
+INSERT INTO `spemedecin` (`idSpeMedecin`, `idMedecin`, `idSpecialite`, `idCentre`) VALUES
+(12, 14, 1, 1);
 
 --
 -- Contraintes pour les tables déchargées

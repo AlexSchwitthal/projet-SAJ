@@ -1,9 +1,19 @@
 package fr.dauphine.mido.as.projet.beans;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -26,6 +36,8 @@ public class Planning implements Serializable {
 	private Time heureDebut;
 
 	private Time heureFin;
+	
+	private boolean disponible;
 
 	//bi-directional many-to-one association to Centremedical
 	@ManyToOne
@@ -101,4 +113,11 @@ public class Planning implements Serializable {
 		this.rendezvous = rendezvous;
 	}
 
+	public boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(boolean b) {
+		this.disponible = b;
+	}
 }
