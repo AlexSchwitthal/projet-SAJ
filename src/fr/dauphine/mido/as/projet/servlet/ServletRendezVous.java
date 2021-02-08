@@ -2,7 +2,11 @@ package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +49,7 @@ public class ServletRendezVous extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("listeSpecialites", servicesSpecialite.getAllSpecialite());
 		request.setAttribute("listeCentres", servicesCentre.getAllCentre());
-		//request.setAttribute("listeCreneaux", );
+		request.setAttribute("listeCreneauxHoraires", genererCreneauxHoraires());
 		this.getServletContext().getRequestDispatcher("/jsp/prendreRendezVous.jsp").forward(request, response);
 	}
 
@@ -76,14 +80,47 @@ public class ServletRendezVous extends HttpServlet {
 
 	protected void rechercheMulticriteres(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		if (request.getParameterValues("centre") == null) {
+		/*if (request.getParameterValues("centre") == null) {
 			System.out.println("all");
 		}
 		else {
 			for (String s : request.getParameterValues("centre")) {
 				System.out.println(s + "; ");
 			}
+		}*/
+		int idSpecialite = Integer.parseInt(request.getParameter("specialite"));
+		ArrayList<Integer> idCentres = convertStringArrayToIntArrayList(request.getParameterValues("centre"));
+		List<String> heuresDebut = Arrays.asList(request.getParameterValues("heureDebut"));
+		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut));
+		
+		for (String s : heuresDebut) {
+			System.out.println(s);
 		}
+		System.out.println("speMed = " + request.getParameter("specialite"));
+		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux2.jsp").forward(request, response);
+	}
+	
+	
+	public ArrayList<Integer> convertStringArrayToIntArrayList(String[] stringArray) {
+		ArrayList<Integer> intArray = new ArrayList<Integer>();
+		for (String s : stringArray) {
+			intArray.add(Integer.parseInt(s));
+		}
+		
+		return intArray;
+	}
+	
+	public HashMap<String, String> genererCreneauxHoraires() {
+		HashMap<String, String> creneauxHoraires = new HashMap<String, String>();
+		int i = 8;
+		
+		while (i < 20) {
+			creneauxHoraires.put(i + ":00:00", i + ":30:00");
+			creneauxHoraires.put(i + ":30:00", i+1 + ":00:00");
+			i++;
+		}
+		
+		return creneauxHoraires;
 	}
 	
 	//public ArrayList
