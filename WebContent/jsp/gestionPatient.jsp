@@ -91,7 +91,6 @@
                         <input value="<%= patient.getMotDePasse() %>" type="password" id="mdp" name="mdp" class="form-control" maxlength="15" required>
                         <br />
                     </div>
-                    
                     <hr>
                     <div>
                         <input type="submit" value="Valider" class="btn btn-primary">

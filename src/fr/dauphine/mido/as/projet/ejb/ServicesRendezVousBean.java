@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
+
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
@@ -28,6 +30,7 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 	@PersistenceUnit
 	private EntityManagerFactory emf;
 
+	@Transactional
 	public ArrayList<Medecin> rechercheMedecin(String nomMedecin) {
 		try {
 			System.out.println("In rechercheMedecin()");
@@ -115,4 +118,27 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			return false;
 		}
 	}
+
+	@Override
+	public boolean hasRendezVousActifCentre(String email, int idCentre) {
+		try {
+			Medecin medecin = daoMedecin.getMedecinByEmail(email);
+			if(medecin == null) {
+				return false;
+			}
+			List<Rendezvous> listRDV = daoRendezVous.getListeRendezVousMedecinCentre(medecin.getIdMedecin(), idCentre);
+			if(listRDV.size() == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();	
+			return false;
+		}
+	}
+	
+	
 }

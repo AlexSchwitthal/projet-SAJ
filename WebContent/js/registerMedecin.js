@@ -1,8 +1,6 @@
 $(document).ready(function() {
 	$('#addRow').on('click', function() {
 		var copy = $('.ligne').last().clone();
-		//var test = copy.find('#centreMedical :selected').remove();
-		//console.log(test.html());
 		$('#listeCentre').append(copy);
 		$('.delRow button').addClass('btn-danger').removeClass('btn-secondary');
 	});

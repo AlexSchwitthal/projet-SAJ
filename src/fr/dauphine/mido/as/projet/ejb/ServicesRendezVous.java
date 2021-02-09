@@ -14,4 +14,5 @@ public interface ServicesRendezVous {
 	public ArrayList<Medecin> rechercheMedecin(String nomMedecin);
 	public HashMap<Medecin, HashMap<Centremedical, ArrayList<Planning>>> rechercherCreneauxDisponibles(String nomMedecin);
 	public boolean hasRendezVousActif(String email);
+	public boolean hasRendezVousActifCentre(String email, int idCentre);
 }
