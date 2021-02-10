@@ -1,5 +1,6 @@
 package fr.dauphine.mido.as.projet.ejb;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +91,46 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			for (Planning p : listePlannings) {
 				resultats.add(p);
 			}
+
+			return resultats;
+		}
+		catch (Exception  e) {
+			return null;
+		}
+	}
+	
+public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, List<String> heuresDebut) {
+		
+		
+		try {
+			ArrayList<Planning> resultats = new ArrayList<Planning>();
+			EntityManager em = emf.createEntityManager();
+			Query query = null;
+			System.out.println("in rechercherCreneauxDispos");
+				/*for (Date date : dates) {
+					for (String creneau : creneaux) {*/
+				        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				        java.util.Date d = sdf.parse("2021-02-15");
+						query = em.createQuery("select planning from Planning planning, "
+								+ "Spemedecin spemedecin "
+								+ "where spemedecin.medecin.idMedecin = planning.medecin.idMedecin "
+								+ "and spemedecin.centremedical.idCentre = planning.centremedical.idCentre "
+								+ "and planning.centremedical.idCentre in :idCentre "
+								+ "and spemedecin.specialite.idSpecialite = :idSpecialite "
+								+ "and planning.date = :date")
+								//+ "and planning.heureDebut in ('20:00:00', '15:00:00')")
+								.setParameter("idSpecialite", idSpecialite)
+								.setParameter("idCentre", idCentres)
+								.setParameter("date", d);
+							
+						List<Planning> listePlannings = query.getResultList();
+						System.out.println("size list = " + listePlannings.size());
+						for (Planning p : listePlannings) {
+							resultats.add(p);
+							System.out.println(p.getIdPlanning());
+						}
+			/*	}
+			}*/
 
 			return resultats;
 		}
