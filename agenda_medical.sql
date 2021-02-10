@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 10, 2021 at 07:31 AM
+-- Generation Time: Feb 10, 2021 at 09:23 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.14
 
@@ -178,8 +178,8 @@ CREATE TABLE `planning` (
   `date` date NOT NULL,
   `heureDebut` time NOT NULL,
   `heureFin` time NOT NULL,
-  `idCentre` int(11) DEFAULT NULL,
-  `idMedecin` int(11) DEFAULT NULL,
+  `idCentre` int(11) NOT NULL,
+  `idMedecin` int(11) NOT NULL,
   `idRendezVous` int(11) DEFAULT NULL,
   `disponible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -189,7 +189,6 @@ CREATE TABLE `planning` (
 --
 
 INSERT INTO `planning` (`idPlanning`, `date`, `heureDebut`, `heureFin`, `idCentre`, `idMedecin`, `idRendezVous`, `disponible`) VALUES
-(1, '2021-02-07', '08:00:00', '08:30:00', NULL, NULL, NULL, 0),
 (2, '2021-02-15', '15:00:00', '15:30:00', 1, 15, NULL, 1),
 (3, '2021-02-15', '17:00:00', '17:30:00', 1, 15, NULL, 1),
 (4, '2021-02-16', '10:00:00', '10:30:00', 2, 16, NULL, 1),
