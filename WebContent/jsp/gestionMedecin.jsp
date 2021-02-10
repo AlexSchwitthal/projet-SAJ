@@ -87,16 +87,19 @@
             <br>
 
             <hr>	
-            <h3>Supression d'une affectation à un centre</h3>
+            <h3 style="margin-left:7em;margin-right:7em">Supression d'une affectation à un centre</h3>
+			<br>
 			<div class="row">
-            	<div class="col-md-5 ">
+				<div class="col-md-1">
+            	 </div>
+            	<div class="col-md-5">
             		<div id="centre"><h4>Centre Médical :</h4></div>
-            	 </div>
-            	 <div class="col-md-1">
-            	 </div>
-            	<div class="col-md-5 ">
+            	 </div>            	 
+            	<div class="col-md-2">
             		<div><h4>Specialité :</h4></div>
-                </div>               	
+                </div> 
+                <div class="col-md-4">
+            	 </div>              	
             </div>
             <%     
             for (Map.Entry<Centremedical, Specialite> entry : m.entrySet()) {
@@ -105,11 +108,11 @@
             	<input id="idCentre" name="idCentre" type="hidden" value="<%= entry.getKey().getIdCentre() %>">
             	<input id="idSpecialite" name="idSpecialite" type="hidden" value="<%= entry.getValue().getIdSpecialite() %>">
             	<div class="row">
-            	 	<div class="col-md-5" style="margin-top:3%;">
+            		
+            	 	<div class="col-md-6" style="margin-top:3%;">
             	 		<div><%= entry.getKey().getNom() %></div>
             	 	</div>
-            	 	<div class="col-md-1">
-            	 	</div>
+            	 	
             		<div class="col-md-5" style="margin-top:3%;">
             			<div><%= entry.getValue().getLibelle() %></div>
                 	</div>
