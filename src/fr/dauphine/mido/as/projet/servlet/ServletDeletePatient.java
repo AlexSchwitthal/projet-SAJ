@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Patient;
+import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
@@ -60,34 +61,31 @@ public class ServletDeletePatient extends HttpServlet {
 		Patient patient = this.servicesPatient.getPatientByEmail(email);
 		List<Rendezvous> listeRDVAnnulés = this.servicesPatient.deletePatient(patient.getIdPatient());
 		//boolean isDeleted = this.servicesPatient.deletePatient(patient.getIdPatient());
-		if(listeRDVAnnulés != null) {
-			for(Rendezvous rdv : listeRDVAnnulés) {
-				ArrayList<Object> elements = servicesRendezVous.getDetailsRendezVous(rdv.getIdRendezVous());
-				Medecin medecin = (Medecin) elements.get(0);
-				Centremedical centre = (Centremedical) elements.get(1);
-				Spemedecin speMedecin = (Spemedecin) elements.get(2);
-				
-				// TO DO //
+		if(listeRDVAnnulés != null) {			
+			if (listeRDVAnnulés.size()>0) {
+				String contenuTableau ="";
+				for (Rendezvous rdv : listeRDVAnnulés) {
+					ArrayList<Object> elements = servicesRendezVous.getDetailsRendezVous(rdv.getIdRendezVous());
+					Medecin medecin = (Medecin) elements.get(0);
+					Centremedical centre = (Centremedical) elements.get(1);
+					Spemedecin speMedecin = (Spemedecin) elements.get(2);
+					Planning planning = (Planning) elements.get(3);					
+					contenuTableau+="<tr><td>" + planning.getDate().toString() + "</td>";
+					contenuTableau+="<td>" + planning.getHeureDebut().toString()+ "</td>";
+					contenuTableau+="<td>" + medecin.getPersonne().getNom() + "</td>";
+					contenuTableau+="<td>" + medecin.getPersonne().getPrenom() + "</td>";
+					contenuTableau+= "<td>" + speMedecin.getSpecialite().getLibelle() + "</td>";
+					contenuTableau+="<td>" + centre.getNom() + "</td>";
+					contenuTableau+="<td>" + centre.getAdresse().getAdresseComplete() + "</td>";
+					contenuTableau+="<td>" + centre.getTelephone() + "</td></tr>";
+				}
+				this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/>Voici la liste des rendez-vous annulés suite à la suppression de votre compte :<br/><table><tr><th>Date</th><th>Heure</th><th>Nom du medecin</th><th>Prenom du medecin</th><th>Specialite du medecin</th><th>Nom du centre</th><th>Adresse du centre</th><th>Tel. du centre</th></tr>%s</table><br/><br/>Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom(), contenuTableau);
+		   	}else {
+		   		this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/> Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom());
+		       
 			}
-//			if (listeRDVAnnulés.size()>0) {
-//				String contenuTableau ="";
-//				for (Rendezvous rdv : listeRDVAnnulés) {
-//					contenuTableau+="<td>" + rdv.getPlannings().get(0).getDate() + "</td>";
-//					contenuTableau+="<td>" + rdv.getPlannings().get(0).getHeureDebut() + "</td>";
-//					contenuTableau+="<td>" + rdv.getPlannings().get(0).getMedecin().getPersonne().getNom() + "</td>";
-//					contenuTableau+="<td>" + rdv.getPlannings().get(0).getMedecin().getPersonne().getPrenom() + "</td>";
-//					contenuTableau+= "<td>" + rdv.getPlannings().get(0).getCentremedical().getMedecinSpecialite(rdv.getPlannings().get(0).getMedecin().getIdMedecin()) + "</td>";
-//					contenuTableau+="<td>" + rdv.getPlannings().get(0).getCentremedical().getNom() + "</td>";
-//					contenuTableau+="<td>" + rdv.getPlannings().get(0).getCentremedical().getAdresse() + "</td>";
-//					
-//				}
-//				this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/>Voici la liste des rendez-vous annulés suite à la suppression de votre compte :<br/><table><tr>Date</tr><tr>Heure</tr><tr>Nom du medecin</tr><tr>Prenom du medecin<tr></tr><tr>Specialite du medecin</tr><tr>Adresse du centre</tr><tr>Tel. du centre</tr>%s</table><br/><br/>Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom(), contenuTableau);
-//		   	}else {
-//		   		this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/> Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom());
-//		       
-//			}
-//			this.sender = new MailSender();
-//	        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
+			this.sender = new MailSender();
+	        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
         
 			session.invalidate();
 			request.setAttribute("success", "Votre compte a bien été supprimé !");
