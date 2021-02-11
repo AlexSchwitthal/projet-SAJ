@@ -87,9 +87,10 @@ public class DAOPersonne {
 	    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
 			
-			Query queryPatient = em.createQuery("select p from Patient p where p.email = ?1 and p.motDePasse = ?2");
+			Query queryPatient = em.createQuery("select p from Patient p where p.email = ?1 and p.motDePasse = ?2 and p.etat != ?3");
 			queryPatient.setParameter(1, email);
 			queryPatient.setParameter(2, mdp);
+			queryPatient.setParameter(3, "Supprimé");
 			if(queryPatient.getResultList().size() == 1) {
 				em.close();
 				emf.close();
