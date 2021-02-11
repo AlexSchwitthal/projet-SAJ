@@ -21,7 +21,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
+import fr.dauphine.mido.as.projet.beans.Rendezvous;
+import fr.dauphine.mido.as.projet.dao.DAOPlanning;
 
 /**
  * Session Bean implementation class ServicesCentreBean
@@ -29,6 +32,9 @@ import fr.dauphine.mido.as.projet.beans.Planning;
 @Stateless
 @LocalBean
 public class ServicesPlanningBean implements ServicesPlanning {
+	
+	private DAOPlanning daoPlanning = new DAOPlanning();
+	
 	private static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd/MM/yyyy_HH:mm");
 
 	@Override
@@ -120,6 +126,19 @@ public class ServicesPlanningBean implements ServicesPlanning {
 		}
 
 		return allExec;
+	}
+	
+	@Override
+	public Planning getPlanning(int idPlanning, Rendezvous rendezVous) {
+		try {
+			System.out.println("services avant appel dao");
+			Planning planning = daoPlanning.getPlanning(idPlanning, rendezVous);
+			return planning;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
