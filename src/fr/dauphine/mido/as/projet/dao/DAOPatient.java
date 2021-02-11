@@ -1,5 +1,6 @@
 package fr.dauphine.mido.as.projet.dao;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class DAOPatient {
 		    
 		    return patient;
 		} 
-		catch (Exception e) {
+		catch (ParseException e) {
 			e.printStackTrace();
 			return null;
 		}
