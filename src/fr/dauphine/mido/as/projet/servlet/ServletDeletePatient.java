@@ -1,6 +1,7 @@
 package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -11,9 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.dauphine.mido.as.projet.beans.Centremedical;
+import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
+import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
+import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
@@ -28,6 +33,9 @@ public class ServletDeletePatient extends HttpServlet {
        
     @EJB
     ServicesPatient servicesPatient;
+    
+    @EJB
+    ServicesRendezVous servicesRendezVous;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -52,8 +60,15 @@ public class ServletDeletePatient extends HttpServlet {
 		Patient patient = this.servicesPatient.getPatientByEmail(email);
 		List<Rendezvous> listeRDVAnnulés = this.servicesPatient.deletePatient(patient.getIdPatient());
 		//boolean isDeleted = this.servicesPatient.deletePatient(patient.getIdPatient());
-		System.out.println(listeRDVAnnulés + "mdr");
 		if(listeRDVAnnulés != null) {
+			for(Rendezvous rdv : listeRDVAnnulés) {
+				ArrayList<Object> elements = servicesRendezVous.getDetailsRendezVous(rdv.getIdRendezVous());
+				Medecin medecin = (Medecin) elements.get(0);
+				Centremedical centre = (Centremedical) elements.get(1);
+				Spemedecin speMedecin = (Spemedecin) elements.get(2);
+				
+				// TO DO //
+			}
 //			if (listeRDVAnnulés.size()>0) {
 //				String contenuTableau ="";
 //				for (Rendezvous rdv : listeRDVAnnulés) {
