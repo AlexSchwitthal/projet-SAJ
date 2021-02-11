@@ -30,18 +30,16 @@ public class DAOSpeMedecin {
 		}
 	}
 	
-	public Spemedecin getSpeMedecinByMedecinCentre(int medecinId, int centreId, int specialiteId) {
+	public Spemedecin getSpeMedecinByMedecinCentre(int medecinId, int centreId) {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
 
 			Query query = em.createQuery("select s from Spemedecin s "
 					+ "where s.medecin.idMedecin = ?1 "
-					+ "and s.centremedical.idCentre = ?2 "
-					+ "and s.specialite.idSpecialite = ?3");
+					+ "and s.centremedical.idCentre = ?2");
 			query.setParameter(1, medecinId);
 			query.setParameter(2, centreId);
-			query.setParameter(3, specialiteId);
 			query.setMaxResults(1);
 			
 			List<Spemedecin> results = query.getResultList();

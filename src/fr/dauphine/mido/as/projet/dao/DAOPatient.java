@@ -113,6 +113,7 @@ public class DAOPatient {
 				if(r.getEtat().equals("Actif")) {
 					listeRDVAnnulées.add(r);
 				}
+				//System.out.println(r.getPlannings().get(0).getCentremedical().getMedecinSpecialite(r.getPlannings().get(0).getMedecin().getIdMedecin()).getIdSpecialite());
 				r.setEtat("Annulé");
 				em.merge(r);
 			}

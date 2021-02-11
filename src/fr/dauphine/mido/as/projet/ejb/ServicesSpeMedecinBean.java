@@ -27,9 +27,9 @@ public class ServicesSpeMedecinBean implements ServicesSpeMedecin {
 	}
 
 	@Override
-	public Spemedecin getSpeMedecinByMedecinCentre(int medecinId, int centreId, int specialiteId) {
+	public Spemedecin getSpeMedecinByMedecinCentre(int medecinId, int centreId) {
 		try {
-			return daoSpeMedecin.getSpeMedecinByMedecinCentre(medecinId, centreId, specialiteId);
+			return daoSpeMedecin.getSpeMedecinByMedecinCentre(medecinId, centreId);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

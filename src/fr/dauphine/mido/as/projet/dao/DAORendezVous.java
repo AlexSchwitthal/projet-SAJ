@@ -1,12 +1,16 @@
 package fr.dauphine.mido.as.projet.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import fr.dauphine.mido.as.projet.beans.Centremedical;
+import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 
 public class DAORendezVous {
@@ -50,6 +54,47 @@ public class DAORendezVous {
 			e.printStackTrace();
 			return null;
 		}
-		
+	}
+	
+	public Centremedical getCentreRendezVous(int idRendezVous) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			Query query = em.createQuery("select p from Planning p "
+					+ "inner join p.rendezvous r "
+					+ "where r.idRendezVous = ?1");
+			query.setParameter(1, idRendezVous);
+			query.setMaxResults(1);
+			List<Planning> results = query.getResultList();
+
+			emf.close();
+			em.close();
+			return results.get(0).getCentremedical();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Medecin getMedecinRendezVous(int idRendezVous) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			Query query = em.createQuery("select p from Planning p "
+					+ "inner join p.rendezvous r "
+					+ "where r.idRendezVous = ?1");
+			query.setParameter(1, idRendezVous);
+			query.setMaxResults(1);
+			List<Planning> results = query.getResultList();
+			
+			emf.close();
+			em.close();
+			return results.get(0).getMedecin();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

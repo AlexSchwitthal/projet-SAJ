@@ -66,7 +66,7 @@ public class ServletDeleteMedecinCentre extends HttpServlet {
 			
 			
 			if(!servicesRendezVous.hasRendezVousActifCentre(medecin.getEmail(), idCentre)) {
-				Spemedecin speMedecin = servicesSpeMedecin.getSpeMedecinByMedecinCentre(medecin.getIdMedecin(), idCentre, idSpecialite);
+				Spemedecin speMedecin = servicesSpeMedecin.getSpeMedecinByMedecinCentre(medecin.getIdMedecin(), idCentre);
 				boolean isDeleted = servicesSpeMedecin.deleteSpeMedecin(speMedecin.getIdSpeMedecin());
 				if(isDeleted) {
 					request.setAttribute("success", "l'attribution au centre a bien été supprimé !");

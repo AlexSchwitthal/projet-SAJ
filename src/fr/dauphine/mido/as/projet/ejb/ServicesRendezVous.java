@@ -16,4 +16,5 @@ public interface ServicesRendezVous {
 	public ArrayList<String> getJoursDisponibles();
 	public boolean hasRendezVousActif(String email);
 	public boolean hasRendezVousActifCentre(String email, int idCentre);
+	public ArrayList<Object> getDetailsRendezVous(int idRendezvous);
 }

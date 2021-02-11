@@ -7,5 +7,5 @@ import fr.dauphine.mido.as.projet.beans.Spemedecin;
 @Remote
 public interface ServicesSpeMedecin {
 	public boolean deleteSpeMedecin(int speMedecinId);
-	public Spemedecin getSpeMedecinByMedecinCentre(int medecinId, int centreId, int specialiteId);
+	public Spemedecin getSpeMedecinByMedecinCentre(int medecinId, int centreId);
 }

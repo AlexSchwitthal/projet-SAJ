@@ -27,6 +27,7 @@ import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.dao.DAOMedecin;
 import fr.dauphine.mido.as.projet.dao.DAORendezVous;
+import fr.dauphine.mido.as.projet.dao.DAOSpeMedecin;
 
 @Stateless
 @Local
@@ -34,7 +35,8 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 
 	private DAORendezVous daoRendezVous = new DAORendezVous();
 	private DAOMedecin daoMedecin = new DAOMedecin();
-
+	private DAOSpeMedecin daoSpeMedecin = new DAOSpeMedecin();
+	
 	@PersistenceUnit
 	private EntityManagerFactory emf;
 
@@ -250,6 +252,20 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			e.printStackTrace();	
 			return false;
 		}
+	}
+
+	@Override
+	public ArrayList<Object> getDetailsRendezVous(int idRendezVous) {
+		Medecin medecin = daoRendezVous.getMedecinRendezVous(idRendezVous);
+		Centremedical centre = daoRendezVous.getCentreRendezVous(idRendezVous);
+		Spemedecin speMedecin = daoSpeMedecin.getSpeMedecinByMedecinCentre(medecin.getIdMedecin(), centre.getIdCentre());
+		ArrayList<Object> elements = new ArrayList<Object>();
+		
+		elements.add(medecin);
+		elements.add(centre);
+		elements.add(speMedecin);
+		
+		return elements;
 	}
 
 
