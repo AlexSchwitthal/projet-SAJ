@@ -42,7 +42,7 @@ public class DAOMedecin {
 	        
 	        return true;
 		}
-		catch(Exception e) {
+		catch(NumberFormatException e) {
 			e.printStackTrace();	
 			return false;
 		}
