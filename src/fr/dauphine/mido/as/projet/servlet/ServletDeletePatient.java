@@ -1,6 +1,7 @@
 package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.dauphine.mido.as.projet.beans.Patient;
+import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 
 /**
@@ -44,8 +46,10 @@ public class ServletDeletePatient extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		String email = (String) session.getAttribute("login");
 		Patient patient = this.servicesPatient.getPatientByEmail(email);
-		boolean isDeleted = this.servicesPatient.deletePatient(patient.getIdPatient());
-		if(isDeleted) {
+		List<Rendezvous> listeRDVAnnulés = this.servicesPatient.deletePatient(patient.getIdPatient());
+		//boolean isDeleted = this.servicesPatient.deletePatient(patient.getIdPatient());
+		System.out.println(listeRDVAnnulés + "mdr");
+		if(listeRDVAnnulés != null) {
 			session.invalidate();
 			request.setAttribute("success", "Votre compte a bien été supprimé !");
 			this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);

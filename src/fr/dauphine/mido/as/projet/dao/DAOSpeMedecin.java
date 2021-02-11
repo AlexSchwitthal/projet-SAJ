@@ -71,7 +71,6 @@ public class DAOSpeMedecin {
 			em.remove(speMedecin);
 			
 			for(Planning p : speMedecin.getCentremedical().getPlannings()) {
-				System.out.println("test");
 				em.remove(p);
 				em.remove(p.getRendezvous());
 			}

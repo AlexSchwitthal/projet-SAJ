@@ -87,7 +87,7 @@
             <br>
 
             <hr>	
-            <h3>Supression d'une affectation à un centre</h3>
+            <h3>Suppression d'une affectation à un centre</h3>
 			<div class="row">
             	<div class="col-md-5 ">
             		<div id="centre"><h4>Centre Médical :</h4></div>
