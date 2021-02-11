@@ -26,6 +26,7 @@ import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.dao.DAOMedecin;
+import fr.dauphine.mido.as.projet.dao.DAOPlanning;
 import fr.dauphine.mido.as.projet.dao.DAORendezVous;
 import fr.dauphine.mido.as.projet.dao.DAOSpeMedecin;
 
@@ -36,7 +37,8 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 	private DAORendezVous daoRendezVous = new DAORendezVous();
 	private DAOMedecin daoMedecin = new DAOMedecin();
 	private DAOSpeMedecin daoSpeMedecin = new DAOSpeMedecin();
-	
+	private DAOPlanning daoPlanning = new DAOPlanning();
+
 	@PersistenceUnit
 	private EntityManagerFactory emf;
 
@@ -259,11 +261,13 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		Medecin medecin = daoRendezVous.getMedecinRendezVous(idRendezVous);
 		Centremedical centre = daoRendezVous.getCentreRendezVous(idRendezVous);
 		Spemedecin speMedecin = daoSpeMedecin.getSpeMedecinByMedecinCentre(medecin.getIdMedecin(), centre.getIdCentre());
+		Planning planning = daoPlanning.getPlanningByRendezVous(idRendezVous);
 		ArrayList<Object> elements = new ArrayList<Object>();
 		
 		elements.add(medecin);
 		elements.add(centre);
 		elements.add(speMedecin);
+		elements.add(planning);
 		
 		return elements;
 	}
