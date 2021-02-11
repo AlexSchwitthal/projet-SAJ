@@ -50,6 +50,7 @@ public class ServletRendezVous extends HttpServlet {
 		request.setAttribute("listeSpecialites", servicesSpecialite.getAllSpecialite());
 		request.setAttribute("listeCentres", servicesCentre.getAllCentre());
 		request.setAttribute("listeCreneauxHoraires", genererCreneauxHoraires());
+		request.setAttribute("lesJours", servicesRendezVous.getJoursDisponibles());
 		this.getServletContext().getRequestDispatcher("/jsp/prendreRendezVous.jsp").forward(request, response);
 	}
 
@@ -91,7 +92,8 @@ public class ServletRendezVous extends HttpServlet {
 		int idSpecialite = Integer.parseInt(request.getParameter("specialite"));
 		ArrayList<Integer> idCentres = convertStringArrayToIntArrayList(request.getParameterValues("centre"));
 		List<String> heuresDebut = Arrays.asList(request.getParameterValues("heureDebut"));
-		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut));
+		List<String> jours = Arrays.asList(request.getParameterValues("jours"));
+		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut, jours));
 		
 		for (String s : heuresDebut) {
 			System.out.println(s);

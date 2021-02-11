@@ -12,7 +12,8 @@ import fr.dauphine.mido.as.projet.beans.Rendezvous;
 //@Local or @Remote
 public interface ServicesRendezVous {
 	public HashMap<Medecin, HashMap<Centremedical, ArrayList<Planning>>> rechercherCreneauxDisponibles(String nomMedecin);
-	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, List<String> heuresDebut);
+	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, List<String> heuresDebut, List<String> jours);
+	public ArrayList<String> getJoursDisponibles();
 	public boolean hasRendezVousActif(String email);
 	public boolean hasRendezVousActifCentre(String email, int idCentre);
 }

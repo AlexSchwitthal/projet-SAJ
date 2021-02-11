@@ -69,6 +69,22 @@
 						</div>
 					</fieldset>
 					<fieldset>
+						<legend>Jours</legend>
+						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
+						<%
+							ArrayList<String> lesJours = (ArrayList<String>) request.getAttribute("lesJours");
+							for (String s : lesJours) {
+						%>
+							<div>
+								<input type="checkbox" id="jours" name="jours" value="<%= s %>">
+								<label for="jours"><%= s %></label><br>
+							</div>
+						<%
+							}
+						%>
+						</div>
+					</fieldset>
+					<fieldset>
 						<legend>Creneaux horaires</legend>
 						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
 						<%

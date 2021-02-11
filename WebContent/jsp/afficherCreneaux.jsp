@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 	<%@include file="header.jsp" %>
+	<script src="js/enregistrerRendezVous.js"></script>
 	<body>
 		<div class="container">
 			<div id="menu">
@@ -60,7 +61,12 @@
       					<div class="card-body">
         					<%
         					for (Planning p : lesCreneaux.get(m).get(cm)) {
-								out.println(p.getHeureDebut() + " - " + p.getHeureFin());
+							%>
+							<p>
+								<%= p.getDate()%> / <%= p.getHeureDebut() %> - <%= p.getHeureFin() %>
+								<input type="button" value="click" onclick="ajouterRendezVous('<%= p.getIdPlanning() %>')">
+							</p>
+							<%
 							}
         					%>
       					</div>

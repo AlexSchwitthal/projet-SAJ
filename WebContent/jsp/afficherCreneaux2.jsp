@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 	<%@include file="header.jsp" %>
+	<script src="js/enregistrerRendezVous.js"></script>
 	<body>
 		<div class="container">
 			<div id="menu">
@@ -38,6 +39,8 @@
 					<th scope="col">Creneau</th>
 					<th scope="col">Médecin</th>
 					<th scope="col">Centre</th>
+					<th scope="col">Téléphone</th>
+					<th scope='col'></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,7 +57,9 @@
 				<th scope="row"><%= p.getDate().toString() %></th>	
 				<td><%= p.getHeureDebut() + " - " + p.getHeureFin() %></td>
 				<td><%= p.getMedecin().getPersonne().getNom() + " " + p.getMedecin().getPersonne().getPrenom() %></td>
-				<td><%= c.getNom() + "; " + c.getAdresse().getAdresseComplete() + "; " + c.getTelephone() %></td>
+				<td><%= c.getNom() %><br><%= c.getAdresse().getAdresseComplete() %></td>
+				<td><%= c.getTelephone() %></td>
+				<td><input type="button" value="click" onclick="ajouterRendezVous('<%= p.getIdPlanning() %>')"></td>
 			</tr>
 			<%
 			}
