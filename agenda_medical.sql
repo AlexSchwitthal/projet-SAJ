@@ -1,14 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
+<<<<<<< HEAD
 -- Hôte : 127.0.0.1:3306
 -- Généré le :  ven. 12 fév. 2021 à 16:41
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
+=======
+-- Host: localhost
+-- Generation Time: Feb 10, 2021 at 09:23 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 7.4.14
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,28 +25,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `agenda_medical`
+-- Database: `agenda_medical`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `administrateur`
+-- Table structure for table `administrateur`
 --
 
-DROP TABLE IF EXISTS `administrateur`;
-CREATE TABLE IF NOT EXISTS `administrateur` (
-  `idAdmin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `administrateur` (
+  `idAdmin` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
   `telephone` varchar(20) NOT NULL,
   `motDePasse` varchar(128) NOT NULL,
-  `idPersonne` int(11) NOT NULL,
-  PRIMARY KEY (`idAdmin`),
-  KEY `fk_idpersonneadmin` (`idPersonne`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+  `idPersonne` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `administrateur`
+-- Dumping data for table `administrateur`
 --
 
 INSERT INTO `administrateur` (`idAdmin`, `email`, `telephone`, `motDePasse`, `idPersonne`) VALUES
@@ -49,21 +52,25 @@ INSERT INTO `administrateur` (`idAdmin`, `email`, `telephone`, `motDePasse`, `id
 -- --------------------------------------------------------
 
 --
--- Structure de la table `adresse`
+-- Table structure for table `adresse`
 --
 
-DROP TABLE IF EXISTS `adresse`;
-CREATE TABLE IF NOT EXISTS `adresse` (
-  `idAdresse` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `adresse` (
+  `idAdresse` int(11) NOT NULL,
   `adresseComplete` varchar(128) NOT NULL,
   `ville` varchar(128) DEFAULT NULL,
   `codePostal` varchar(20) DEFAULT NULL,
+<<<<<<< HEAD
   `pays` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`idAdresse`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+=======
+  `pays` varchar(64) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 --
--- Déchargement des données de la table `adresse`
+-- Dumping data for table `adresse`
 --
 
 INSERT INTO `adresse` (`idAdresse`, `adresseComplete`, `ville`, `codePostal`, `pays`) VALUES
@@ -73,27 +80,29 @@ INSERT INTO `adresse` (`idAdresse`, `adresseComplete`, `ville`, `codePostal`, `p
 (17, 'sqd', 'a', '5760000', 'd'),
 (34, '10 rue osef', 'PARIS', '75000', 'FRANCE'),
 (36, 'Rue medecin', NULL, NULL, NULL),
+<<<<<<< HEAD
 (37, 'azeaz', NULL, NULL, NULL),
 (38, 'azeza', NULL, NULL, NULL);
+=======
+(37, '65 rue de la Paix', NULL, NULL, NULL),
+(38, '75 rue Paris', NULL, NULL, NULL);
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `centremedical`
+-- Table structure for table `centremedical`
 --
 
-DROP TABLE IF EXISTS `centremedical`;
-CREATE TABLE IF NOT EXISTS `centremedical` (
-  `idCentre` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `centremedical` (
+  `idCentre` int(11) NOT NULL,
   `nom` varchar(64) NOT NULL,
   `telephone` varchar(20) NOT NULL,
-  `idAdresse` int(11) NOT NULL,
-  PRIMARY KEY (`idCentre`),
-  KEY `fk_idadressecentre` (`idAdresse`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  `idAdresse` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `centremedical`
+-- Dumping data for table `centremedical`
 --
 
 INSERT INTO `centremedical` (`idCentre`, `nom`, `telephone`, `idAdresse`) VALUES
@@ -103,49 +112,56 @@ INSERT INTO `centremedical` (`idCentre`, `nom`, `telephone`, `idAdresse`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `medecin`
+-- Table structure for table `medecin`
 --
 
-DROP TABLE IF EXISTS `medecin`;
-CREATE TABLE IF NOT EXISTS `medecin` (
-  `idMedecin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `medecin` (
+  `idMedecin` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
   `telephone` varchar(20) NOT NULL,
   `motDePasse` varchar(128) NOT NULL,
+<<<<<<< HEAD
   `idPersonne` int(11) NOT NULL,
   PRIMARY KEY (`idMedecin`),
   KEY `fk_idpersonnemedecin` (`idPersonne`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+=======
+  `idPersonne` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 --
--- Déchargement des données de la table `medecin`
+-- Dumping data for table `medecin`
 --
 
 INSERT INTO `medecin` (`idMedecin`, `email`, `telephone`, `motDePasse`, `idPersonne`) VALUES
+<<<<<<< HEAD
 (14, 'm@mail.com', '0101010101', 'm', 35),
 (15, 'm2@mail.com', '0101010101', 'm', 36),
 (16, 'm3@mail.com', '0121211210', 'm', 37);
+=======
+(14, 'medecin@hotmail.com', '0101010101', 'medecin', 35),
+(15, 'medun@mail.fr', '0555555555', 'medun', 36),
+(16, 'meddeux@mail.fr', '0955555555', 'meddeux', 37);
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `patient`
+-- Table structure for table `patient`
 --
 
-DROP TABLE IF EXISTS `patient`;
-CREATE TABLE IF NOT EXISTS `patient` (
-  `idPatient` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `patient` (
+  `idPatient` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
   `telephone` varchar(20) NOT NULL,
   `motDePasse` varchar(128) NOT NULL,
   `idPersonne` int(11) NOT NULL,
-  `etat` varchar(50) NOT NULL DEFAULT 'Actif',
-  PRIMARY KEY (`idPatient`),
-  KEY `fk_idpersonnepatient` (`idPersonne`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+  `etat` varchar(50) NOT NULL DEFAULT 'Actif'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `patient`
+-- Dumping data for table `patient`
 --
 
 INSERT INTO `patient` (`idPatient`, `email`, `telephone`, `motDePasse`, `idPersonne`, `etat`) VALUES
@@ -157,22 +173,26 @@ INSERT INTO `patient` (`idPatient`, `email`, `telephone`, `motDePasse`, `idPerso
 -- --------------------------------------------------------
 
 --
--- Structure de la table `personne`
+-- Table structure for table `personne`
 --
 
-DROP TABLE IF EXISTS `personne`;
-CREATE TABLE IF NOT EXISTS `personne` (
-  `idPersonne` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `personne` (
+  `idPersonne` int(11) NOT NULL,
   `nom` varchar(64) NOT NULL,
   `prenom` varchar(64) NOT NULL,
   `date_naissance` date DEFAULT NULL,
+<<<<<<< HEAD
   `idAdresse` int(11) NOT NULL,
   PRIMARY KEY (`idPersonne`),
   KEY `fk_idadressepersonne` (`idAdresse`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
+=======
+  `idAdresse` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 --
--- Déchargement des données de la table `personne`
+-- Dumping data for table `personne`
 --
 
 INSERT INTO `personne` (`idPersonne`, `nom`, `prenom`, `date_naissance`, `idAdresse`) VALUES
@@ -182,24 +202,29 @@ INSERT INTO `personne` (`idPersonne`, `nom`, `prenom`, `date_naissance`, `idAdre
 (16, 'z', 'q', '1995-07-22', 17),
 (33, 'schwitthal', 'Alexandre', '1997-04-14', 34),
 (35, 'medecin', 'medecin', NULL, 36),
+<<<<<<< HEAD
 (36, 'ma', 'mb', NULL, 37),
 (37, 'm', 'm', NULL, 38);
+=======
+(36, 'medun', 'medun', NULL, 37),
+(37, 'meddeux', 'meddeux', NULL, 38);
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `planning`
+-- Table structure for table `planning`
 --
 
-DROP TABLE IF EXISTS `planning`;
-CREATE TABLE IF NOT EXISTS `planning` (
-  `idPlanning` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `planning` (
+  `idPlanning` int(11) NOT NULL,
   `date` date NOT NULL,
   `heureDebut` time NOT NULL,
   `heureFin` time NOT NULL,
   `idCentre` int(11) NOT NULL,
   `idMedecin` int(11) NOT NULL,
   `idRendezVous` int(11) DEFAULT NULL,
+<<<<<<< HEAD
   `disponible` tinyint(1) NOT NULL,
   PRIMARY KEY (`idPlanning`),
   UNIQUE KEY `uc_Planning` (`date`,`heureDebut`,`idCentre`,`idMedecin`),
@@ -207,38 +232,54 @@ CREATE TABLE IF NOT EXISTS `planning` (
   KEY `fk_idcentreplanning` (`idCentre`),
   KEY `fk_idrendezvousplanning` (`idRendezVous`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+=======
+  `disponible` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `planning`
+--
+
+INSERT INTO `planning` (`idPlanning`, `date`, `heureDebut`, `heureFin`, `idCentre`, `idMedecin`, `idRendezVous`, `disponible`) VALUES
+(2, '2021-02-15', '15:00:00', '15:30:00', 1, 15, NULL, 1),
+(3, '2021-02-15', '17:00:00', '17:30:00', 1, 15, NULL, 1),
+(4, '2021-02-16', '10:00:00', '10:30:00', 2, 16, NULL, 1),
+(5, '2021-02-16', '11:30:00', '12:00:00', 1, 16, NULL, 1),
+(6, '2021-02-16', '14:30:00', '15:00:00', 1, 16, NULL, 1);
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `rendezvous`
+-- Table structure for table `rendezvous`
 --
 
-DROP TABLE IF EXISTS `rendezvous`;
-CREATE TABLE IF NOT EXISTS `rendezvous` (
-  `idRendezVous` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rendezvous` (
+  `idRendezVous` int(11) NOT NULL,
   `etat` varchar(20) NOT NULL,
+<<<<<<< HEAD
   `idPatient` int(11) NOT NULL,
   `messageAnnulation` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idRendezVous`),
   KEY `fk_idpatient` (`idPatient`)
+=======
+  `idPatient` int(11) NOT NULL
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `specialite`
+-- Table structure for table `specialite`
 --
 
-DROP TABLE IF EXISTS `specialite`;
-CREATE TABLE IF NOT EXISTS `specialite` (
-  `idSpecialite` int(11) NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(128) NOT NULL,
-  PRIMARY KEY (`idSpecialite`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `specialite` (
+  `idSpecialite` int(11) NOT NULL,
+  `libelle` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `specialite`
+-- Dumping data for table `specialite`
 --
 
 INSERT INTO `specialite` (`idSpecialite`, `libelle`) VALUES
@@ -247,14 +288,14 @@ INSERT INTO `specialite` (`idSpecialite`, `libelle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `spemedecin`
+-- Table structure for table `spemedecin`
 --
 
-DROP TABLE IF EXISTS `spemedecin`;
-CREATE TABLE IF NOT EXISTS `spemedecin` (
-  `idSpeMedecin` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `spemedecin` (
+  `idSpeMedecin` int(11) NOT NULL,
   `idMedecin` int(11) NOT NULL,
   `idSpecialite` int(11) NOT NULL,
+<<<<<<< HEAD
   `idCentre` int(11) NOT NULL,
   `isActivated` tinyint(1) NOT NULL,
   PRIMARY KEY (`idSpeMedecin`),
@@ -262,54 +303,206 @@ CREATE TABLE IF NOT EXISTS `spemedecin` (
   KEY `fk_idcentre` (`idCentre`),
   KEY `fk_idmedecin` (`idMedecin`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+=======
+  `idCentre` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
 
 --
--- Déchargement des données de la table `spemedecin`
+-- Dumping data for table `spemedecin`
 --
 
+<<<<<<< HEAD
 INSERT INTO `spemedecin` (`idSpeMedecin`, `idMedecin`, `idSpecialite`, `idCentre`, `isActivated`) VALUES
 (12, 14, 1, 1, 0),
 (13, 15, 1, 1, 1),
 (14, 15, 1, 2, 0),
 (15, 16, 1, 2, 1),
 (16, 16, 1, 1, 1);
+=======
+INSERT INTO `spemedecin` (`idSpeMedecin`, `idMedecin`, `idSpecialite`, `idCentre`) VALUES
+(12, 14, 1, 1),
+(13, 15, 1, 1),
+(14, 16, 1, 2),
+(15, 16, 1, 1);
 
 --
--- Contraintes pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Contraintes pour la table `administrateur`
+-- Indexes for table `administrateur`
+--
+ALTER TABLE `administrateur`
+  ADD PRIMARY KEY (`idAdmin`),
+  ADD KEY `fk_idpersonneadmin` (`idPersonne`);
+
+--
+-- Indexes for table `adresse`
+--
+ALTER TABLE `adresse`
+  ADD PRIMARY KEY (`idAdresse`);
+
+--
+-- Indexes for table `centremedical`
+--
+ALTER TABLE `centremedical`
+  ADD PRIMARY KEY (`idCentre`),
+  ADD KEY `fk_idadressecentre` (`idAdresse`);
+
+--
+-- Indexes for table `medecin`
+--
+ALTER TABLE `medecin`
+  ADD PRIMARY KEY (`idMedecin`),
+  ADD KEY `fk_idpersonnemedecin` (`idPersonne`);
+
+--
+-- Indexes for table `patient`
+--
+ALTER TABLE `patient`
+  ADD PRIMARY KEY (`idPatient`),
+  ADD KEY `fk_idpersonnepatient` (`idPersonne`);
+
+--
+-- Indexes for table `personne`
+--
+ALTER TABLE `personne`
+  ADD PRIMARY KEY (`idPersonne`),
+  ADD KEY `fk_idadressepersonne` (`idAdresse`);
+
+--
+-- Indexes for table `planning`
+--
+ALTER TABLE `planning`
+  ADD PRIMARY KEY (`idPlanning`),
+  ADD KEY `fk_idmedecinplanning` (`idMedecin`),
+  ADD KEY `fk_idcentreplanning` (`idCentre`),
+  ADD KEY `fk_idrendezvousplanning` (`idRendezVous`);
+
+--
+-- Indexes for table `rendezvous`
+--
+ALTER TABLE `rendezvous`
+  ADD PRIMARY KEY (`idRendezVous`),
+  ADD KEY `fk_idpatient` (`idPatient`);
+
+--
+-- Indexes for table `specialite`
+--
+ALTER TABLE `specialite`
+  ADD PRIMARY KEY (`idSpecialite`);
+
+--
+-- Indexes for table `spemedecin`
+--
+ALTER TABLE `spemedecin`
+  ADD PRIMARY KEY (`idSpeMedecin`),
+  ADD KEY `fk_idspecialite` (`idSpecialite`),
+  ADD KEY `fk_idcentre` (`idCentre`),
+  ADD KEY `fk_idmedecin` (`idMedecin`) USING BTREE;
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `administrateur`
+--
+ALTER TABLE `administrateur`
+  MODIFY `idAdmin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `adresse`
+--
+ALTER TABLE `adresse`
+  MODIFY `idAdresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `centremedical`
+--
+ALTER TABLE `centremedical`
+  MODIFY `idCentre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `medecin`
+--
+ALTER TABLE `medecin`
+  MODIFY `idMedecin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `patient`
+--
+ALTER TABLE `patient`
+  MODIFY `idPatient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `personne`
+--
+ALTER TABLE `personne`
+  MODIFY `idPersonne` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `planning`
+--
+ALTER TABLE `planning`
+  MODIFY `idPlanning` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `rendezvous`
+--
+ALTER TABLE `rendezvous`
+  MODIFY `idRendezVous` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `specialite`
+--
+ALTER TABLE `specialite`
+  MODIFY `idSpecialite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `spemedecin`
+--
+ALTER TABLE `spemedecin`
+  MODIFY `idSpeMedecin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+>>>>>>> 432392df0f79264c4e9cd88e11c485bc1857d8e5
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `administrateur`
 --
 ALTER TABLE `administrateur`
   ADD CONSTRAINT `fk_idpersonneadmin` FOREIGN KEY (`idPersonne`) REFERENCES `personne` (`idPersonne`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `centremedical`
+-- Constraints for table `centremedical`
 --
 ALTER TABLE `centremedical`
   ADD CONSTRAINT `fk_idadressecentre` FOREIGN KEY (`idAdresse`) REFERENCES `adresse` (`idAdresse`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `medecin`
+-- Constraints for table `medecin`
 --
 ALTER TABLE `medecin`
   ADD CONSTRAINT `fk_idpersonnemedecin` FOREIGN KEY (`idPersonne`) REFERENCES `personne` (`idPersonne`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `patient`
+-- Constraints for table `patient`
 --
 ALTER TABLE `patient`
   ADD CONSTRAINT `fk_idpersonnepatient` FOREIGN KEY (`idPersonne`) REFERENCES `personne` (`idPersonne`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `personne`
+-- Constraints for table `personne`
 --
 ALTER TABLE `personne`
   ADD CONSTRAINT `fk_idadressepersonne` FOREIGN KEY (`idAdresse`) REFERENCES `adresse` (`idAdresse`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `planning`
+-- Constraints for table `planning`
 --
 ALTER TABLE `planning`
   ADD CONSTRAINT `fk_idcentreplanning` FOREIGN KEY (`idCentre`) REFERENCES `centremedical` (`idCentre`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -317,13 +510,13 @@ ALTER TABLE `planning`
   ADD CONSTRAINT `fk_idrendezvousplanning` FOREIGN KEY (`idRendezVous`) REFERENCES `rendezvous` (`idRendezVous`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `rendezvous`
+-- Constraints for table `rendezvous`
 --
 ALTER TABLE `rendezvous`
   ADD CONSTRAINT `fk_idpatient` FOREIGN KEY (`idPatient`) REFERENCES `patient` (`idPatient`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `spemedecin`
+-- Constraints for table `spemedecin`
 --
 ALTER TABLE `spemedecin`
   ADD CONSTRAINT `fk_idcentre` FOREIGN KEY (`idCentre`) REFERENCES `centremedical` (`idCentre`) ON DELETE CASCADE ON UPDATE CASCADE,

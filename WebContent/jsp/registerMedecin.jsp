@@ -75,7 +75,7 @@
                     <div id="listeCentre">
 	                    <div class="ligne">
 		                    <div class="row">
-		                        <div class="col-md-5 ">
+		                        <div class="col-md-5 " style="margin-top:3%;">
 		                        	<div class="form-group">
 									  <label for="centreMedical">Centre Médical :</label>
 									  <select id="centreMedical" name="centreMedical">
@@ -90,7 +90,7 @@
 		                        </div>
 		                        <div class="col-md-1">
 		                        </div>
-		                        <div class="col-md-5 listeDeroulante">
+		                        <div class="col-md-5 listeDeroulante" style="margin-top:3%;">
 		                        	<div class="form-group">
 									  <label for="specialite">Spécialité :</label>
 									  <select id="specialite" name="specialite">
@@ -104,7 +104,7 @@
 									</div>
 		                        </div>
 		                        <div class="col-md-1">
-									<div class="delRow" style="margin-top:40%;">
+									<div class="delRow" style="margin-top:30%;">
 									 	<button type="button" class="btn btn-secondary btn-lg" name="delRow">
 		          							<i class="far fa-trash-alt fa-lg"></i>
 		        						</button>

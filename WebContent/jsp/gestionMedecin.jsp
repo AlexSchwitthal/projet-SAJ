@@ -7,7 +7,6 @@
 <!DOCTYPE html>
 <html>
     <%@include file="header.jsp" %>
-    <script src="js/registerMedecin.js"></script>
     <body>
         <div class="container">
 	        <div id="menu">	        		
@@ -38,13 +37,7 @@
                 Medecin medecin = (Medecin) request.getAttribute("medecin");
             	Map<Centremedical, Specialite> m = (Map<Centremedical, Specialite>) request.getAttribute("map");
             %>
-            <%
-	            for (Map.Entry<Centremedical, Specialite> entry : m.entrySet()) {
-	            	%>
-	            	<div><%= entry.getKey().getNom() %> : <%= entry.getValue().getLibelle() %></div>
-	               <%
-	            }
-            %>
+          
             <form method="post" action="gestionMedecin">
                 <div class="form-group">
                     <div>
@@ -90,6 +83,53 @@
                     </div>
                 </div>
             </form>
+            <br>
+            <br>
+
+            <hr>	
+            <h3 style="margin-left:7em;margin-right:7em">Supression d'une affectation à un centre</h3>
+			<br>
+			<div class="row">
+				<div class="col-md-1">
+            	 </div>
+            	<div class="col-md-5">
+            		<div id="centre"><h4>Centre Médical :</h4></div>
+            	 </div>            	 
+            	<div class="col-md-2">
+            		<div><h4>Specialité :</h4></div>
+                </div> 
+                <div class="col-md-4">
+            	 </div>              	
+            </div>
+            <%     
+            for (Map.Entry<Centremedical, Specialite> entry : m.entrySet()) {
+            	%>
+            	<form onSubmit="return confirm('Voulez-vous vraiment supprimer votre affection à se centre ?')" method="post" action="deleteMedecinCentre" id="deleteMedecinCentre">
+            	<input id="idCentre" name="idCentre" type="hidden" value="<%= entry.getKey().getIdCentre() %>">
+            	<input id="idSpecialite" name="idSpecialite" type="hidden" value="<%= entry.getValue().getIdSpecialite() %>">
+            	<div class="row">
+            		
+            	 	<div class="col-md-6" style="margin-top:3%;">
+            	 		<div><%= entry.getKey().getNom() %></div>
+            	 	</div>
+            	 	
+            		<div class="col-md-5" style="margin-top:3%;">
+            			<div><%= entry.getValue().getLibelle() %></div>
+                	</div>
+  					<div class="col-md-1">
+						<div class="delRow" style="margin-top:30%;">
+							<div>
+		                        <input type="submit" value="Supprimer" class="btn btn-danger">
+		                    </div>
+		        		</div>	
+		        	</div>                	
+                </div>
+                </form>
+            	<%
+            }
+            %>
+            <hr>	
+
             <form onSubmit="return confirm('Voulez-vous vraiment supprimer votre compte ?')" method="post" action="deleteMedecin">
              	<input type="submit" value="Supprimer le compte" class="btn btn-danger">
 			</form>

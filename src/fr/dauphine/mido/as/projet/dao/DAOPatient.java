@@ -1,6 +1,8 @@
 package fr.dauphine.mido.as.projet.dao;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,13 +91,13 @@ public class DAOPatient {
 		    
 		    return patient;
 		} 
-		catch (Exception e) {
+		catch (ParseException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public boolean deletePatient(int patientId) {
+	public List<Rendezvous> deletePatient(int patientId) {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
@@ -105,22 +107,28 @@ public class DAOPatient {
 			Query query = em.createQuery("select r from Rendezvous r where r.patient.idPatient = ?1");
 			query.setParameter(1, patientId);
 			List<Rendezvous> results = query.getResultList();
+			
+			List<Rendezvous> listeRDVAnnules = new ArrayList<Rendezvous>();
+			
 			for(Rendezvous r : results) {
-				r.setEtat("Annulé");
+				if(r.getEtat().equals("Actif")) {
+					listeRDVAnnules.add(r);
+				}
+				r.setEtat("AnnulÃ©");
 				em.merge(r);
 			}
 			
-			patient.setEtat("Supprimé");
+			patient.setEtat("SupprimÃ©");
 			em.merge(patient);
 		    em.flush();
 			emf.close();
 			em.close();
 			
-			return true;
+			return listeRDVAnnules;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 }

@@ -8,6 +8,7 @@ import javax.ejb.Remote;
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
+import fr.dauphine.mido.as.projet.beans.Rendezvous;
 
 @Remote
 public interface ServicesPlanning {
@@ -16,4 +17,5 @@ public interface ServicesPlanning {
 	public boolean desactivatePlanning(Centremedical centre, Medecin medecin);
 	public boolean getPlanningIsActivated(Centremedical centre, Medecin medecin);
 	public boolean updatePlanning(int idPlanning, boolean isDisponible);
+	public Planning getPlanning(int idPlanning, Rendezvous rendezvous);
 }

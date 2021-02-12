@@ -1,6 +1,7 @@
 package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.ejb.EJB;
@@ -96,7 +97,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	        	 this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
 	        }
 		}
-		catch (Exception e) {
+		catch (IOException | ParseException e) {
             request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
 	        this.getServletContext().getRequestDispatcher("/jsp/registerPatient.jsp").forward(request, response);
             e.printStackTrace();

@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
+import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.dao.DAOPlanning;
 import fr.dauphine.mido.as.projet.dao.DAOSpeMedecin;
 
@@ -44,5 +45,18 @@ public class ServicesPlanningBean implements ServicesPlanning {
 	@Override
 	public boolean updatePlanning(int idPlanning, boolean isDisponible) {
 		return daoPlanning.updatePlanning(idPlanning, isDisponible);
+	}
+	
+	@Override
+	public Planning getPlanning(int idPlanning, Rendezvous rendezVous) {
+		try {
+			System.out.println("services avant appel dao");
+			Planning planning = daoPlanning.getPlanning(idPlanning, rendezVous);
+			return planning;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

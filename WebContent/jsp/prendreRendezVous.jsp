@@ -1,7 +1,12 @@
+<%@page import="java.util.Date"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Centremedical"%>
+<%@page import="fr.dauphine.mido.as.projet.ejb.DateAgenda"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.TreeMap"%>
+<%@page import="java.util.TreeSet"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Specialite"%>
 <!DOCTYPE html>
 <html>
@@ -40,7 +45,8 @@
 					<legend>Recherche multicritères</legend>
 					<input type="hidden" name="formName" value="formRechercheMulticriteres"/>
 					<label for="specialite">Spécialité Médicale : </label>
-					<select name=specialite" id="specialite">
+					<select name="specialite" id="specialite">
+					 	<option value="" selected disabled hidden>Choisir une spécialité</option>
 					<%
 						ArrayList<Specialite> listeSpecialites = (ArrayList<Specialite>) request.getAttribute("listeSpecialites");
 						for (Specialite s : listeSpecialites) {
@@ -61,6 +67,38 @@
 							<div>
 								<input type="checkbox" id="centre" name="centre" value="<%= c.getIdCentre()%>">
 								<label for="centre"><%= c.getNom() %></label><br>
+							</div>
+						<%
+							}
+						%>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Jours</legend>
+						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
+						<%
+							TreeSet<DateAgenda> lesJours = (TreeSet<DateAgenda>) request.getAttribute("lesJours");
+							for (DateAgenda d : lesJours) {
+						%>
+							<div>
+								<input type="checkbox" id="jours" name="jours" value="<%= d.getLocalizedDate() %>">
+								<label for="jours"><%= d.getLocalizedDate() %></label><br>
+							</div>
+						<%
+							}
+						%>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Creneaux horaires</legend>
+						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
+						<%
+							TreeMap<String, String> creneauxHoraires = (TreeMap<String, String>) request.getAttribute("listeCreneauxHoraires");
+							for (String s : creneauxHoraires.keySet()) {
+						%>
+							<div>
+								<input type="checkbox" id="heureDebut" name="heureDebut" value="<%= s %>">
+								<label for="heureDebut"><%= s + " - " + creneauxHoraires.get(s) %></label><br>
 							</div>
 						<%
 							}
