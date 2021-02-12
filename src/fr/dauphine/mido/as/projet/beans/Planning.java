@@ -2,6 +2,9 @@ package fr.dauphine.mido.as.projet.beans;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -67,6 +70,10 @@ public class Planning implements Serializable {
 
 	public Date getDate() {
 		return this.date;
+	}
+	
+	public String dateStringFormatFR() {
+		return new SimpleDateFormat("dd/MM/yyyy").format(this.date);
 	}
 
 	public void setDate(Date date) {

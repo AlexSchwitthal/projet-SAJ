@@ -16,7 +16,7 @@ import fr.dauphine.mido.as.projet.beans.Rendezvous;
 public interface ServicesRendezVous {
 	public HashMap<Medecin, HashMap<Centremedical, ArrayList<Planning>>> rechercherCreneauxDisponibles(String nomMedecin);
 	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, ArrayList<Time> heuresDebut, ArrayList<Date> jours);
-	public TreeSet<String> getJoursDisponibles();
+	public TreeSet<DateAgenda> getJoursDisponibles();
 	public boolean hasRendezVousActif(String email);
 	public boolean hasRendezVousActifCentre(String email, int idCentre);
 	public ArrayList<Object> getDetailsRendezVous(int idRendezvous);

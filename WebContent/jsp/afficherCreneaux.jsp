@@ -63,7 +63,7 @@
         					for (Planning p : lesCreneaux.get(m).get(cm)) {
 							%>
 							<p>
-								<%= p.getDate()%> / <%= p.getHeureDebut() %> - <%= p.getHeureFin() %>
+								<%= p.dateStringFormatFR() %> / <%= p.getHeureDebut() %> - <%= p.getHeureFin() %>
 								<input type="button" value="click" onclick="ajouterRendezVous('<%= p.getIdPlanning() %>')">
 							</p>
 							<%

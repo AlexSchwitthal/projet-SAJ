@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -136,15 +138,7 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre" : " and :idCentre IS NULL";
 			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
 			queryString += (heuresDebut != null) ? " and planning.heureDebut in :heuresDeb" : " and :heuresDeb IS NULL";
-			//System.out.println(queryString);
-			/*String queryString = "select planning from Planning planning,"
-			+ " Spemedecin spemedecin "
-			+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
-			+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
-			+ " and spemedecin.specialite.idSpecialite = :idSpecialite"
-			+ " and (planning.centremedical.idCentre in :idCentre or :idCentre IS NULL)"
-			+ " and (planning.date in :date or :date IS NULL)"
-			+ " and planning.heureDebut in :heuresDeb";*/
+			
 			query = em.createQuery(queryString)
 					.setParameter("idSpecialite", idSpecialite)
 					.setParameter("idCentre", idCentres)
@@ -165,12 +159,18 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		}
 	}
 
-	public TreeSet<String> getJoursDisponibles() {
+	public TreeSet<DateAgenda> getJoursDisponibles() {
 		EntityManager em = emf.createEntityManager();
-		TreeSet<String> lesJours = new TreeSet<String>();
+		TreeSet<DateAgenda> lesJours = new TreeSet<DateAgenda>(new Comparator<DateAgenda>() {
+			@Override
+			public int compare(DateAgenda d1, DateAgenda d2) {
+				return d1.getDate().compareTo(d2.getDate());
+			}
+		});
 		Query query = null;
 		LocalDate t1 = LocalDate.now();
-
+		DateAgenda date = null;
+		//DateTimeFormatter formatUS = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		query = em.createQuery("select distinct planning from Planning planning "
 				+ "where planning.date between :t1 and :t2")
 				.setParameter("t1", asDate(t1), TemporalType.DATE)
@@ -179,8 +179,8 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		List<Planning> listePlannings = query.getResultList();
 		System.out.println("size list = " + listePlannings.size());
 		for (Planning p : listePlannings) {
-			lesJours.add(p.getDate().toString());
-			System.out.println(p.getDate().toString());
+			date = new DateAgenda(LocalDate.parse(p.getDate().toString()));
+			lesJours.add(date);
 		}
 
 		return lesJours;

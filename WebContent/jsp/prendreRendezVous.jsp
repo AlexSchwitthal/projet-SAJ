@@ -1,4 +1,6 @@
+<%@page import="java.util.Date"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Centremedical"%>
+<%@page import="fr.dauphine.mido.as.projet.ejb.DateAgenda"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -75,12 +77,12 @@
 						<legend>Jours</legend>
 						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
 						<%
-							TreeSet<String> lesJours = (TreeSet<String>) request.getAttribute("lesJours");
-							for (String s : lesJours) {
+							TreeSet<DateAgenda> lesJours = (TreeSet<DateAgenda>) request.getAttribute("lesJours");
+							for (DateAgenda d : lesJours) {
 						%>
 							<div>
-								<input type="checkbox" id="jours" name="jours" value="<%= s %>">
-								<label for="jours"><%= s %></label><br>
+								<input type="checkbox" id="jours" name="jours" value="<%= d.getLocalizedDate() %>">
+								<label for="jours"><%= d.getLocalizedDate() %></label><br>
 							</div>
 						<%
 							}

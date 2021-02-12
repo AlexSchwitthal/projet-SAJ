@@ -122,7 +122,7 @@ public class ServletRendezVous extends HttpServlet {
 		try {
 			if (stringDate != null) {
 				ArrayList<Date> listeDates = new ArrayList<Date>();
-				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 				for (String s : Arrays.asList(stringDate)) {
 					listeDates.add(formatter.parse(s));
