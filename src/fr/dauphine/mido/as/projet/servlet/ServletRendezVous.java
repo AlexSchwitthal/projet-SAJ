@@ -1,11 +1,17 @@
 package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -28,13 +34,13 @@ public class ServletRendezVous extends HttpServlet {
 
 	@EJB
 	ServicesRendezVous servicesRendezVous;
-	
+
 	@EJB
 	ServicesSpecialite servicesSpecialite;
-	
+
 	@EJB
 	ServicesCentre servicesCentre;
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -70,61 +76,100 @@ public class ServletRendezVous extends HttpServlet {
 			}
 		}
 	}
-	
+
 	protected void rechercheParNom(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		String nomMedecin = request.getParameter("nomMedecin");
-		
+
 		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux.jsp").forward(request, response);
 	}
 
 	protected void rechercheMulticriteres(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		/*if (request.getParameterValues("centre") == null) {
-			System.out.println("all");
-		}
-		else {
-			for (String s : request.getParameterValues("centre")) {
-				System.out.println(s + "; ");
-			}
-		}*/
+
 		int idSpecialite = Integer.parseInt(request.getParameter("specialite"));
-		ArrayList<Integer> idCentres = convertStringArrayToIntArrayList(request.getParameterValues("centre"));
-		List<String> heuresDebut = Arrays.asList(request.getParameterValues("heureDebut"));
-		List<String> jours = Arrays.asList(request.getParameterValues("jours"));
+		String[] paramsCentres = request.getParameterValues("centre");
+		String[] paramsHeuresDebut = request.getParameterValues("heureDebut");
+		String[] paramsJours = request.getParameterValues("jours");
+
+		ArrayList<Integer> idCentres = convertStringArrayToIntArrayList(paramsCentres);
+		ArrayList<Date> jours = convertListStringDateToListDate(paramsJours);
+		ArrayList<Time> heuresDebut = convertListStringTimeToListTime(paramsHeuresDebut);
+
 		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut, jours));
-		
-		for (String s : heuresDebut) {
-			System.out.println(s);
-		}
+
 		System.out.println("speMed = " + request.getParameter("specialite"));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux2.jsp").forward(request, response);
 	}
-	
-	
+
+
 	public ArrayList<Integer> convertStringArrayToIntArrayList(String[] stringArray) {
 		ArrayList<Integer> intArray = new ArrayList<Integer>();
-		for (String s : stringArray) {
-			intArray.add(Integer.parseInt(s));
+		if (stringArray != null && stringArray.length > 0) {
+			for (String s : stringArray) {
+				intArray.add(Integer.parseInt(s));
+			}
+
+			return intArray;
 		}
-		
-		return intArray;
+		else {
+			return null;
+		}
 	}
 	
-	public HashMap<String, String> genererCreneauxHoraires() {
-		HashMap<String, String> creneauxHoraires = new HashMap<String, String>();
-		int i = 8;
+	public ArrayList<Date> convertListStringDateToListDate(String[] stringDate) {
+		try {
+			if (stringDate != null) {
+				ArrayList<Date> listeDates = new ArrayList<Date>();
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+				for (String s : Arrays.asList(stringDate)) {
+					listeDates.add(formatter.parse(s));
+				}
+				return listeDates;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ArrayList<Time> convertListStringTimeToListTime(String[] stringTime) {
+		try {
+			if (stringTime != null) {
+				
+				ArrayList<Time> listeHeures = new ArrayList<Time>();
+				DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+				for (String s : Arrays.asList(stringTime)) {
+					listeHeures.add(new Time(formatter.parse(s).getTime()));
+				} 
+				return listeHeures;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public TreeMap<String, String> genererCreneauxHoraires() {
+		TreeMap<String, String> creneauxHoraires = new TreeMap<String, String>();
 		
-		while (i < 20) {
+		for (int i = 8; i < 10; i++) {
+			creneauxHoraires.put("0" + i + ":00:00", i + ":30:00");
+			creneauxHoraires.put("0" + i + ":30:00", i+1 + ":00:00");
+		}
+
+		for (int i = 10; i < 20; i++) {
 			creneauxHoraires.put(i + ":00:00", i + ":30:00");
 			creneauxHoraires.put(i + ":30:00", i+1 + ":00:00");
-			i++;
 		}
-		
+
 		return creneauxHoraires;
 	}
-	
+
 	//public ArrayList
 
 }

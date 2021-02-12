@@ -59,12 +59,12 @@ public class ServletDeletePatient extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		String email = (String) session.getAttribute("login");
 		Patient patient = this.servicesPatient.getPatientByEmail(email);
-		List<Rendezvous> listeRDVAnnulés = this.servicesPatient.deletePatient(patient.getIdPatient());
+		List<Rendezvous> listeRDVAnnules = this.servicesPatient.deletePatient(patient.getIdPatient());
 		//boolean isDeleted = this.servicesPatient.deletePatient(patient.getIdPatient());
-		if(listeRDVAnnulés != null) {			
-			if (listeRDVAnnulés.size()>0) {
+		if(listeRDVAnnules != null) {			
+			if (listeRDVAnnules.size()>0) {
 				String contenuTableau ="";
-				for (Rendezvous rdv : listeRDVAnnulés) {
+				for (Rendezvous rdv : listeRDVAnnules) {
 					ArrayList<Object> elements = servicesRendezVous.getDetailsRendezVous(rdv.getIdRendezVous());
 					Medecin medecin = (Medecin) elements.get(0);
 					Centremedical centre = (Centremedical) elements.get(1);
@@ -79,16 +79,16 @@ public class ServletDeletePatient extends HttpServlet {
 					contenuTableau+="<td>" + centre.getAdresse().getAdresseComplete() + "</td>";
 					contenuTableau+="<td>" + centre.getTelephone() + "</td></tr>";
 				}
-				this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/>Voici la liste des rendez-vous annulés suite à la suppression de votre compte :<br/><table><tr><th>Date</th><th>Heure</th><th>Nom du medecin</th><th>Prenom du medecin</th><th>Specialite du medecin</th><th>Nom du centre</th><th>Adresse du centre</th><th>Tel. du centre</th></tr>%s</table><br/><br/>Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom(), contenuTableau);
+				this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reï¿½u ce courriel car vous avez supprimï¿½ votre compte de notre plateforme.<br/><br/>Voici la liste des rendez-vous annulï¿½s suite ï¿½ la suppression de votre compte :<br/><table><tr><th>Date</th><th>Heure</th><th>Nom du medecin</th><th>Prenom du medecin</th><th>Specialite du medecin</th><th>Nom du centre</th><th>Adresse du centre</th><th>Tel. du centre</th></tr>%s</table><br/><br/>Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'ï¿½quipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom(), contenuTableau);
 		   	}else {
-		   		this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/> Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom());
+		   		this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reï¿½u ce courriel car vous avez supprimï¿½ votre compte de notre plateforme.<br/><br/> Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'ï¿½quipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom());
 		       
 			}
 			this.sender = new MailSender();
 	        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
         
 			session.invalidate();
-			request.setAttribute("success", "Votre compte a bien été supprimé !");
+			request.setAttribute("success", "Votre compte a bien ï¿½tï¿½ supprimï¿½ !");
 			this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 			
 		}

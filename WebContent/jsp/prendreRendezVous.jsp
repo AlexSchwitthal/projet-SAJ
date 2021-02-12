@@ -3,6 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
+<%@page import="java.util.TreeMap"%>
+<%@page import="java.util.TreeSet"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Specialite"%>
 <!DOCTYPE html>
 <html>
@@ -72,7 +74,7 @@
 						<legend>Jours</legend>
 						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
 						<%
-							ArrayList<String> lesJours = (ArrayList<String>) request.getAttribute("lesJours");
+							TreeSet<String> lesJours = (TreeSet<String>) request.getAttribute("lesJours");
 							for (String s : lesJours) {
 						%>
 							<div>
@@ -88,7 +90,7 @@
 						<legend>Creneaux horaires</legend>
 						<div class="container" style="border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;">
 						<%
-							HashMap<String, String> creneauxHoraires = (HashMap<String, String>) request.getAttribute("listeCreneauxHoraires");
+							TreeMap<String, String> creneauxHoraires = (TreeMap<String, String>) request.getAttribute("listeCreneauxHoraires");
 							for (String s : creneauxHoraires.keySet()) {
 						%>
 							<div>
