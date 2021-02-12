@@ -69,10 +69,7 @@ public class ServletLogin extends HttpServlet {
 			session.setAttribute("nom", personneLogged.getNom());
 			session.setAttribute("prenom", personneLogged.getPrenom());
 			session.setAttribute("personne", personneLogged);
-			System.out.println("-----------------------azaza---");
 			Medecin medecin = servicesMedecin.getMedecinByEmail(email);
-			System.out.println(medecin);
-			System.out.println("-----------------------azaza---");
 			session.setAttribute("medecin", medecin);
 			session.setAttribute("patient", servicesPatient.getPatientByEmail(email));
             session.setMaxInactiveInterval(3600);

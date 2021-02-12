@@ -114,11 +114,12 @@ public class DAOPatient {
 				if(r.getEtat().equals("Actif")) {
 					listeRDVAnnules.add(r);
 				}
-				r.setEtat("AnnulÃ©");
+				r.setEtat("Annulé");
+				r.setMessageAnnulation("Annulé suite à la suppression du compte Patient");
 				em.merge(r);
 			}
 			
-			patient.setEtat("SupprimÃ©");
+			patient.setEtat("Supprimé");
 			em.merge(patient);
 		    em.flush();
 			emf.close();
