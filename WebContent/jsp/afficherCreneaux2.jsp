@@ -54,7 +54,7 @@
 				c = p.getCentremedical();
 			%>
 			<tr>
-				<th scope="row"><%= p.getDate().toString() %></th>	
+				<th scope="row"><%= p.dateStringFormatFR() %></th>	
 				<td><%= p.getHeureDebut() + " - " + p.getHeureFin() %></td>
 				<td><%= p.getMedecin().getPersonne().getNom() + " " + p.getMedecin().getPersonne().getPrenom() %></td>
 				<td><%= c.getNom() %><br><%= c.getAdresse().getAdresseComplete() %></td>

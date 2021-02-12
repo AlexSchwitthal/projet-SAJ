@@ -24,6 +24,10 @@ public class DateAgenda implements Serializable {
 		this.localizedDayOfWeek = this.date.format(LOCALIZED_DAY_OF_WEEK_FMT);
 	}
 	
+	public LocalDate getDate() {
+		return this.date;
+	}
+	
 	public String getLocalizedDate() {
 		return this.localizedDate;
 	}
