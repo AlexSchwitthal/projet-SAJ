@@ -2423,6 +2423,14 @@ footer.white-wrapper .social-links li a {
 /*-----------------------------------------------------------------------------------*/
 
 .table-agenda {
+	border-spacing: 1px;
+    border-collapse: separate;
+}
+
+.table-agenda td {
+	text-align: center;
+	font-size: .9em;
+	width: 80px;
 }
 
 .table-agenda .not-init {
@@ -2440,3 +2448,4 @@ footer.white-wrapper .social-links li a {
 .table-agenda .taken {
 	background-color: blue;
 }
+

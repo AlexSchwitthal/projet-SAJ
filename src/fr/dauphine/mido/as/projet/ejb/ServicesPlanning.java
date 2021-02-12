@@ -5,10 +5,15 @@ import java.util.Map;
 
 import javax.ejb.Remote;
 
+import fr.dauphine.mido.as.projet.beans.Centremedical;
+import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 
 @Remote
 public interface ServicesPlanning {
-	public Map<String, Planning> getPlannings(LocalDate startDate, LocalDate endDate);
-	public boolean initPlanning(LocalDate startDate, LocalDate endDate);
+	public Map<String, Planning> getPlannings(LocalDate startDate, LocalDate endDate, Medecin medecin, Centremedical centre);
+	public boolean initPlanning(LocalDate startDate, LocalDate endDate, Medecin medecin, Centremedical centre);
+	public boolean desactivatePlanning(Centremedical centre, Medecin medecin);
+	public boolean getPlanningIsActivated(Centremedical centre, Medecin medecin);
+	public boolean updatePlanning(int idPlanning, boolean isDisponible);
 }

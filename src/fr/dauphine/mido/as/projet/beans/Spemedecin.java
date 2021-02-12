@@ -32,6 +32,8 @@ public class Spemedecin implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idSpecialite")
 	private Specialite specialite;
+	
+	private boolean isActivated;
 
 	public Spemedecin() {
 	}
@@ -66,6 +68,14 @@ public class Spemedecin implements Serializable {
 
 	public void setSpecialite(Specialite specialite) {
 		this.specialite = specialite;
+	}
+
+	public boolean isActivated() {
+		return isActivated;
+	}
+
+	public void setActivated(boolean isActivated) {
+		this.isActivated = isActivated;
 	}
 
 }

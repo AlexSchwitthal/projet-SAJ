@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Medecin"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 	/*@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"*/
 %>
@@ -25,10 +26,37 @@
 				</div>
 			</div>
 		</section>
-		<li><a href="agenda">Affichez votre agenda</a></li>
+
+		<input type="hidden" id="idCentre" value="${ centre.idCentre }">
+		<li><a href="agenda?centre=${ centre.idCentre }">Affichez
+				votre agenda</a></li> <label for="centre-select">Votre centre :</label>
+
+		<c:choose>
+			<c:when test="${ listCentre == null }">
+	           Aucun
+	        </c:when>
+
+			<c:when test="${ fn:length(listCentre) == 1 }">
+				<c:out value="${ listCentre[0].nom }" />
+			</c:when>
+
+			<c:otherwise>
+				<select name="centres" id="centre-select">
+					<c:forEach var="c" items="${listCentre}" varStatus="status">
+						<option value="${ c.idCentre }" ${ c == centre ? 'selected' : ''}>${ c.nom }</option>
+					</c:forEach>
+				</select>
+			</c:otherwise>
+		</c:choose>
 		<div>
-			<button class="btn btn-success" type="button" id="activateAgenda">Activer
-				l'agenda</button>
+			<c:if test="${ !isActivated }">
+				<button class="btn btn-success" type="button" id="activateAgenda">Activer
+					l'agenda</button>
+			</c:if>
+			<c:if test="${ isActivated }">
+				<button class="btn btn-success" type="button" id="desactivateAgenda">Désactiver
+					l'agenda</button>
+			</c:if>
 		</div>
 
 		<table class="table-agenda">
@@ -47,14 +75,20 @@
 					<tr>
 						<td><c:out value="${timeAgenda.formattedTime}" /></td>
 						<c:forEach var="slot" items="${listDateAgenda}">
-							<td class="not-init">test</td>
+							<c:set var="dateTime"
+								value="${slot.localizedDate}_${timeAgenda.formattedTime}" />
+							<c:set var="planning"
+								value="${mapPlanning[dateTime] != null ? mapPlanning[dateTime] : null}" />
+							<c:set var="cssStyle"
+								value="${planning != null ? planning.cellStyle : 'not-init' }" />
+							<td class="${cssStyle}"></td>
 						</c:forEach>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
-	<script src="js/editAgenda.js"></script>
+	<script src="js/agenda.js"></script>
 </body>
 </html>
 

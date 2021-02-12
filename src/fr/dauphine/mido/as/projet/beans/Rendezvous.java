@@ -20,6 +20,8 @@ public class Rendezvous implements Serializable {
 	private int idRendezVous;
 
 	private String etat;
+	
+	private String messageAnnulation;
 
 	//bi-directional many-to-one association to Planning
 	@OneToMany(mappedBy="rendezvous")
@@ -77,6 +79,14 @@ public class Rendezvous implements Serializable {
 
 	public void setPatient(Patient patient) {
 		this.patient = patient;
+	}
+
+	public String getMessageAnnulation() {
+		return messageAnnulation;
+	}
+
+	public void setMessageAnnulation(String messageAnnulation) {
+		this.messageAnnulation = messageAnnulation;
 	}
 
 }

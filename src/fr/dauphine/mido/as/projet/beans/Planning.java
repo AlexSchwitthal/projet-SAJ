@@ -120,4 +120,11 @@ public class Planning implements Serializable {
 	public void setDisponible(boolean b) {
 		this.disponible = b;
 	}
+	
+	public String getCellStyle() {
+		if (rendezvous != null) {
+			return "taken";
+		}
+		return disponible ? "avail" : "not-avail";
+	}
 }

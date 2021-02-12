@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Personne;
+import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
+import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 import fr.dauphine.mido.as.projet.ejb.ServicesPersonne;
 
 /**
@@ -22,6 +25,12 @@ public class ServletLogin extends HttpServlet {
        
     @EJB
     ServicesPersonne servicesPersonne;
+    
+    @EJB
+    ServicesMedecin servicesMedecin;
+    
+    @EJB
+    ServicesPatient servicesPatient;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -54,10 +63,18 @@ public class ServletLogin extends HttpServlet {
 		else {
 			Personne personneLogged = this.servicesPersonne.getPersonneByEmail(type, request.getParameter("login"));
 			HttpSession session = request.getSession(true);
-			session.setAttribute("login", request.getParameter("login"));
+			String email = request.getParameter("login");
+			session.setAttribute("login", email);
 			session.setAttribute("type", type);
 			session.setAttribute("nom", personneLogged.getNom());
 			session.setAttribute("prenom", personneLogged.getPrenom());
+			session.setAttribute("personne", personneLogged);
+			System.out.println("-----------------------azaza---");
+			Medecin medecin = servicesMedecin.getMedecinByEmail(email);
+			System.out.println(medecin);
+			System.out.println("-----------------------azaza---");
+			session.setAttribute("medecin", medecin);
+			session.setAttribute("patient", servicesPatient.getPatientByEmail(email));
             session.setMaxInactiveInterval(3600);
             response.sendRedirect("home");
 		}

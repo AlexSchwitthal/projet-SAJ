@@ -10,4 +10,5 @@ import fr.dauphine.mido.as.projet.beans.Centremedical;
 public interface ServicesCentre {
 	public List<Centremedical> getAllCentre();
 	public Centremedical getCentreById(int id);
+	public List<Centremedical> getCentresByMedecin(int idMedecin);
 }

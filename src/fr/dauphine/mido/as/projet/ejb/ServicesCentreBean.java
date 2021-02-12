@@ -38,4 +38,15 @@ public class ServicesCentreBean implements ServicesCentre {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Centremedical> getCentresByMedecin(int idMedecin) {
+		try {
+			return daoCentreMedical.getCentresByMedecin(idMedecin);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
