@@ -108,23 +108,23 @@ public class DAOPatient {
 			query.setParameter(1, patientId);
 			List<Rendezvous> results = query.getResultList();
 			
-			List<Rendezvous> listeRDVAnnulées = new ArrayList<Rendezvous>();
+			List<Rendezvous> listeRDVAnnules = new ArrayList<Rendezvous>();
 			
 			for(Rendezvous r : results) {
 				if(r.getEtat().equals("Actif")) {
-					listeRDVAnnulées.add(r);
+					listeRDVAnnules.add(r);
 				}
-				r.setEtat("Annulé");
+				r.setEtat("AnnulÃ©");
 				em.merge(r);
 			}
 			
-			patient.setEtat("Supprimé");
+			patient.setEtat("SupprimÃ©");
 			em.merge(patient);
 		    em.flush();
 			emf.close();
 			em.close();
 			
-			return listeRDVAnnulées;
+			return listeRDVAnnules;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

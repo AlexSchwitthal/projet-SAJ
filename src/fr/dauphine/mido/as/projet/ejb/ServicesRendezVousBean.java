@@ -127,15 +127,25 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			System.out.println("in rechercherCreneauxDispos");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date d = sdf.parse("2021-02-15");
-
-			query = em.createQuery("select planning from Planning planning,"
-					+ " Spemedecin spemedecin "
+			
+			String queryString = "select planning from Planning planning,"
+					+ " Spemedecin spemedecin"
 					+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
 					+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
-					+ " and spemedecin.specialite.idSpecialite = :idSpecialite"
-					+ " and (planning.centremedical.idCentre in :idCentre or :idCentre IS NULL)"
-					+ " and (planning.date in :date or :date IS NULL)"
-					+ " and (planning.heureDebut in :heuresDeb or :heuresDeb IS NULL)")
+					+ " and spemedecin.specialite.idSpecialite = :idSpecialite";
+			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre" : " and :idCentre IS NULL";
+			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
+			queryString += (heuresDebut != null) ? " and planning.heureDebut in :heuresDeb" : " and :heuresDeb IS NULL";
+			//System.out.println(queryString);
+			/*String queryString = "select planning from Planning planning,"
+			+ " Spemedecin spemedecin "
+			+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
+			+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
+			+ " and spemedecin.specialite.idSpecialite = :idSpecialite"
+			+ " and (planning.centremedical.idCentre in :idCentre or :idCentre IS NULL)"
+			+ " and (planning.date in :date or :date IS NULL)"
+			+ " and planning.heureDebut in :heuresDeb";*/
+			query = em.createQuery(queryString)
 					.setParameter("idSpecialite", idSpecialite)
 					.setParameter("idCentre", idCentres)
 					.setParameter("date", jours)

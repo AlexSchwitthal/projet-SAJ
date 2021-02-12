@@ -44,6 +44,7 @@
 					<input type="hidden" name="formName" value="formRechercheMulticriteres"/>
 					<label for="specialite">Spécialité Médicale : </label>
 					<select name="specialite" id="specialite">
+					 	<option value="" selected disabled hidden>Choisir une spécialité</option>
 					<%
 						ArrayList<Specialite> listeSpecialites = (ArrayList<Specialite>) request.getAttribute("listeSpecialites");
 						for (Specialite s : listeSpecialites) {
