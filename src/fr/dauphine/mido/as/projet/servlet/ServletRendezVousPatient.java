@@ -20,6 +20,7 @@ import fr.dauphine.mido.as.projet.ejb.DateAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 import fr.dauphine.mido.as.projet.ejb.TimeAgenda;
+import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
  * Servlet implementation class ServletRendezVousPatient
@@ -46,18 +47,14 @@ public class ServletRendezVousPatient extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//if(request.getSession().getAttribute("type") == "patient") {
-		//	String email = (String) request.getSession().getAttribute("login");
-			Patient patient = this.servicesPatient.getPatientByEmail("schwitthal.alexandre@gmail.com");
+		if(request.getSession().getAttribute("type") == "patient") {
+			String email = (String) request.getSession().getAttribute("login");
+			Patient patient = this.servicesPatient.getPatientByEmail(email);
 			List<Rendezvous> listeRendezVousPatient = this.servicesRendezVous.getRendezVousPatient(patient.getIdPatient());
 			ArrayList<ArrayList<Object>> listeDetailsRendezVous = new ArrayList<ArrayList<Object>>();
 			LocalDate date = LocalDate.now();
 			LocalTime time = LocalTime.now();
-			//TimeAgenda time = new TimeAgenda(LocalTime.now());
-			//System.out.println(date.getLocalizedDate());
-			//System.out.println(time.getFormattedTime());
 			for(Rendezvous r : listeRendezVousPatient) {
-				//System.out.println(r.getIdRendezVous());
 				listeDetailsRendezVous.add(this.servicesRendezVous.getDetailsRendezVous(r.getIdRendezVous()));
 			}
 			
@@ -66,13 +63,13 @@ public class ServletRendezVousPatient extends HttpServlet {
 			request.setAttribute("date", date);
 			request.setAttribute("time", time);
 		    this.getServletContext().getRequestDispatcher("/jsp/rendezVousPatient.jsp").forward(request, response);
-		//}
-		//else if(request.getSession().getAttribute("login") != null) {
-		//	response.sendRedirect("home");
-		//}
-		//else {
-		//	response.sendRedirect("login");
-		//}
+		}
+		else if(request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		}
+		else {
+			response.sendRedirect("login");
+		}
 	}
 
 	/**
@@ -80,8 +77,32 @@ public class ServletRendezVousPatient extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idRendezVous = request.getParameter("idRendezVous");
-        
-		doGet(request, response);
+        String raisonAnnulation = request.getParameter("raisonAnnulation");
+        System.out.println(raisonAnnulation);
+        System.out.println(request.getParameter("raisonAnnulation"));
+        if(raisonAnnulation.equals("")) {
+        	request.setAttribute("warning", "Vous devez saisir une raison pour annuler un rendez-vous !");
+			doGet(request, response);
+        }
+        else {
+        	// TO DO
+        	boolean lol = true;
+        	if(lol) {
+    			request.setAttribute("success", "Votre rendez-vous à bien été annulé !");
+    			String email = (String) request.getSession().getAttribute("login");
+    			String nom = (String) request.getSession().getAttribute("nom");
+    			String prenom = (String) request.getSession().getAttribute("prenom");
+    			doGet(request, response);
+    			String mailContent = String.format("Bonjour %s %s,<br/><br/>Nous vous confirmons l'annulation de votre rendez-vous.<br/><br/>Cordialement, l'équipe", prenom, nom);
+ 		        MailSender sender = new MailSender();
+ 		        sender.sendMail("test@test.com", email, "Annulation d'un rendez-vous", mailContent);
+    		}
+    		else {
+    			request.setAttribute("warning", "Une erreur est survenue lors de l'annulation du rendez-vous !");
+    			doGet(request, response);
+    		}
+        }
+	
 	}
 
 }

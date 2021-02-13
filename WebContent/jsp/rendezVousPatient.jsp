@@ -16,7 +16,7 @@
 <!DOCTYPE html>
 <html>
 	<%@include file="header.jsp" %>
-	<script src="js/enregistrerRendezVous.js"></script>
+	<script src="js/rendezVousPatient.js"></script>
 	<body>
 		<div class="container">
 			<div id="menu">
@@ -35,6 +35,8 @@
 					</div>
 				</section>
 			</div>
+			<br>
+			<%@include file="alert.jsp" %>
 			<br>
 			<table class="table">
 				<thead>
@@ -100,8 +102,9 @@
 						if(etat.equals("Actif") || etat.equals("actif")) {
 							%>
 							<td>
-								<form style="padding:0;margin:0;" onSubmit="return confirm('Voulez-vous vraiment supprimer votre affection à se centre ?')" method="post" action="mesRendezVous">
+								<form style="padding:0;margin:0;" onSubmit="return validationSuppression()" method="post" action="mesRendezVous">
 									<input id="idRendezVous" name="idRendezVous" type="hidden" value="<%= planning.getRendezvous().getIdRendezVous() %>">
+									<input name="raisonAnnulation" type="hidden" value="">
 									<center><input type="submit" value="Annuler RDV" class="btn btn-danger"></center>
 								</form>
 							</td>
@@ -121,6 +124,7 @@
 				%>
 				</tbody>
 			</table>
+			<button onclick="validationSuppression()" value ="test">marche stp </button>
 		</div>
 	</body>
 </html>
