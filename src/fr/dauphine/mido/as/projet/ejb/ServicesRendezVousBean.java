@@ -248,5 +248,16 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		return elements;
 	}
 
+	@Override
+	public List<Rendezvous> getRendezVousPatient(int idPatient) {
+		try {
+			return daoRendezVous.getRendezVousPatient(idPatient);
+		}
+		catch(Exception e) {
+			e.printStackTrace();	
+			return null;
+		}
+	}
+
 
 }
