@@ -8,10 +8,12 @@ function ajouterRendezVous(idPlanning) {
 	input.setAttribute("name", "idRendezVous");
 	input.setAttribute("value", idPlanning);
 	
-	console.log(idPlanning);
-	form.appendChild(input);
-	document.body.appendChild(form);
-	form.submit();
+	if (confirm("Vous aller prendre un rendez vous")) {
+		form.appendChild(input);
+		document.body.appendChild(form);
+		form.submit();
+	}
+	
 }
 
 /*function ajouterRendezVous(date, heureDebut, heureFin, idCentre, mailMedecin) {

@@ -15,7 +15,7 @@
 	<%@include file="header.jsp" %>
 	<script src="js/enregistrerRendezVous.js"></script>
 	<body>
-		<div class="container">
+		<div class="container" style="min-height: 2000px">
 			<div id="menu">
 				<div id="includeMenu">
 					<jsp:include page="menu.jsp"/>
@@ -77,22 +77,30 @@
         								TreeMap<DateAgenda, ArrayList<Planning>> planningsQ = sm.getCentremedical().planningMed(m);
         								int j = 0;
 										%>
-										<div style="height: 300px; padding-left: 20px; padding-right: 20px" class="item active">
+										<div style="height: 300px; padding-left: 20px; padding-right: 20px" class="item active divScroll">
 											<div class="row">
 										<%
         								for (DateAgenda d : planningsQ.keySet()) {
 										%>
 											<div class="col text-center">
 											<p>
-												<%= d.getLocalizedDate() %>
+												<%= d.getLocalizedDate() %><br>
+												<%= d.getLocalizedDayOfWeek() %>
 											</p>
 											<%
-											for (Planning p : planningsQ.get(d)) {
-											%>
-												<p><%= p.getHeureDebut()%> - <%= p.getHeureFin() %></p>
+											if (planningsQ.get(d).size() > 0) {
+												for (Planning p : planningsQ.get(d)) {
+												%>
+													<p><a href="#" onclick="ajouterRendezVous('<%= p.getIdPlanning() %>')"><%= p.getHeureDebutString() %> - <%= p.getHeureFinString() %></a></p>
+												<%
+												}
+											}
+											else {
+												%>
+												<p>Aucun créneau disponible</p>
 											<%
 											}
-											%>
+												%>
 											</div>
 											<%
 											j++;
@@ -132,6 +140,7 @@
 			<%
 			}
 			%>
+		</div>
 		</div>
 	</body>
 </html>

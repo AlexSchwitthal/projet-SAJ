@@ -2,6 +2,7 @@ package fr.dauphine.mido.as.projet.beans;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -82,6 +83,16 @@ public class Planning implements Serializable {
 
 	public Time getHeureDebut() {
 		return this.heureDebut;
+	}
+	
+	public String getHeureDebutString() {
+		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+		return timeFormatter.format(this.heureDebut.getTime());
+	}
+	
+	public String getHeureFinString() {
+		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+		return timeFormatter.format(this.heureFin.getTime());
 	}
 
 	public void setHeureDebut(Time heureDebut) {

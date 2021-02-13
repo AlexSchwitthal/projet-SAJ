@@ -93,6 +93,7 @@ public class DAOPlanning {
 			Planning planning = em.find(Planning.class, idPlanning);
 			em.persist(rendezVous);
 			planning.setRendezvous(rendezVous);
+			planning.setDisponible(false);
 			
 			//em.merge(planning);
 			em.flush();

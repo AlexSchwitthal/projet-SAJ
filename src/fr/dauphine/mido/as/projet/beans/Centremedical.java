@@ -141,7 +141,7 @@ public class Centremedical implements Serializable {
 		});
 		int nbJours = 20;
 		
-		LocalDate localDate = LocalDate.now().minusDays(1);
+		LocalDate localDate = LocalDate.now();
 		for (int i = 0; i < nbJours; i++) {
 			planningsQuotidien.put(new DateAgenda(localDate), new ArrayList<Planning>());
 			localDate = localDate.plusDays(1);
@@ -149,7 +149,7 @@ public class Centremedical implements Serializable {
 		
 		for (Planning p : this.plannings) {
 			//ajouter la condiiton rdv dispo
-			if (p.getMedecin().getIdMedecin() == m.getIdMedecin()) {
+			if (p.getDisponible() && p.getMedecin().getIdMedecin() == m.getIdMedecin()) {
 				System.out.println("in the planningMed method ");
 				for (DateAgenda d :planningsQuotidien.keySet()) {
 					System.out.println(d.getDate().getDayOfMonth() + " = " + p.getDate().getDate() +"; " + d.getDate().getMonthValue() + " = " + p.getDate().getMonth() + "; " + d.getDate().getYear() + " = " + p.getDate().getYear());
