@@ -18,4 +18,5 @@ public interface ServicesPlanning {
 	public boolean getPlanningIsActivated(Centremedical centre, Medecin medecin);
 	public boolean updatePlanning(int idPlanning, boolean isDisponible);
 	public Planning getPlanning(int idPlanning, Rendezvous rendezvous);
+	public boolean setRendezVousNull(int idPlanning);
 }

@@ -248,5 +248,8 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		return elements;
 	}
 
-
+	@Override
+	public boolean cancelRendezVous(int idPlanning, String messageAnnulation) {
+		return daoRendezVous.cancelRendezVous(idPlanning, messageAnnulation);
+	}
 }

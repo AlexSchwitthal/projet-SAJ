@@ -59,4 +59,9 @@ public class ServicesPlanningBean implements ServicesPlanning {
 			return null;
 		}
 	}
+	
+	@Override
+	public boolean setRendezVousNull(int idPlanning) {
+		return daoPlanning.setRendezVousNull(idPlanning);
+	}
 }

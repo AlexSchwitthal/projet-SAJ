@@ -27,10 +27,7 @@
 				</div>
 			</div>
 		</section>
-		
-		<p>NB=${fn:length(mapPlanning)}</p>
-		<input type="hidden" id="idCentre" value="${ centre.idCentre }">
-		<li><a href="editAgenda?centre=${ centre.idCentre }">Modifiez votre agenda</a></li>
+		<a href="editAgenda?centre=${ centre.idCentre }"><button type="button" class="btn btn-secondary">Modifiez votre agenda</button></a><br/>
 		<label for="centre-select">Votre centre :</label>
 
 		<c:choose>
