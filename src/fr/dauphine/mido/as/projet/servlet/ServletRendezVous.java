@@ -81,7 +81,8 @@ public class ServletRendezVous extends HttpServlet {
 		response.setContentType("text/html");
 		String nomMedecin = request.getParameter("nomMedecin");
 
-		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
+		request.setAttribute("lesMedecins", servicesRendezVous.rechercheMedecin(nomMedecin));
+		//request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux.jsp").forward(request, response);
 	}
 
