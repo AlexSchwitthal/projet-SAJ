@@ -91,7 +91,6 @@ public class DAOPlanning {
 	
 	public Planning enregistrerPlanning(int idPlanning, Rendezvous rendezVous) {
 		try {
-			System.out.println("debut method dao");
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
 
@@ -100,11 +99,10 @@ public class DAOPlanning {
 			planning.setRendezvous(rendezVous);
 			planning.setDisponible(false);
 			
-			//em.merge(planning);
 			em.flush();
 			em.close();
 			emf.close(); 
-			System.out.println("fin method dao");
+
 			return planning;
 
 		}
@@ -249,7 +247,7 @@ public class DAOPlanning {
 				.setParameter("t2", d2, TemporalType.DATE);
 
 		List<Planning> listePlannings = query.getResultList();
-		System.out.println("size list = " + listePlannings.size());
+		
 		for (Planning p : listePlannings) {
 			date = new DateAgenda(LocalDate.parse(p.getDate().toString()));
 			lesJours.add(date);
@@ -267,7 +265,6 @@ public class DAOPlanning {
 			ArrayList<Planning> resultats = new ArrayList<Planning>();
 			EntityManager em = emf.createEntityManager();
 			Query query = null;
-			System.out.println("in rechercherCreneauxDispos");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date d = sdf.parse("2021-02-15");
 			
@@ -287,7 +284,7 @@ public class DAOPlanning {
 					.setParameter("heuresDeb", heuresDebut);
 
 			List<Planning> listePlannings = query.getResultList();
-			System.out.println("size list = " + listePlannings.size());
+
 			for (Planning p : listePlannings) {
 				resultats.add(p);
 				System.out.println(p.getIdPlanning());
