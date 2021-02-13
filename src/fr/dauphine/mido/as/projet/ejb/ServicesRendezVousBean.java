@@ -67,6 +67,7 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		}
 	}
 
+	/*
 	public HashMap<Centremedical, ArrayList<Planning>> rechercherCreneauxParCentre(Medecin m) {
 		HashMap<Centremedical, ArrayList<Planning>> planningCentre = new HashMap<Centremedical, ArrayList<Planning>>();
 		Centremedical cm = null;
@@ -77,9 +78,9 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		}
 
 		return planningCentre;
-	}
+	}*/
 
-	public HashMap<Medecin, HashMap<Centremedical, ArrayList<Planning>>> rechercherCreneauxDisponibles(String nomMedecin) {
+	/*public HashMap<Medecin, HashMap<Centremedical, ArrayList<Planning>>> rechercherCreneauxDisponibles(String nomMedecin) {
 		ArrayList<Medecin> listeMedecins = rechercheMedecin(nomMedecin);
 		HashMap<Medecin, HashMap<Centremedical, ArrayList<Planning>>> lesCreneaux = new HashMap<Medecin, HashMap<Centremedical,ArrayList<Planning>>>();
 
@@ -88,9 +89,9 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		}
 
 		return lesCreneaux;
-	}
+	}*/
 
-	public ArrayList<Planning> rechercherCreneauxDisponibles(int idMedecin, int idCentre) {
+	/*public ArrayList<Planning> rechercherCreneauxDisponibles(int idMedecin, int idCentre) {
 		try {
 			EntityManager em = emf.createEntityManager();
 			LocalDate t1 = LocalDate.now();
@@ -118,72 +119,15 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 		catch (Exception  e) {
 			return null;
 		}
-	}
+	}*/
 
 	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, ArrayList<Time> heuresDebut, ArrayList<Date> jours) {
-
-		try {
-			ArrayList<Planning> resultats = new ArrayList<Planning>();
-			EntityManager em = emf.createEntityManager();
-			Query query = null;
-			System.out.println("in rechercherCreneauxDispos");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			java.util.Date d = sdf.parse("2021-02-15");
-			
-			String queryString = "select planning from Planning planning,"
-					+ " Spemedecin spemedecin"
-					+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
-					+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
-					+ " and spemedecin.specialite.idSpecialite = :idSpecialite";
-			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre" : " and :idCentre IS NULL";
-			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
-			queryString += (heuresDebut != null) ? " and planning.heureDebut in :heuresDeb" : " and :heuresDeb IS NULL";
-			
-			query = em.createQuery(queryString)
-					.setParameter("idSpecialite", idSpecialite)
-					.setParameter("idCentre", idCentres)
-					.setParameter("date", jours)
-					.setParameter("heuresDeb", heuresDebut);
-
-			List<Planning> listePlannings = query.getResultList();
-			System.out.println("size list = " + listePlannings.size());
-			for (Planning p : listePlannings) {
-				resultats.add(p);
-				System.out.println(p.getIdPlanning());
-			}
-
-			return resultats;
-		}
-		catch (Exception  e) {
-			return null;
-		}
+		return daoPlanning.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut, jours);
 	}
 
 	public TreeSet<DateAgenda> getJoursDisponibles() {
-		EntityManager em = emf.createEntityManager();
-		TreeSet<DateAgenda> lesJours = new TreeSet<DateAgenda>(new Comparator<DateAgenda>() {
-			@Override
-			public int compare(DateAgenda d1, DateAgenda d2) {
-				return d1.getDate().compareTo(d2.getDate());
-			}
-		});
-		Query query = null;
 		LocalDate t1 = LocalDate.now();
-		DateAgenda date = null;
-		//DateTimeFormatter formatUS = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		query = em.createQuery("select distinct planning from Planning planning "
-				+ "where planning.date between :t1 and :t2")
-				.setParameter("t1", asDate(t1), TemporalType.DATE)
-				.setParameter("t2", asDate(t1.plusDays(20)), TemporalType.DATE);
-
-		List<Planning> listePlannings = query.getResultList();
-		System.out.println("size list = " + listePlannings.size());
-		for (Planning p : listePlannings) {
-			date = new DateAgenda(LocalDate.parse(p.getDate().toString()));
-			lesJours.add(date);
-		}
-
-		return lesJours;
+		return daoPlanning.getJoursDisponibles(asDate(t1), asDate(t1.plusDays(20)));
 	}
 
 	public Date asDate(LocalDate localDate) {

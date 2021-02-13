@@ -17,5 +17,5 @@ public interface ServicesPlanning {
 	public boolean desactivatePlanning(Centremedical centre, Medecin medecin);
 	public boolean getPlanningIsActivated(Centremedical centre, Medecin medecin);
 	public boolean updatePlanning(int idPlanning, boolean isDisponible);
-	public Planning getPlanning(int idPlanning, Rendezvous rendezvous);
+	public Planning enregistrerPlanning(int idPlanning, Rendezvous rendezvous);
 }

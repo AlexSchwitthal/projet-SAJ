@@ -58,7 +58,7 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 		rendezVous.setEtat("actif");
 		rendezVous.setPatient(servicesPatient.getPatientByEmail(email));
 		
-		servicesPlanning.updatePlanning(idPlanning, false);
+		servicesPlanning.enregistrerPlanning(idPlanning, rendezVous);
 		doGet(request, response);
 	}
 
