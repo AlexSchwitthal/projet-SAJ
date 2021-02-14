@@ -2,6 +2,7 @@ package fr.dauphine.mido.as.projet.ejb;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Remote;
@@ -23,4 +24,5 @@ public interface ServicesPlanning {
 	public Planning enregistrerPlanning(int idPlanning, Rendezvous rendezvous);
 	public Planning getPlanningByRendezVous(int idRendezVous);
 	public ArrayList<ArrayList<Object>> getPlanningPatient(int idPatient);
+	public List<Planning> getPlanningByDateWithRendezvous(LocalDate localDate);
 }

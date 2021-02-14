@@ -207,4 +207,9 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Rendezvous> getRendezVousByDate(LocalDate localDate){
+		return daoRendezVous.getRendezVousByDate(localDate);
+	}
 }

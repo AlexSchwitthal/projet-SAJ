@@ -1,6 +1,9 @@
 package fr.dauphine.mido.as.projet.dao;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,10 @@ import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 public class DAORendezVous {
+	public static final String ETAT_ACTIF = "Actif";
+	public static final String ETAT_ANNULE = "AnnulÃ©";
+	private static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
+	
 	public List<Rendezvous> getListeRendezVousMedecin(int idMedecin) {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
@@ -24,7 +31,7 @@ public class DAORendezVous {
 			Query query = em.createQuery(
 					"select r from Planning p inner join p.rendezvous r where p.medecin.idMedecin = ?1 and r.etat = ?2");
 			query.setParameter(1, idMedecin);
-			query.setParameter(2, "actif");
+			query.setParameter(2, ETAT_ACTIF);
 			List<Rendezvous> results = query.getResultList();
 			emf.close();
 			em.close();
@@ -44,7 +51,7 @@ public class DAORendezVous {
 					+ "where p.medecin.idMedecin = ?1 " + "and p.centremedical.idCentre = ?2 " + "and r.etat = ?3");
 			query.setParameter(1, idMedecin);
 			query.setParameter(2, idCentre);
-			query.setParameter(3, "Actif");
+			query.setParameter(3, ETAT_ACTIF);
 			List<Rendezvous> results = query.getResultList();
 			emf.close();
 			em.close();
@@ -105,7 +112,7 @@ public class DAORendezVous {
 			query.setParameter(1, idPlanning);
 			query.setMaxResults(1);
 			Rendezvous rendezvous = query.getSingleResult();
-			rendezvous.setEtat("Annulé");
+			rendezvous.setEtat(ETAT_ANNULE);
 			rendezvous.setMessageAnnulation(messageAnnulation);
 			em.merge(rendezvous);
 			em.flush();
@@ -133,5 +140,24 @@ public class DAORendezVous {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public List<Rendezvous> getRendezVousByDate(LocalDate localDate){
+		List<Rendezvous> results = null;
+		Date date = Date.from(localDate.atStartOfDay(DEFAULT_ZONE_ID).toInstant());
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			TypedQuery<Rendezvous> query = em.createQuery("select r from Planning p inner join p.rendezvous r where p.date = ?1 AND r.etat = ?2", Rendezvous.class);
+			query.setParameter(1, date);
+			query.setParameter(2, ETAT_ACTIF);
+			results = query.getResultList();
+			emf.close();
+			em.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return results;
 	}
 }

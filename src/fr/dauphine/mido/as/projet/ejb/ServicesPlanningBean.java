@@ -2,6 +2,7 @@ package fr.dauphine.mido.as.projet.ejb;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
@@ -92,5 +93,10 @@ public class ServicesPlanningBean implements ServicesPlanning {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@Override
+	public List<Planning> getPlanningByDateWithRendezvous(LocalDate localDate){
+		return daoPlanning.getPlanningByDateWithRendezvous(localDate);
 	}
 }

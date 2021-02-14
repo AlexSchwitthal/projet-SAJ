@@ -15,6 +15,7 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
+import fr.dauphine.mido.as.projet.dao.DAORendezVous;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
@@ -61,7 +62,7 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 		String email = (String) request.getSession().getAttribute("login");
 		int idPlanning = Integer.parseInt(request.getParameter("idRendezVous"));
 		
-		rendezVous.setEtat("actif");
+		rendezVous.setEtat(DAORendezVous.ETAT_ACTIF);
 		rendezVous.setPatient(servicesPatient.getPatientByEmail(email));
 		
 		Planning planningInserted = servicesPlanning.enregistrerPlanning(idPlanning, rendezVous);
@@ -81,10 +82,10 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 			Spemedecin speMedecin = (Spemedecin) elements.get(2);
 			Planning planning = (Planning) elements.get(3);		
 			String mailContent = String.format("Bonjour,<br/><br/>Vous vous confirmons la prise de votre rendez-vous de " 
-					+ planning.getHeureDebutString() + " à " + planning.getHeureFinString() + " le " + planning.getDate().toString() 
+					+ planning.getHeureDebutString() + " ï¿½ " + planning.getHeureFinString() + " le " + planning.getDate().toString() 
 					+ " avec le " + speMedecin.getSpecialite().getLibelle() + " " + medecin.getPersonne().getPrenom() + " " + 
-					medecin.getPersonne().getNom() + " au centre " + centre.getNom() + " situé à l'adresse " +
-					centre.getAdresse().getAdresseComplete() + ". Vous pouvez joindre le centre au numéro suivant : " + centre.getTelephone() + "<br/><br/>Cordialement, l'équipe");
+					medecin.getPersonne().getNom() + " au centre " + centre.getNom() + " situï¿½ ï¿½ l'adresse " +
+					centre.getAdresse().getAdresseComplete() + ". Vous pouvez joindre le centre au numï¿½ro suivant : " + centre.getTelephone() + "<br/><br/>Cordialement, l'ï¿½quipe");
 			MailSender sender = new MailSender();
 			sender.sendMail("test@test.com", email, "Prise d'un rendez-vous", mailContent);
 		}

@@ -359,4 +359,23 @@ public class DAOPlanning {
 		}
 		return updated;
 	}*/
+	
+	public List<Planning> getPlanningByDateWithRendezvous(LocalDate localDate){
+		List<Planning> results = null;
+		Date date = Date.from(localDate.atStartOfDay(DEFAULT_ZONE_ID).toInstant());
+		//try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			TypedQuery<Planning> query = em.createQuery("select p from Planning p inner join p.rendezvous r where p.date = ?1 AND r.etat = ?2", Planning.class);
+			query.setParameter(1, date, TemporalType.DATE);
+			query.setParameter(2, DAORendezVous.ETAT_ACTIF);
+			results = query.getResultList();
+			emf.close();
+			em.close();
+		/*}
+		catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		return results;
+	}
 }

@@ -142,7 +142,7 @@ public class Planning implements Serializable {
 
 	public String getCellStyle() {
 		if (rendezvous != null) {
-			if (rendezvous.getEtat().equals("actif")) {
+			if (rendezvous.getEtat().equals("Actif")) {
 				return "taken";
 			} else {
 				return "cancelled";

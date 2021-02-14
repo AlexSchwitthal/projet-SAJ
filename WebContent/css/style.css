@@ -2429,8 +2429,9 @@ footer.white-wrapper .social-links li a {
 
 .table-agenda td {
 	text-align: center;
-	font-size: .9em;
-	width: 80px;
+	font-size: 0.9em;
+	min-width: 80px;
+	font-weight: bold;
 	height: 24px;
 	position: relative;
 }

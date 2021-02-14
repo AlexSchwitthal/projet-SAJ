@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.ejb.EJBSchedulerBean;
 import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
@@ -31,7 +32,7 @@ import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
  * Servlet implementation class ServletTest
  */
 @WebServlet(name = "ServletEditAgenda", urlPatterns = { "/editAgenda", "/activateAgenda", "/desactivateAgenda",
-		"/ajaxEditAgenda", "/cancelPlannings" })
+		"/ajaxEditAgenda", "/cancelPlannings"})
 public class ServletEditAgenda extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

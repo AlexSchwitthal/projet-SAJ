@@ -1,6 +1,7 @@
 package fr.dauphine.mido.as.projet.ejb;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,4 +24,5 @@ public interface ServicesRendezVous {
 	public ArrayList<Object> getDetailsRendezVous(int idRendezvous);
 	public boolean cancelRendezVous(int idPlanning, String messageAnnulation);
 	public List<Rendezvous> getRendezVousPatient(int idPatient);
+	public List<Rendezvous> getRendezVousByDate(LocalDate localDate);
 }
