@@ -7,13 +7,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
-import javax.ejb.Remote;
-
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 
-@Remote
+//@Local or @Remote
 public interface ServicesRendezVous {
 	public ArrayList<Medecin> rechercheMedecin(String nomMedecin);
 	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, ArrayList<Time> heuresDebut, ArrayList<Date> jours);

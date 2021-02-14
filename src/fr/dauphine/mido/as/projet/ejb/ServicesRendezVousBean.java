@@ -10,9 +10,6 @@ import java.util.TreeSet;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.transaction.Transactional;
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
@@ -32,10 +29,7 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 	private DAOSpeMedecin daoSpeMedecin = new DAOSpeMedecin();
 	private DAOPlanning daoPlanning = new DAOPlanning();
 
-	@PersistenceUnit
-	private EntityManagerFactory emf;
 
-	@Transactional
 	public ArrayList<Medecin> rechercheMedecin(String nomMedecin) {
 		try {
 			return daoRendezVous.rechercheMedecin(nomMedecin);
