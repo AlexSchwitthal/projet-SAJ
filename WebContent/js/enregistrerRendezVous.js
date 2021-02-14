@@ -1,4 +1,4 @@
-function ajouterRendezVous(idPlanning) {
+function ajouterRendezVous(idPlanning, date, heure) {
 	var form = document.createElement("form");
 	form.setAttribute("action", '/projet-SAJ/enregistrerRendezVous');
 	form.setAttribute("method", "POST");
@@ -8,7 +8,7 @@ function ajouterRendezVous(idPlanning) {
 	input.setAttribute("name", "idRendezVous");
 	input.setAttribute("value", idPlanning);
 	
-	if (confirm("Vous aller prendre un rendez vous")) {
+	if (confirm("Veuillez confirmer la prise de rendez-vous le " + date + " à " + heure + ".")) {
 		form.appendChild(input);
 		document.body.appendChild(form);
 		form.submit();

@@ -8,10 +8,11 @@
 	<link rel="stylesheet" href="css/bootstrap.css">
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/customStyle.css">
 	
 	<script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/plugins.js"></script>
+	
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/customStyle.css">
 </head>

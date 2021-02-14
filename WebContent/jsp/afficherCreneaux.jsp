@@ -15,7 +15,7 @@
 	<%@include file="header.jsp" %>
 	<script src="js/enregistrerRendezVous.js"></script>
 	<body>
-		<div class="container" style="min-height: 2000px">
+		<div class="container">
 			<div id="menu">
 				<div id="includeMenu">
 					<jsp:include page="menu.jsp"/>
@@ -32,14 +32,15 @@
 					</div>
 				</section>
 			</div>
-			<p>
-				Rendez-vous disponibles avec 
-			</p>
 			<%
 			ArrayList<Medecin> lesMedecins = (ArrayList<Medecin>) request.getAttribute("lesMedecins");
 			int i = 1;
+			if (lesMedecins.size() > 0) {
 			for (Medecin m : lesMedecins) {
 			%>
+			<div class="text-center">
+				<h3>Les Créneaux disponibles</h3>
+			</div>
 			<h3>
 			<%
 			out.println(m.getPersonne().getNom());
@@ -83,7 +84,7 @@
         								for (DateAgenda d : planningsQ.keySet()) {
 										%>
 											<div class="col text-center">
-											<p>
+											<p class="weightedInfos">
 												<%= d.getLocalizedDate() %><br>
 												<%= d.getLocalizedDayOfWeek() %>
 											</p>
@@ -91,7 +92,7 @@
 											if (planningsQ.get(d).size() > 0) {
 												for (Planning p : planningsQ.get(d)) {
 												%>
-													<p><a href="#" onclick="ajouterRendezVous('<%= p.getIdPlanning() %>')"><%= p.getHeureDebutString() %> - <%= p.getHeureFinString() %></a></p>
+													<button type="button" class="btn btn-info btn-own" onclick="ajouterRendezVous('<%= p.getIdPlanning() %>', '<%= d.getLocalizedDate() %>', '<%= p.getHeureDebutString() %>')"><%= p.getHeureDebutString() %> - <%= p.getHeureFinString() %></button>
 												<%
 												}
 											}
@@ -137,6 +138,14 @@
   				}
   				%>
 			</div>
+			<%
+			}
+			}
+			else {
+			%>
+				<div class="text-center">
+					<h3>Nous n'avons pas trouvé de médecin correspondant à votre recherche.</h3>
+				</div>
 			<%
 			}
 			%>

@@ -293,7 +293,8 @@ public class DAOPlanning {
 			String queryString = "select planning from Planning planning," + " Spemedecin spemedecin"
 					+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
 					+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
-					+ " and spemedecin.specialite.idSpecialite = :idSpecialite";
+					+ " and spemedecin.specialite.idSpecialite = :idSpecialite"
+					+ " and planning.disponible = true";
 			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre"
 					: " and :idCentre IS NULL";
 			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
