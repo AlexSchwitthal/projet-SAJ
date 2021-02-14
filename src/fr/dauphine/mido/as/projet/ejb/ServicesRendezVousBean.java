@@ -207,15 +207,4 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			return null;
 		}
 	}
-
-	@Override
-	public ArrayList<Object> getDetailsRendezVous2(int idRendezvous) {
-		try {
-			return daoRendezVous.getDetailsRendezVous(idRendezvous);
-		}
-		catch(Exception e) {
-			e.printStackTrace();	
-			return null;
-		}
-	}
 }

@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Patient;
+import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.ejb.DateAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
+import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 import fr.dauphine.mido.as.projet.ejb.TimeAgenda;
 import fr.dauphine.mido.as.projet.mail.MailSender;
@@ -35,6 +37,9 @@ public class ServletRendezVousPatient extends HttpServlet {
     @EJB
     ServicesRendezVous servicesRendezVous;
     
+    @EJB
+    ServicesPlanning servicesPlanning;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -49,17 +54,12 @@ public class ServletRendezVousPatient extends HttpServlet {
 		if(request.getSession().getAttribute("type") == "patient") {
 			String email = (String) request.getSession().getAttribute("login");
 			Patient patient = this.servicesPatient.getPatientByEmail(email);
-			List<Rendezvous> listeRendezVousPatient = this.servicesRendezVous.getRendezVousPatient(patient.getIdPatient());
-			ArrayList<ArrayList<Object>> listeDetailsRendezVous = new ArrayList<ArrayList<Object>>();
+			ArrayList<ArrayList<Object>> listePLanningPatient = this.servicesPlanning.getPlanningPatient(patient.getIdPatient()); 
 			LocalDate date = LocalDate.now();
 			LocalTime time = LocalTime.now();
-			this.servicesRendezVous.getDetailsRendezVous2(listeRendezVousPatient.get(0).getIdRendezVous());
-			for(Rendezvous r : listeRendezVousPatient) {
-				listeDetailsRendezVous.add(this.servicesRendezVous.getDetailsRendezVous2(r.getIdRendezVous()));
-			}
-			
+
 			request.setAttribute("patient", patient);
-			request.setAttribute("listeDetailsRendezVous", listeDetailsRendezVous);
+			request.setAttribute("listePlanningPatient", listePLanningPatient);
 			request.setAttribute("date", date);
 			request.setAttribute("time", time);
 		    this.getServletContext().getRequestDispatcher("/jsp/rendezVousPatient.jsp").forward(request, response);
@@ -85,7 +85,6 @@ public class ServletRendezVousPatient extends HttpServlet {
         	doGet(request, response);
         }
         else {
-        	// TO DO
         	boolean isCancelled = servicesRendezVous.cancelRendezVous(idPlanning, raisonAnnulation);
         	if(isCancelled) {
     			request.setAttribute("success", "Votre rendez-vous à bien été annulé !");
