@@ -40,22 +40,22 @@ public class ServletRendezVousPatient extends HttpServlet {
      */
     public ServletRendezVousPatient() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("type") == "patient") {
+		//if(request.getSession().getAttribute("type") == "patient") {
 			String email = (String) request.getSession().getAttribute("login");
-			Patient patient = this.servicesPatient.getPatientByEmail(email);
+			Patient patient = this.servicesPatient.getPatientByEmail("schwitthal.alexandre@gmail.com");
 			List<Rendezvous> listeRendezVousPatient = this.servicesRendezVous.getRendezVousPatient(patient.getIdPatient());
 			ArrayList<ArrayList<Object>> listeDetailsRendezVous = new ArrayList<ArrayList<Object>>();
 			LocalDate date = LocalDate.now();
 			LocalTime time = LocalTime.now();
+			this.servicesRendezVous.getDetailsRendezVous2(listeRendezVousPatient.get(0).getIdRendezVous());
 			for(Rendezvous r : listeRendezVousPatient) {
-				listeDetailsRendezVous.add(this.servicesRendezVous.getDetailsRendezVous(r.getIdRendezVous()));
+				listeDetailsRendezVous.add(this.servicesRendezVous.getDetailsRendezVous2(r.getIdRendezVous()));
 			}
 			
 			request.setAttribute("patient", patient);
@@ -63,13 +63,13 @@ public class ServletRendezVousPatient extends HttpServlet {
 			request.setAttribute("date", date);
 			request.setAttribute("time", time);
 		    this.getServletContext().getRequestDispatcher("/jsp/rendezVousPatient.jsp").forward(request, response);
-		}
-		else if(request.getSession().getAttribute("login") != null) {
-			response.sendRedirect("home");
-		}
-		else {
-			response.sendRedirect("login");
-		}
+	//	}
+	//	else if(request.getSession().getAttribute("login") != null) {
+	//		response.sendRedirect("home");
+	//	}
+	//	else {
+	//		response.sendRedirect("login");
+	//	}
 	}
 
 	/**

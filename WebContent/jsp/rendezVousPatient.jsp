@@ -124,7 +124,6 @@
 				%>
 				</tbody>
 			</table>
-			<button onclick="validationSuppression()" value ="test">marche stp </button>
 		</div>
 	</body>
 </html>

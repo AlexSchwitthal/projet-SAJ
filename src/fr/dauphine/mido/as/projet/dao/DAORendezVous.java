@@ -1,5 +1,6 @@
 package fr.dauphine.mido.as.projet.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
+import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 public class DAORendezVous {
 	public List<Rendezvous> getListeRendezVousMedecin(int idMedecin) {
@@ -102,13 +104,55 @@ public class DAORendezVous {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
-			//Query query = em.createQuery("select r from Rendezvous r where r.patient.idPatient = ?1");
 			Query query = em.createQuery("select r from Planning p inner join p.rendezvous r where r.patient.idPatient = ?1 order by p.date desc, p.heureDebut desc");
 			query.setParameter(1, idPatient);
 			List<Rendezvous> results = query.getResultList();
 			emf.close();
 			em.close();
 			return results;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<Object> getDetailsRendezVous(int idRendezVous) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			
+			Query query = em.createQuery("select m, c, s, p from Planning p, Spemedecin s "
+					+ "inner join p.rendezvous r "
+					+ "inner join p.centremedical c "
+					+ "inner join p.medecin m "
+					+ "where r.idRendezVous = ?1 "
+					+ "and s.centremedical =  c "
+					+ "and s.medecin = m "
+					+ "order by p.date desc, p.heureDebut desc");
+			
+			query.setParameter(1, idRendezVous);
+			List<Object[]> results = query.getResultList();
+			ArrayList<Object> toReturn = new ArrayList<Object>();
+			for(Object[] o : results) {
+				for(int i = 0; i < o.length; i++) {
+					if(o[i] instanceof Medecin) {
+						toReturn.add((Medecin) o[i]);
+					}
+					else if(o[i] instanceof Centremedical) {
+						toReturn.add((Centremedical) o[i]);
+					}
+					else if(o[i] instanceof Spemedecin) {
+						toReturn.add((Spemedecin) o[i]);
+					}
+					else if(o[i] instanceof Planning) {
+						toReturn.add((Planning) o[i]);
+					}
+				}
+			}
+			emf.close();
+			em.close();
+			return toReturn;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

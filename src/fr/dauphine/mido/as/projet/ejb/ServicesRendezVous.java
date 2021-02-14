@@ -21,5 +21,6 @@ public interface ServicesRendezVous {
 	public boolean hasRendezVousActif(String email);
 	public boolean hasRendezVousActifCentre(String email, int idCentre);
 	public ArrayList<Object> getDetailsRendezVous(int idRendezvous);
+	public ArrayList<Object> getDetailsRendezVous2(int idRendezvous);
 	public List<Rendezvous> getRendezVousPatient(int idPatient);
 }
