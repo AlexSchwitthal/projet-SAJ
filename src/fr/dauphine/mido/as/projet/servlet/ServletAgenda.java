@@ -25,7 +25,7 @@ import java.util.List;
 @WebServlet(name = "ServletAgenda", urlPatterns = { "/agenda" })
 public class ServletAgenda extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final int NB_DAYS_ACTIVATE = 7;
+	public static final int NB_DAYS_ACTIVATE = 30;
 
 	@EJB
 	ServicesAgenda servicesAgenda;

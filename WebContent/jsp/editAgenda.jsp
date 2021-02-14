@@ -28,8 +28,9 @@
 		</section>
 
 		<input type="hidden" id="idCentre" value="${ centre.idCentre }">
-		<a href="agenda?centre=${ centre.idCentre }"><button type="button" class="btn btn-secondary">azeazeazaeAffichez votre agenda</button></a><br/>
-		<label for="centre-select">Votre centre :</label>
+		<a href="agenda?centre=${ centre.idCentre }"><button type="button"
+				class="btn btn-secondary">Affichez votre agenda</button></a><br /> <label
+			for="centre-select">Votre centre :</label>
 
 		<c:choose>
 			<c:when test="${ listCentre == null }">
@@ -57,38 +58,68 @@
 				<button class="btn btn-success" type="button" id="desactivateAgenda">Désactiver
 					l'agenda</button>
 			</c:if>
-			<button class="btn btn-danger" type="button" id="btnAnnulerRdv" disabled>Annuler RDV</button>
+			<button class="btn btn-danger" type="button" id="btnAnnulerRdv"
+				disabled>Annuler RDV</button>
 		</div>
 
-		<table class="table-agenda" id="table-agenda">
-			<thead>
-				<tr>
-					<td>Créneau horaire</td>
-					<c:forEach var="dateAgenda" items="${listDateAgenda}">
-						<td>${dateAgenda.localizedDate}<br>(${dateAgenda.localizedDayOfWeek})
-						</td>
-					</c:forEach>
-				</tr>
-
-			</thead>
-			<tbody>
-				<c:forEach var="timeAgenda" items="${listTimeAgenda}">
+		<div style="display: flex">
+			<table class="table-agenda">
+				<thead>
 					<tr>
-						<td><c:out value="${timeAgenda.formattedTime}" /></td>
-						<c:forEach var="slot" items="${listDateAgenda}">
-							<c:set var="dateTime"
-								value="${slot.localizedDate}_${timeAgenda.formattedTime}" />
-							<c:set var="planning"
-								value="${mapPlanning[dateTime] != null ? mapPlanning[dateTime] : null}" />
-							<c:set var="cssStyle"
-								value="${planning != null ? planning.cellStyle : 'not-init' }" />
-							<td class="${cssStyle}" data-idPlanning="${planning.idPlanning}" data-dispo="${ planning.disponible ? 1 : 0 }"></td>
-						</c:forEach>
+						<td>Créneau horaire</td>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach var="timeAgenda" items="${listTimeAgenda}">
+						<tr>
+							<td><c:out value="${timeAgenda.formattedTime}" /></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<div style="overflow: scroll hidden">
+				<table class="table-agenda" id="table-agenda">
+					<thead>
+						<tr>
+							<c:forEach var="dateAgenda" items="${listDateAgenda}">
+								<td>${dateAgenda.localizedDate}<br>(${dateAgenda.localizedDayOfWeek})
+								</td>
+							</c:forEach>
+						</tr>
+
+					</thead>
+					<tbody>
+						<c:forEach var="timeAgenda" items="${listTimeAgenda}">
+							<tr>
+								<c:forEach var="slot" items="${listDateAgenda}">
+									<c:set var="dateTime"
+										value="${slot.localizedDate}_${timeAgenda.formattedTime}" />
+									<c:set var="planning"
+										value="${mapPlanning[dateTime] != null ? mapPlanning[dateTime] : null}" />
+									<c:set var="cssStyle"
+										value="${planning != null ? planning.cellStyle : 'not-init' }" />
+									<c:set var="patientInfo"
+										value="${planning != null ? planning.patientInfoFromRendezvous : null }" />
+									<td class="${cssStyle}"
+										data-idPlanning="${planning.idPlanning}"
+										data-dispo="${ planning.disponible ? 1 : 0 }"><c:if
+											test="${patientInfo != null}">
+											<span class="tooltipText">${patientInfo}</span>
+										</c:if></td>
+									</td>
+								</c:forEach>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
+	<form action="cancelPlannings" method="post" id="formCancelPlannings"
+		style="display: none">
+		<input type="hidden" name="motif" value="" id="inputMotif" /> <input
+			type="hidden" name="listIdPlanning" value="" id="inputListIdPlanning" />
+	</form>
 	<script src="js/agenda.js"></script>
 </body>
 </html>

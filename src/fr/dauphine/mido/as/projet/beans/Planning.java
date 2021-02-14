@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,19 +21,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the planning database table.
  * 
  */
 @Entity
-@Table (name="planning")
-@NamedQuery(name="Planning.findAll", query="SELECT p FROM Planning p")
+@Table(name = "planning")
+@NamedQuery(name = "Planning.findAll", query = "SELECT p FROM Planning p")
 public class Planning implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idPlanning;
 
 	@Temporal(TemporalType.DATE)
@@ -40,22 +41,22 @@ public class Planning implements Serializable {
 	private Time heureDebut;
 
 	private Time heureFin;
-	
+
 	private boolean disponible;
 
-	//bi-directional many-to-one association to Centremedical
+	// bi-directional many-to-one association to Centremedical
 	@ManyToOne
-	@JoinColumn(name="idCentre")
+	@JoinColumn(name = "idCentre")
 	private Centremedical centremedical;
 
-	//bi-directional many-to-one association to Medecin
+	// bi-directional many-to-one association to Medecin
 	@ManyToOne
-	@JoinColumn(name="idMedecin")
+	@JoinColumn(name = "idMedecin")
 	private Medecin medecin;
 
-	//bi-directional many-to-one association to Rendezvous
+	// bi-directional many-to-one association to Rendezvous
 	@ManyToOne
-	@JoinColumn(name="idRendezVous")
+	@JoinColumn(name = "idRendezVous")
 	private Rendezvous rendezvous;
 
 	public Planning() {
@@ -72,7 +73,7 @@ public class Planning implements Serializable {
 	public Date getDate() {
 		return this.date;
 	}
-	
+
 	public String dateStringFormatFR() {
 		return new SimpleDateFormat("dd/MM/yyyy").format(this.date);
 	}
@@ -84,12 +85,12 @@ public class Planning implements Serializable {
 	public Time getHeureDebut() {
 		return this.heureDebut;
 	}
-	
+
 	public String getHeureDebutString() {
 		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 		return timeFormatter.format(this.heureDebut.getTime());
 	}
-	
+
 	public String getHeureFinString() {
 		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 		return timeFormatter.format(this.heureFin.getTime());
@@ -138,7 +139,7 @@ public class Planning implements Serializable {
 	public void setDisponible(boolean b) {
 		this.disponible = b;
 	}
-	
+
 	public String getCellStyle() {
 		if (rendezvous != null) {
 			if (rendezvous.getEtat().equals("actif")) {
@@ -149,4 +150,24 @@ public class Planning implements Serializable {
 		}
 		return disponible ? "avail" : "not-avail";
 	}
+
+	public Patient getPatientFromRendezvous() {
+		return this.rendezvous != null ? this.rendezvous.getPatient() : null;
+	}
+
+	public String getPatientInfoFromRendezvous() {
+		String s = null;
+		Patient p = this.getPatientFromRendezvous();
+		if (p != null) {
+			Personne personne = p.getPersonne();
+			//JsonObject patientJson = Json.createObjectBuilder().add("Nom", personne.getNom()).build();
+			//s = patientJson.toString();
+			s = "<p><span class=\"name\">Nom</span><span class=\"value\">" + personne.getNom() + "</span></p>"
+				+ "<p><span class=\"name\">Prenom</span><span class=\"value\">" + personne.getPrenom() + "</span></p>"
+				+ "<p><span class=\"name\">Tel</span><span class=\"value\">" + p.getTelephone() + "</span></p>"
+				+ "<p><span class=\"name\">Mail</span><span class=\"value\">" + p.getEmail() + "</span></p>";
+		}
+		return s;
+	}
+
 }

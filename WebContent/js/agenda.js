@@ -95,13 +95,19 @@
 	}
 
 	$btnAnnulerRdv.on("click", function() {
-		var listIdPlanning = [];
-		mapCancelRdv.forEach(s => {
-			listIdPlanning.push(s.idPlanning);
-		});
+		var messageAnnulation = prompt("Veuillez rentrez votre message d'annulation");
+		if (messageAnnulation != null) {
+			var listIdPlanning = [];
+			mapCancelRdv.forEach(s => {
+				listIdPlanning.push(s.idPlanning);
+			});
 
-		document.location.href = `cancelPlannings?motif=testazeza&listIdPlanning=${listIdPlanning}`;
+			$("#inputMotif").val(messageAnnulation);
+			$("#inputListIdPlanning").val(listIdPlanning);
+			
+			$("#formCancelPlannings").submit();
+			
+			
+		}
 	});
-
-
 })();

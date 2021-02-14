@@ -81,7 +81,7 @@ public class ServletEditAgenda extends HttpServlet {
 			}
 			LocalDate startDate = LocalDate.now();
 			LocalDate endDate = startDate.plusDays(ServletAgenda.NB_DAYS_ACTIVATE);
-
+			
 			switch (pattern) {
 			case "/ajaxEditAgenda":
 				doAjaxEditAgenda(request, response);
@@ -179,7 +179,7 @@ public class ServletEditAgenda extends HttpServlet {
 		request.getSession().setAttribute("centre", centre);
 		request.setAttribute("isActivated", isActivated);
 		request.setAttribute("centre", centre);
-		request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(7));
+		request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(ServletAgenda.NB_DAYS_ACTIVATE));
 		request.setAttribute("listTimeAgenda", servicesAgenda.getWorkTime("08:00", "20:00"));
 		request.setAttribute("listCentre", listCentre);
 		request.setAttribute("mapPlanning", servicesPlanning.getPlannings(startDate, endDate, medecin, centre));

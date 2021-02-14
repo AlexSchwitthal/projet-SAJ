@@ -2431,6 +2431,8 @@ footer.white-wrapper .social-links li a {
 	text-align: center;
 	font-size: .9em;
 	width: 80px;
+	height: 24px;
+	position: relative;
 }
 
 .table-agenda .not-init {
@@ -2457,4 +2459,35 @@ footer.white-wrapper .social-links li a {
 	background: repeating-linear-gradient(45deg, blue 0, blue 5px, rgba(237,11,11,1) 5px, rgba(255,0,0,1) 10px);
 }
 
+.table-agenda td .tooltipText {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.table-agenda td:hover .tooltipText {
+  visibility: visible;
+}
+
+.tooltipText p {
+	display: flex;
+}
+
+.tooltipText .name {
+	display: inline-block;
+	width: 70px;
+}
+
+.tooltipText .value {
+	display: inline-block;
+	flex: 1 0 auto;
+}
 

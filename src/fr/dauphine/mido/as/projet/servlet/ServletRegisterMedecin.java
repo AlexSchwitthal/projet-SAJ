@@ -83,9 +83,9 @@ public class ServletRegisterMedecin extends HttpServlet {
 
         String insert = servicesMedecin.ajoutMedecin(medecin, personne, adresse, listeCentre, listeSpecialite);
         if(insert.equals("ok")) {
-            request.setAttribute("success", "Le medecin a bien été inscrit !");
+            request.setAttribute("success", "Le medecin a bien Ã©tÃ© inscrit !");
             if(listeCentre.length == 1) {
-            	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez été inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Votre centre affilié est %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons à changer rapidement à des fins de sécurité. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom(), this.servicesCentre.getCentreById(Integer.parseInt(listeCentre[0])).getNom(), medecin.getEmail(), medecin.getMotDePasse());
+            	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reÃ§u ce courriel car vous avez Ã©tÃ© inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Votre centre affiliï¿½ est %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons ï¿½ changer rapidement ï¿½ des fins de sï¿½curitï¿½. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'ï¿½quipe", personne.getPrenom(), personne.getNom(), this.servicesCentre.getCentreById(Integer.parseInt(listeCentre[0])).getNom(), medecin.getEmail(), medecin.getMotDePasse());
      	       
             }
             else {
@@ -97,7 +97,7 @@ public class ServletRegisterMedecin extends HttpServlet {
             			centres += ", ";
             		}
             	}
-            	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez été inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Vos centres affiliés sont %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons à changer rapidement à des fins de sécurité. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom(), centres, medecin.getEmail(), medecin.getMotDePasse());
+            	this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reÃ§u ce courriel car vous avez Ã©tÃ© inscrit sur notre plateforme par un de nos administrateurs.<br/><br/>Vos centres affiliï¿½s sont %s.<br/><br/>Pour vous connecter, utilisez votre adresse mail \"%s\" et votre mot de passe \"%s\", que nous vous invitons ï¿½ changer rapidement ï¿½ des fins de sï¿½curitï¿½. <br/><br/>Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'ï¿½quipe", personne.getPrenom(), personne.getNom(), centres, medecin.getEmail(), medecin.getMotDePasse());
       	       
             }
         }
@@ -106,13 +106,13 @@ public class ServletRegisterMedecin extends HttpServlet {
         	request.setAttribute("personne", personne);
         	request.setAttribute("adresse", adresse);
         	if(insert.equals("email")) {
-            	request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
+            	request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est dÃ©jÃ  prise !");
             }
         	else if(insert.equals("centre")) {
-        		request.setAttribute("warning", "Vous ne pouvez pas inscrire plusieurs fois le même médecin dans un même centre !");
+        		request.setAttribute("warning", "Vous ne pouvez pas inscrire plusieurs fois le mï¿½me mï¿½decin dans un mÃªme centre !");
             }
         	else {
-        		request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du médecin !");
+        		request.setAttribute("warning", "Une erreur est survenue lors de l'inscription du mÃ©decin !");
             }
         }
         this.doGet(request, response);
