@@ -44,21 +44,23 @@ public class DAOPlanning {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
 			EntityManager em2 = emf.createEntityManager();
-			
+
 			Date sDate = Date.from(startDate.atStartOfDay(DEFAULT_ZONE_ID).toInstant());
 			Date eDate = Date.from(endDate.atStartOfDay(DEFAULT_ZONE_ID).toInstant());
 
-			TypedQuery<Spemedecin> query = em.createQuery("select s from Spemedecin s WHERE s.medecin.idMedecin = ?1 AND s.centremedical.idCentre = ?2", Spemedecin.class);
+			TypedQuery<Spemedecin> query = em.createQuery(
+					"select s from Spemedecin s WHERE s.medecin.idMedecin = ?1 AND s.centremedical.idCentre = ?2",
+					Spemedecin.class);
 			query.setParameter(1, medecin.getIdMedecin());
 			query.setParameter(2, centre.getIdCentre());
-			
+
 			Spemedecin spemedecin = query.getSingleResult();
 			boolean isActivated = spemedecin.isActivated();
-			
-			
-			//"select p from Planning p WHERE p.medecin.idMedecin = ?1 AND p.centremedical.idCentre = ?2 AND p.date BETWEEN ?3 AND ?4",
+
+			// "select p from Planning p WHERE p.medecin.idMedecin = ?1 AND
+			// p.centremedical.idCentre = ?2 AND p.date BETWEEN ?3 AND ?4",
 			TypedQuery<Planning> query2 = em2.createQuery(
-			"select p from Planning p left join p.rendezvous r WHERE p.medecin.idMedecin = ?1 AND p.centremedical.idCentre = ?2 AND (p.date BETWEEN ?3 AND ?4) AND (?5=true OR r is not NULL)",
+					"select p from Planning p left join p.rendezvous r WHERE p.medecin.idMedecin = ?1 AND p.centremedical.idCentre = ?2 AND (p.date BETWEEN ?3 AND ?4) AND (?5=true OR r is not NULL)",
 					Planning.class);
 
 			query2.setParameter(1, medecin.getIdMedecin());
@@ -66,7 +68,7 @@ public class DAOPlanning {
 			query2.setParameter(3, sDate, TemporalType.DATE);
 			query2.setParameter(4, eDate, TemporalType.DATE);
 			query2.setParameter(5, isActivated);
-			
+
 			List<Planning> listPlanning = query2.getResultList();
 
 			for (Planning p : listPlanning) {
@@ -88,7 +90,30 @@ public class DAOPlanning {
 
 		return mapPlanning;
 	}
-	
+
+	public Planning getPlanning(int idPlanning, Rendezvous rendezVous) {
+		try {
+			System.out.println("debut method dao");
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+
+			Planning planning = em.find(Planning.class, idPlanning);
+			em.persist(rendezVous);
+			planning.setRendezvous(rendezVous);
+
+			// em.merge(planning);
+			em.flush();
+			em.close();
+			emf.close();
+			System.out.println("fin method dao");
+			return planning;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public Planning enregistrerPlanning(int idPlanning, Rendezvous rendezVous) {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
@@ -98,16 +123,15 @@ public class DAOPlanning {
 			em.persist(rendezVous);
 			planning.setRendezvous(rendezVous);
 			planning.setDisponible(false);
-			
+
 			em.flush();
 			em.close();
-			emf.close(); 
+			emf.close();
 
 			return planning;
 
-		}
-		catch(Exception e) {
-			e.printStackTrace();	
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -182,29 +206,28 @@ public class DAOPlanning {
 
 		return p;
 	}
-	
+
 	public boolean updatePlanning(int idPlanning, boolean isDisponible) {
 		boolean updated = false;
-		
+
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
 			Planning planning = em.find(Planning.class, idPlanning);
-	          
+
 			planning.setDisponible(isDisponible);
-		    em.merge(planning);
-		    em.flush();
-		    emf.close();
-		    em.close();
-		    
-		    updated = true;
-		}
-	    catch(Exception e) {
-			e.printStackTrace();	
+			em.merge(planning);
+			em.flush();
+			emf.close();
+			em.close();
+
+			updated = true;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return updated;
 	}
-	
+
 	public Planning getPlanningByRendezVous(int idRendezVous) {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
@@ -213,23 +236,21 @@ public class DAOPlanning {
 			Query query = em.createQuery("select p from Planning p where p.rendezvous.idRendezVous = ?1");
 			query.setParameter(1, idRendezVous);
 			query.setMaxResults(1);
-			
+
 			List<Planning> results = query.getResultList();
-		    if (results == null || results.isEmpty()) {
-		        return null;
-		    }
-		    else {
-		        em.close();
-		        emf.close(); 
-		    	return results.get(0);
-		    }
-		}
-		catch(Exception e) {
-			e.printStackTrace();	
+			if (results == null || results.isEmpty()) {
+				return null;
+			} else {
+				em.close();
+				emf.close();
+				return results.get(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public TreeSet<DateAgenda> getJoursDisponibles(Date d1, Date d2) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 		EntityManager em = emf.createEntityManager();
@@ -240,26 +261,27 @@ public class DAOPlanning {
 			}
 		});
 		DateAgenda date = null;
-		
-		Query query = em.createQuery("select distinct planning from Planning planning "
-				+ "where planning.date between :t1 and :t2")
-				.setParameter("t1", d1, TemporalType.DATE)
-				.setParameter("t2", d2, TemporalType.DATE);
+
+		Query query = em
+				.createQuery(
+						"select distinct planning from Planning planning " + "where planning.date between :t1 and :t2")
+				.setParameter("t1", d1, TemporalType.DATE).setParameter("t2", d2, TemporalType.DATE);
 
 		List<Planning> listePlannings = query.getResultList();
-		
+
 		for (Planning p : listePlannings) {
 			date = new DateAgenda(LocalDate.parse(p.getDate().toString()));
 			lesJours.add(date);
 		}
-		
+
 		em.close();
-        emf.close();
+		emf.close();
 
 		return lesJours;
 	}
-	
-	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, ArrayList<Time> heuresDebut, ArrayList<Date> jours) {
+
+	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres,
+			ArrayList<Time> heuresDebut, ArrayList<Date> jours) {
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			ArrayList<Planning> resultats = new ArrayList<Planning>();
@@ -267,20 +289,18 @@ public class DAOPlanning {
 			Query query = null;
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date d = sdf.parse("2021-02-15");
-			
-			String queryString = "select planning from Planning planning,"
-					+ " Spemedecin spemedecin"
+
+			String queryString = "select planning from Planning planning," + " Spemedecin spemedecin"
 					+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
 					+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
 					+ " and spemedecin.specialite.idSpecialite = :idSpecialite";
-			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre" : " and :idCentre IS NULL";
+			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre"
+					: " and :idCentre IS NULL";
 			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
 			queryString += (heuresDebut != null) ? " and planning.heureDebut in :heuresDeb" : " and :heuresDeb IS NULL";
-			
-			query = em.createQuery(queryString)
-					.setParameter("idSpecialite", idSpecialite)
-					.setParameter("idCentre", idCentres)
-					.setParameter("date", jours)
+
+			query = em.createQuery(queryString).setParameter("idSpecialite", idSpecialite)
+					.setParameter("idCentre", idCentres).setParameter("date", jours)
 					.setParameter("heuresDeb", heuresDebut);
 
 			List<Planning> listePlannings = query.getResultList();
@@ -291,12 +311,29 @@ public class DAOPlanning {
 			}
 
 			em.close();
-	        emf.close();
-	        
+			emf.close();
+
 			return resultats;
-		}
-		catch (Exception  e) {
+		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public boolean setRendezVousNull(int idPlanning) {
+		boolean updated = false;
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			Planning planning = em.find(Planning.class, idPlanning);
+			planning.setRendezvous(null);
+			em.merge(planning);
+			em.flush();
+			emf.close();
+			em.close();
+			updated = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return updated;
 	}
 }

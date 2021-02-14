@@ -20,7 +20,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12 mt30 wow text-center">
-							<h2 class="section-heading">Modifier votre agenda</h2>
+							<h2 class="	section-heading">Modifier votre agenda</h2>
 						</div>
 					</div>
 				</div>
@@ -28,8 +28,8 @@
 		</section>
 
 		<input type="hidden" id="idCentre" value="${ centre.idCentre }">
-		<li><a href="agenda?centre=${ centre.idCentre }">Affichez
-				votre agenda</a></li> <label for="centre-select">Votre centre :</label>
+		<a href="agenda?centre=${ centre.idCentre }"><button type="button" class="btn btn-secondary">Affichez votre agenda</button></a><br/>
+		<label for="centre-select">Votre centre :</label>
 
 		<c:choose>
 			<c:when test="${ listCentre == null }">
@@ -57,9 +57,10 @@
 				<button class="btn btn-success" type="button" id="desactivateAgenda">Désactiver
 					l'agenda</button>
 			</c:if>
+			<button class="btn btn-danger" type="button" id="btnAnnulerRdv" disabled>Annuler RDV</button>
 		</div>
 
-		<table class="table-agenda">
+		<table class="table-agenda" id="table-agenda">
 			<thead>
 				<tr>
 					<td>Créneau horaire</td>
@@ -81,7 +82,7 @@
 								value="${mapPlanning[dateTime] != null ? mapPlanning[dateTime] : null}" />
 							<c:set var="cssStyle"
 								value="${planning != null ? planning.cellStyle : 'not-init' }" />
-							<td class="${cssStyle}"></td>
+							<td class="${cssStyle}" data-idPlanning="${planning.idPlanning}" data-dispo="${ planning.disponible ? 1 : 0 }"></td>
 						</c:forEach>
 					</tr>
 				</c:forEach>

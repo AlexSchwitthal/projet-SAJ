@@ -22,5 +22,6 @@ public interface ServicesRendezVous {
 	public boolean hasRendezVousActifCentre(String email, int idCentre);
 	public ArrayList<Object> getDetailsRendezVous(int idRendezvous);
 	public ArrayList<Object> getDetailsRendezVous2(int idRendezvous);
+	public boolean cancelRendezVous(int idPlanning, String messageAnnulation);
 	public List<Rendezvous> getRendezVousPatient(int idPatient);
 }

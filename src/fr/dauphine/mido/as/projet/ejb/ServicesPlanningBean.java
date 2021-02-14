@@ -59,4 +59,15 @@ public class ServicesPlanningBean implements ServicesPlanning {
 			return null;
 		}
 	}
+	
+	@Override
+	public boolean setRendezVousNull(int idPlanning) {
+		return daoPlanning.setRendezVousNull(idPlanning);
+	}
+
+	@Override
+	public Planning getPlanning(int idPlanning, Rendezvous rendezvous) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

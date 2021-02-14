@@ -193,6 +193,11 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 	}
 
 	@Override
+	public boolean cancelRendezVous(int idPlanning, String messageAnnulation) {
+		return daoRendezVous.cancelRendezVous(idPlanning, messageAnnulation);
+	}
+
+	@Override
 	public List<Rendezvous> getRendezVousPatient(int idPatient) {
 		try {
 			return daoRendezVous.getRendezVousPatient(idPatient);
@@ -213,6 +218,4 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 			return null;
 		}
 	}
-
-
 }

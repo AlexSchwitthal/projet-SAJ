@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -23,12 +25,13 @@ import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
+import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 
 /**
  * Servlet implementation class ServletTest
  */
 @WebServlet(name = "ServletEditAgenda", urlPatterns = { "/editAgenda", "/activateAgenda", "/desactivateAgenda",
-		"/ajaxEditAgenda" })
+		"/ajaxEditAgenda", "/cancelPlannings" })
 public class ServletEditAgenda extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,6 +47,9 @@ public class ServletEditAgenda extends HttpServlet {
 	@EJB
 	ServicesCentre servicesCentre;
 
+	@EJB
+	ServicesRendezVous servicesRendezVous;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -58,40 +64,49 @@ public class ServletEditAgenda extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpServletMapping httpServletMapping = request.getHttpServletMapping();
-		// MappingMatch mappingMatch = httpServletMapping.getMappingMatch();
+		if (request.getSession().getAttribute("type") == "medecin") {
+			HttpServletMapping httpServletMapping = request.getHttpServletMapping();
+			// MappingMatch mappingMatch = httpServletMapping.getMappingMatch();
 
-		String pattern = httpServletMapping.getPattern();
-		Medecin medecin = (Medecin) request.getSession().getAttribute("medecin");
-		List<Centremedical> listCentre = servicesCentre.getCentresByMedecin(medecin.getIdMedecin());
-		String paramCentre = request.getParameter("centre");
-		int idCentre = 0;
+			String pattern = httpServletMapping.getPattern();
+			Medecin medecin = (Medecin) request.getSession().getAttribute("medecin");
+			List<Centremedical> listCentre = servicesCentre.getCentresByMedecin(medecin.getIdMedecin());
+			String paramCentre = request.getParameter("centre");
+			int idCentre = 0;
 
-		try {
-			idCentre = Integer.parseInt(paramCentre);
-		} catch (Exception e) {
+			try {
+				idCentre = Integer.parseInt(paramCentre);
+			} catch (Exception e) {
 
+			}
+			LocalDate startDate = LocalDate.now();
+			LocalDate endDate = startDate.plusDays(ServletAgenda.NB_DAYS_ACTIVATE);
+
+			switch (pattern) {
+			case "/ajaxEditAgenda":
+				doAjaxEditAgenda(request, response);
+				break;
+			case "/activateAgenda":
+				// activate
+				doActivateAgenda(request, response, startDate, endDate, medecin);
+				break;
+			case "/desactivateAgenda":
+				// desactivate
+				doDesactivateAgenda(request, response, medecin);
+				break;
+			case "/cancelPlannings":
+				// cancel plannings
+				doCancelPlannings(request, response, idCentre, medecin);
+				break;
+			default:
+				// edit
+				doEditAgenda(request, response, listCentre, idCentre, startDate, endDate, medecin);
+			}
+		} else if (request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		} else {
+			response.sendRedirect("login");
 		}
-		LocalDate startDate = LocalDate.now();
-		LocalDate endDate = startDate.plusDays(ServletAgenda.NB_DAYS_ACTIVATE);
-
-		switch (pattern) {
-		case "/ajaxEditAgenda":
-			doAjaxEditAgenda(request, response);
-			break;
-		case "/activateAgenda":
-			// activate
-			doActivateAgenda(request, response, startDate, endDate, medecin);
-			break;
-		case "/desactivateAgenda":
-			// desactivate
-			doDesactivateAgenda(request, response, medecin);
-			break;
-		default:
-			// edit
-			doEditAgenda(request, response, listCentre, idCentre, startDate, endDate, medecin);
-		}
-
 	}
 
 	/**
@@ -130,7 +145,7 @@ public class ServletEditAgenda extends HttpServlet {
 		boolean status = servicesPlanning.updatePlanning(idPlanning, !disponible);
 		String messageErreur = "";
 		JsonObject resultJson = Json.createObjectBuilder().add("status", status).add("messageErreur", messageErreur)
-				.build();
+				.add("disponible", !disponible).build();
 
 		response.getWriter().print(resultJson.toString());
 	}
@@ -172,4 +187,28 @@ public class ServletEditAgenda extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/jsp/editAgenda.jsp").forward(request, response);
 	}
 
+	private void doCancelPlannings(HttpServletRequest request, HttpServletResponse response, int idCentre,
+			Medecin medecin) throws ServletException, IOException {
+
+		List<Centremedical> listCentre = servicesCentre.getCentresByMedecin(medecin.getIdMedecin());
+		Centremedical centre = listCentre.get(0);
+
+		String paramMotif = request.getParameter("motif");
+		String paramListIdPlanning = request.getParameter("listIdPlanning");
+		if (idCentre > 0) {
+			final int id = idCentre;
+			centre = listCentre.stream().filter(c -> c.getIdCentre() == id).findFirst().orElse(centre);
+		}
+
+		List<Integer> listIdPlanning = Stream.of(paramListIdPlanning.split(",")).map(s -> {
+			return Integer.parseInt(s);
+		}).collect(Collectors.toList());
+
+		listIdPlanning.forEach(idPlanning -> {
+			servicesRendezVous.cancelRendezVous(idPlanning, paramMotif);
+			servicesPlanning.setRendezVousNull(idPlanning);
+		});
+
+		response.sendRedirect("editAgenda");
+	}
 }

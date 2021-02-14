@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
@@ -49,38 +50,42 @@ public class ServletAgenda extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Medecin medecin = (Medecin) request.getSession().getAttribute("medecin");
-		List<Centremedical> listCentre = servicesCentre.getCentresByMedecin(medecin.getIdMedecin());
-		String paramCentre = request.getParameter("centre");
-		int idCentre = 0;
-		
-		try {
-			idCentre = Integer.parseInt(paramCentre);
-		} catch(Exception e) {
-			
-		}
-		
-		LocalDate startDate = LocalDate.now();
-		LocalDate endDate = startDate.plusDays(NB_DAYS_ACTIVATE);	
-		
-		Centremedical centre = listCentre.get(0);
-		
-		if (idCentre > 0) {
-			final int id = idCentre;
-			centre = listCentre.stream().filter(c -> c.getIdCentre() == id).findFirst().orElse(centre);
-		}
-		
-		request.getSession().setAttribute("centre", centre);
-		request.setAttribute("centre", centre);
-		request.setAttribute("listCentre", listCentre);
-		request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(NB_DAYS_ACTIVATE));
-		request.setAttribute("listTimeAgenda", servicesAgenda.getWorkTime("08:00", "20:00"));
-		
-		
+		if (request.getSession().getAttribute("type") == "medecin") {
+			Medecin medecin = (Medecin) request.getSession().getAttribute("medecin");
+			List<Centremedical> listCentre = servicesCentre.getCentresByMedecin(medecin.getIdMedecin());
+			String paramCentre = request.getParameter("centre");
+			int idCentre = 0;
 
-		request.setAttribute("mapPlanning", servicesPlanning.getPlannings(startDate, endDate, medecin, centre));
+			try {
+				idCentre = Integer.parseInt(paramCentre);
+			} catch (Exception e) {
 
-		this.getServletContext().getRequestDispatcher("/jsp/showAgenda.jsp").forward(request, response);
+			}
+
+			LocalDate startDate = LocalDate.now();
+			LocalDate endDate = startDate.plusDays(NB_DAYS_ACTIVATE);
+
+			Centremedical centre = listCentre.get(0);
+
+			if (idCentre > 0) {
+				final int id = idCentre;
+				centre = listCentre.stream().filter(c -> c.getIdCentre() == id).findFirst().orElse(centre);
+			}
+
+			request.getSession().setAttribute("centre", centre);
+			request.setAttribute("centre", centre);
+			request.setAttribute("listCentre", listCentre);
+			request.setAttribute("listDateAgenda", servicesAgenda.getDaysFromNow(NB_DAYS_ACTIVATE));
+			request.setAttribute("listTimeAgenda", servicesAgenda.getWorkTime("08:00", "20:00"));
+
+			request.setAttribute("mapPlanning", servicesPlanning.getPlannings(startDate, endDate, medecin, centre));
+
+			this.getServletContext().getRequestDispatcher("/jsp/showAgenda.jsp").forward(request, response);
+		} else if (request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		} else {
+			response.sendRedirect("login");
+		}
 	}
 
 	/**
