@@ -10,6 +10,11 @@ import java.util.TreeSet;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
@@ -32,12 +37,23 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 
 	public ArrayList<Medecin> rechercheMedecin(String nomMedecin) {
 		try {
-			return daoRendezVous.rechercheMedecin(nomMedecin);
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();	
+			Query query = em.createQuery("SELECT m FROM Medecin m inner join m.personne p where p.nom = :nomMedecin")	
+					.setParameter("nomMedecin", nomMedecin);	
+			List<Medecin> listeMedecins = query.getResultList();	
+			ArrayList<Medecin> resultats = new ArrayList<Medecin>();	
+
+			for (Medecin m : listeMedecins) {	
+				resultats.add(m);	
+			}	
+			return resultats;
 		}
 		catch (Exception e) {
 			return null;
 		}
 	}
+
 
 	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres, ArrayList<Time> heuresDebut, ArrayList<Date> jours) {
 		return daoPlanning.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut, jours);
