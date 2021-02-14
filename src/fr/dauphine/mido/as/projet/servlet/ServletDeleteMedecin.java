@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.dauphine.mido.as.projet.beans.Medecin;
-import fr.dauphine.mido.as.projet.dao.DAORendezVous;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 import fr.dauphine.mido.as.projet.mail.MailSender;

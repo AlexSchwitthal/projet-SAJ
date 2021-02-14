@@ -23,7 +23,7 @@
 									} else if (session.getAttribute("type") == "medecin") {
 									%>
 										<li><a href="gestionMedecin">Gestion du compte</a></li>
-										<li><a href="agenda">Agenda (medecin)</a></li>
+										<li><a href="agenda">Agenda</a></li>
 									<%
 									} else if (session.getAttribute("type") == "administrateur") {
 									%>

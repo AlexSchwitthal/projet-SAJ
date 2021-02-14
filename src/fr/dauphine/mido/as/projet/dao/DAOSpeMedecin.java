@@ -125,7 +125,8 @@ public class DAOSpeMedecin {
 
 			updated = true;
 
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

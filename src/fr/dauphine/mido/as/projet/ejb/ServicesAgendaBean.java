@@ -2,10 +2,8 @@ package fr.dauphine.mido.as.projet.ejb;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;

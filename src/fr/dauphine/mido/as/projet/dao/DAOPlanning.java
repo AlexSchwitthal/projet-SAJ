@@ -1,7 +1,6 @@
 package fr.dauphine.mido.as.projet.dao;
 
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -57,8 +56,6 @@ public class DAOPlanning {
 			Spemedecin spemedecin = query.getSingleResult();
 			boolean isActivated = spemedecin.isActivated();
 
-			// "select p from Planning p WHERE p.medecin.idMedecin = ?1 AND
-			// p.centremedical.idCentre = ?2 AND p.date BETWEEN ?3 AND ?4",
 			TypedQuery<Planning> query2 = em2.createQuery(
 					"select p from Planning p left join p.rendezvous r WHERE p.medecin.idMedecin = ?1 AND p.centremedical.idCentre = ?2 AND (p.date BETWEEN ?3 AND ?4) AND (?5=true OR r is not NULL)",
 					Planning.class);
@@ -121,8 +118,6 @@ public class DAOPlanning {
 
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
-
-			// creating the instance of LocalDate using the day, month, year info
 
 			LocalDate localDate = startDate.plusDays(0);
 
@@ -345,28 +340,12 @@ public class DAOPlanning {
 			return null;
 		}
 	}
-	/*public boolean setRendezVousNull(int idPlanning) {
-		boolean updated = false;
-		try {
-			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
-			EntityManager em = emf.createEntityManager();
-			Planning planning = em.find(Planning.class, idPlanning);
-			planning.setRendezvous(null);
-			em.merge(planning);
-			em.flush();
-			emf.close();
-			em.close();
-			updated = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return updated;
-	}*/
+
 	
 	public List<Planning> getPlanningByDateWithRendezvous(LocalDate localDate){
 		List<Planning> results = null;
 		Date date = Date.from(localDate.atStartOfDay(DEFAULT_ZONE_ID).toInstant());
-		//try {
+		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			EntityManager em = emf.createEntityManager();
 			TypedQuery<Planning> query = em.createQuery("select p from Planning p inner join p.rendezvous r where p.date = ?1 AND r.etat = ?2", Planning.class);
@@ -375,10 +354,10 @@ public class DAOPlanning {
 			results = query.getResultList();
 			emf.close();
 			em.close();
-		/*}
+		}
 		catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 		return results;
 	}
 }

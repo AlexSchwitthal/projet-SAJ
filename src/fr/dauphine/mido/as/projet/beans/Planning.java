@@ -4,12 +4,8 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -160,8 +156,6 @@ public class Planning implements Serializable {
 		Patient p = this.getPatientFromRendezvous();
 		if (p != null) {
 			Personne personne = p.getPersonne();
-			//JsonObject patientJson = Json.createObjectBuilder().add("Nom", personne.getNom()).build();
-			//s = patientJson.toString();
 			s = "<p><span class=\"name\">Nom</span><span class=\"value\">" + personne.getNom() + "</span></p>"
 				+ "<p><span class=\"name\">Prenom</span><span class=\"value\">" + personne.getPrenom() + "</span></p>"
 				+ "<p><span class=\"name\">Tel</span><span class=\"value\">" + p.getTelephone() + "</span></p>"

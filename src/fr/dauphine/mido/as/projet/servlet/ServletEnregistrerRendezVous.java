@@ -76,7 +76,7 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 		Planning planningInserted = servicesPlanning.enregistrerPlanning(idPlanning, rendezVous);
 		
 		if(planningInserted != null) {
-			request.setAttribute("success", "Votre rendez-vous ï¿½ bien ï¿½tï¿½ pris !");
+			request.setAttribute("success", "Votre rendez-vous a bien été pris !");
     	}
     	else { 
             request.setAttribute("warning", "Une erreur est survenue lors de la prise du rendez-vous !");
@@ -101,10 +101,10 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 			Spemedecin speMedecin = (Spemedecin) elements.get(2);
 			Planning planning = (Planning) elements.get(3);		
 			String mailContent = String.format("Bonjour,<br/><br/>Vous vous confirmons la prise de votre rendez-vous de " 
-					+ planning.getHeureDebutString() + " ï¿½ " + planning.getHeureFinString() + " le " + planning.getDate().toString() 
+					+ planning.getHeureDebutString() + " à " + planning.getHeureFinString() + " le " + planning.getDate().toString() 
 					+ " avec le " + speMedecin.getSpecialite().getLibelle() + " " + medecin.getPersonne().getPrenom() + " " + 
-					medecin.getPersonne().getNom() + " au centre " + centre.getNom() + " situï¿½ ï¿½ l'adresse " +
-					centre.getAdresse().getAdresseComplete() + ". Vous pouvez joindre le centre au numï¿½ro suivant : " + centre.getTelephone() + "<br/><br/>Cordialement, l'ï¿½quipe");
+					medecin.getPersonne().getNom() + " au centre " + centre.getNom() + " situé à l'adresse " +
+					centre.getAdresse().getAdresseComplete() + ". Vous pouvez joindre le centre au numéro suivant : " + centre.getTelephone() + "<br/><br/>Cordialement, l'équipe");
 			MailSender sender = new MailSender();
 			sender.sendMail("test@test.com", email, "Prise d'un rendez-vous", mailContent);
 		}

@@ -5,7 +5,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,11 +16,10 @@ import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
-import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 public class DAORendezVous {
 	public static final String ETAT_ACTIF = "Actif";
-	public static final String ETAT_ANNULE = "AnnulÃ©";
+	public static final String ETAT_ANNULE = "Annulé";
 	private static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
 	
 	public List<Rendezvous> getListeRendezVousMedecin(int idMedecin) {
@@ -56,7 +54,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			return results;
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -75,7 +74,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			return results.get(0).getCentremedical();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -119,7 +119,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			updated = true;
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return updated;
@@ -159,5 +160,25 @@ public class DAORendezVous {
 			e.printStackTrace();
 		}
 		return results;
+	}
+	
+	public ArrayList<Medecin> rechercheMedecin(String nomMedecin) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			Query query = em.createQuery("SELECT m FROM Medecin m inner join m.personne p where p.nom = :nomMedecin")
+					.setParameter("nomMedecin", nomMedecin);
+			List<Medecin> listeMedecins = query.getResultList();
+			ArrayList<Medecin> resultats = new ArrayList<Medecin>();
+			for (Medecin m : listeMedecins) {
+				resultats.add(m);
+			}
+			emf.close();
+			em.close();
+			return resultats;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 }
