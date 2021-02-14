@@ -319,7 +319,7 @@ public class DAOPlanning {
 		}
 	}
 
-	public boolean setRendezVousNull(int idPlanning) {
+	/*public boolean setRendezVousNull(int idPlanning) {
 		boolean updated = false;
 		try {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
@@ -335,5 +335,5 @@ public class DAOPlanning {
 			e.printStackTrace();
 		}
 		return updated;
-	}
+	}*/
 }

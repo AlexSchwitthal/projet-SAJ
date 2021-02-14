@@ -206,7 +206,7 @@ public class ServletEditAgenda extends HttpServlet {
 
 		listIdPlanning.forEach(idPlanning -> {
 			servicesRendezVous.cancelRendezVous(idPlanning, paramMotif);
-			servicesPlanning.setRendezVousNull(idPlanning);
+			/*servicesPlanning.setRendezVousNull(idPlanning);*/
 		});
 
 		response.sendRedirect("editAgenda");

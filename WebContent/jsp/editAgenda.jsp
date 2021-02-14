@@ -28,7 +28,7 @@
 		</section>
 
 		<input type="hidden" id="idCentre" value="${ centre.idCentre }">
-		<a href="agenda?centre=${ centre.idCentre }"><button type="button" class="btn btn-secondary">Affichez votre agenda</button></a><br/>
+		<a href="agenda?centre=${ centre.idCentre }"><button type="button" class="btn btn-secondary">azeazeazaeAffichez votre agenda</button></a><br/>
 		<label for="centre-select">Votre centre :</label>
 
 		<c:choose>

@@ -104,7 +104,7 @@ public class DAORendezVous {
 			query.setParameter(1, idPlanning);
 			query.setMaxResults(1);
 			Rendezvous rendezvous = query.getSingleResult();
-			rendezvous.setEtat("Annulé");
+			rendezvous.setEtat("Annulï¿½");
 			rendezvous.setMessageAnnulation(messageAnnulation);
 			em.merge(rendezvous);
 			em.flush();
