@@ -29,6 +29,8 @@
 					</div>
 				</section>
 			</div>
+			<br/><br/>
+            <%@include file="alert.jsp" %>
 			<div class="formRendezVous">
 			<form method="post" action="/projet-SAJ/rendezVous">
 				<h3>Recherche par nom</h3>
