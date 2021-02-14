@@ -15,7 +15,7 @@
 			<%@include file="menu.jsp"%>
 		</div>
 		<section class="dark-wrapper opaqued parallax" data-parallax="scroll"
-			data-image-src="assets/img/equipe-medecins.jpg" data-speed="0.7">
+			data-image-src="assets/img/agenda.jpg" data-speed="0.7">
 			<div class="section-inner ">
 				<div class="container">
 					<div class="row">
