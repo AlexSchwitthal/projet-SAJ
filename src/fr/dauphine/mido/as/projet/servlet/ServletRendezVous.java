@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
+import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 import fr.dauphine.mido.as.projet.ejb.ServicesSpecialite;
 
@@ -40,6 +42,9 @@ public class ServletRendezVous extends HttpServlet {
 
 	@EJB
 	ServicesCentre servicesCentre;
+	
+	@EJB
+	ServicesPatient servicesPatient;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -53,19 +58,29 @@ public class ServletRendezVous extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("listeSpecialites", servicesSpecialite.getAllSpecialite());
-		request.setAttribute("listeCentres", servicesCentre.getAllCentre());
-		request.setAttribute("listeCreneauxHoraires", genererCreneauxHoraires());
-		request.setAttribute("lesJours", servicesRendezVous.getJoursDisponibles());
-		this.getServletContext().getRequestDispatcher("/jsp/prendreRendezVous.jsp").forward(request, response);
+		if(request.getSession().getAttribute("type") == "patient") {
+			String email = (String) request.getSession().getAttribute("login");
+			Patient patient = this.servicesPatient.getPatientByEmail(email);
+			request.setAttribute("patient", patient);
+			request.setAttribute("listeSpecialites", servicesSpecialite.getAllSpecialite());
+			request.setAttribute("listeCentres", servicesCentre.getAllCentre());
+			request.setAttribute("listeCreneauxHoraires", genererCreneauxHoraires());
+			request.setAttribute("lesJours", servicesRendezVous.getJoursDisponibles());
+			
+			this.getServletContext().getRequestDispatcher("/jsp/prendreRendezVous.jsp").forward(request, response);
+		}
+		else if(request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		}
+		else {
+			response.sendRedirect("login");
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("formName"));
-		System.out.println(request.getParameterValues("formName").equals("formRechercheParNom"));
 		if (request.getParameterValues("formName").length == 1) {
 			String formName = request.getParameterValues("formName")[0];
 			if (formName.equals("formRechercheParNom")) {
@@ -81,7 +96,8 @@ public class ServletRendezVous extends HttpServlet {
 		response.setContentType("text/html");
 		String nomMedecin = request.getParameter("nomMedecin");
 
-		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
+		request.setAttribute("lesMedecins", servicesRendezVous.rechercheMedecin(nomMedecin));
+		//request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux.jsp").forward(request, response);
 	}
 
@@ -99,7 +115,6 @@ public class ServletRendezVous extends HttpServlet {
 
 		request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(idSpecialite, idCentres, heuresDebut, jours));
 
-		System.out.println("speMed = " + request.getParameter("specialite"));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux2.jsp").forward(request, response);
 	}
 
@@ -169,7 +184,4 @@ public class ServletRendezVous extends HttpServlet {
 
 		return creneauxHoraires;
 	}
-
-	//public ArrayList
-
 }

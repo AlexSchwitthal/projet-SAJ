@@ -83,13 +83,12 @@ public class ServletDeletePatient extends HttpServlet {
 		   		this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous avez supprimé votre compte de notre plateforme.<br/><br/> Nous esperons vous revoir sous peu et nous vous souhaitons bonne continuation.<br/><br/>Cordialement, l'équipe", patient.getPersonne().getPrenom(), patient.getPersonne().getNom());
 		       
 			}
-			this.sender = new MailSender();
-	        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
-        
 			session.invalidate();
 			request.setAttribute("success", "Votre compte a bien été supprimé !");
 			this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 			
+			this.sender = new MailSender();
+	        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 		}
 		else {
 			if(patient != null) {

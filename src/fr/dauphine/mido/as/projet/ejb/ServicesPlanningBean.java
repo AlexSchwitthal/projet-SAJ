@@ -48,10 +48,10 @@ public class ServicesPlanningBean implements ServicesPlanning {
 	}
 	
 	@Override
-	public Planning getPlanning(int idPlanning, Rendezvous rendezVous) {
+	public Planning enregistrerPlanning(int idPlanning, Rendezvous rendezVous) {
 		try {
 			System.out.println("services avant appel dao");
-			Planning planning = daoPlanning.getPlanning(idPlanning, rendezVous);
+			Planning planning = daoPlanning.enregistrerPlanning(idPlanning, rendezVous);
 			return planning;
 		} 
 		catch (Exception e) {

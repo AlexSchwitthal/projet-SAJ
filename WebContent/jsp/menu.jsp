@@ -21,17 +21,18 @@
 						<%
 							if (session.getAttribute("type") == "patient") {
 						%>
-						<li><a href="gestionPatient">Gestion (patient)</a></li>
+						<li><a href="gestionPatient">Gestion du compte</a></li>
 						<li><a href="rendezVous">Prendre un rendez-vous</a></li>
+						<li><a href="mesRendezVous">Mes rendez-vous</a></li>
 						<%
 							} else if (session.getAttribute("type") == "medecin") {
 						%>
-						<li><a href="gestionMedecin">Gestion (medecin)</a></li>
+						<li><a href="gestionMedecin">Gestion du compte</a></li>
 						<li><a href="agenda">Agenda (medecin)</a></li>
 						<%
 							} else if (session.getAttribute("type") == "administrateur") {
 						%>
-						<li><a href="registerMedecin">Inscription (medecin)</a></li>
+						<li><a href="registerMedecin">Inscription d'un medecin</a></li>
 						<%
 							}
 						%>

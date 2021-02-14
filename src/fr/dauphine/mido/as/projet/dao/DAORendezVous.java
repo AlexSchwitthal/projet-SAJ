@@ -42,7 +42,7 @@ public class DAORendezVous {
 					+ "where p.medecin.idMedecin = ?1 " + "and p.centremedical.idCentre = ?2 " + "and r.etat = ?3");
 			query.setParameter(1, idMedecin);
 			query.setParameter(2, idCentre);
-			query.setParameter(3, "actif");
+			query.setParameter(3, "Actif");
 			List<Rendezvous> results = query.getResultList();
 			emf.close();
 			em.close();
@@ -113,5 +113,23 @@ public class DAORendezVous {
 			e.printStackTrace();
 		}
 		return updated;
+	}
+	
+	public List<Rendezvous> getRendezVousPatient(int idPatient) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			//Query query = em.createQuery("select r from Rendezvous r where r.patient.idPatient = ?1");
+			Query query = em.createQuery("select r from Planning p inner join p.rendezvous r where r.patient.idPatient = ?1 order by p.date desc, p.heureDebut desc");
+			query.setParameter(1, idPatient);
+			List<Rendezvous> results = query.getResultList();
+			emf.close();
+			em.close();
+			return results;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

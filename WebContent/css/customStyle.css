@@ -20,3 +20,8 @@ form{
 #includeMenu{
 	position:absolute;
 }
+
+/**************/
+.divScroll {
+  overflow-y: scroll;
+}

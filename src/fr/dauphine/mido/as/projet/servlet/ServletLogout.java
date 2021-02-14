@@ -28,7 +28,7 @@ public class ServletLogout extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		request.setAttribute("success", "Vous vous êtes bien déconnecté !");
+		request.setAttribute("success", "Vous vous Ãªtes bien dÃ©connectÃ© !");
         this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 	}
 

@@ -1,6 +1,7 @@
 package fr.dauphine.mido.as.projet.dao;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -8,11 +9,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,6 +30,7 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
+import fr.dauphine.mido.as.projet.ejb.DateAgenda;
 
 public class DAOPlanning {
 	private static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd/MM/yyyy_HH:mm");
@@ -101,6 +106,28 @@ public class DAOPlanning {
 			em.close();
 			emf.close();
 			System.out.println("fin method dao");
+			return planning;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Planning enregistrerPlanning(int idPlanning, Rendezvous rendezVous) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+
+			Planning planning = em.find(Planning.class, idPlanning);
+			em.persist(rendezVous);
+			planning.setRendezvous(rendezVous);
+			planning.setDisponible(false);
+
+			em.flush();
+			em.close();
+			emf.close();
+
 			return planning;
 
 		} catch (Exception e) {
@@ -220,6 +247,74 @@ public class DAOPlanning {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public TreeSet<DateAgenda> getJoursDisponibles(Date d1, Date d2) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+		EntityManager em = emf.createEntityManager();
+		TreeSet<DateAgenda> lesJours = new TreeSet<DateAgenda>(new Comparator<DateAgenda>() {
+			@Override
+			public int compare(DateAgenda d1, DateAgenda d2) {
+				return d1.getDate().compareTo(d2.getDate());
+			}
+		});
+		DateAgenda date = null;
+
+		Query query = em
+				.createQuery(
+						"select distinct planning from Planning planning " + "where planning.date between :t1 and :t2")
+				.setParameter("t1", d1, TemporalType.DATE).setParameter("t2", d2, TemporalType.DATE);
+
+		List<Planning> listePlannings = query.getResultList();
+
+		for (Planning p : listePlannings) {
+			date = new DateAgenda(LocalDate.parse(p.getDate().toString()));
+			lesJours.add(date);
+		}
+
+		em.close();
+		emf.close();
+
+		return lesJours;
+	}
+
+	public ArrayList<Planning> rechercherCreneauxDisponibles(int idSpecialite, ArrayList<Integer> idCentres,
+			ArrayList<Time> heuresDebut, ArrayList<Date> jours) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			ArrayList<Planning> resultats = new ArrayList<Planning>();
+			EntityManager em = emf.createEntityManager();
+			Query query = null;
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date d = sdf.parse("2021-02-15");
+
+			String queryString = "select planning from Planning planning," + " Spemedecin spemedecin"
+					+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
+					+ " and spemedecin.centremedical.idCentre = planning.centremedical.idCentre"
+					+ " and spemedecin.specialite.idSpecialite = :idSpecialite";
+			queryString += (idCentres != null) ? " and planning.centremedical.idCentre in :idCentre"
+					: " and :idCentre IS NULL";
+			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
+			queryString += (heuresDebut != null) ? " and planning.heureDebut in :heuresDeb" : " and :heuresDeb IS NULL";
+
+			query = em.createQuery(queryString).setParameter("idSpecialite", idSpecialite)
+					.setParameter("idCentre", idCentres).setParameter("date", jours)
+					.setParameter("heuresDeb", heuresDebut);
+
+			List<Planning> listePlannings = query.getResultList();
+
+			for (Planning p : listePlannings) {
+				resultats.add(p);
+				System.out.println(p.getIdPlanning());
+			}
+
+			em.close();
+			emf.close();
+
+			return resultats;
+		} catch (Exception e) {
 			return null;
 		}
 	}

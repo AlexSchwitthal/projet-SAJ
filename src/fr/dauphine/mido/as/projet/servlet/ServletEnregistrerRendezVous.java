@@ -51,14 +51,13 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 		response.setContentType("text/html");
 		
 		Rendezvous rendezVous = new Rendezvous();
-		Planning planning = null;
 		String email = (String) request.getSession().getAttribute("login");
 		int idPlanning = Integer.parseInt(request.getParameter("idRendezVous"));
 		
 		rendezVous.setEtat("actif");
 		rendezVous.setPatient(servicesPatient.getPatientByEmail(email));
 		
-		planning = servicesPlanning.getPlanning(idPlanning, rendezVous);
+		servicesPlanning.enregistrerPlanning(idPlanning, rendezVous);
 		doGet(request, response);
 	}
 
