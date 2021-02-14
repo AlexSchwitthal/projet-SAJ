@@ -2,15 +2,12 @@ package fr.dauphine.mido.as.projet.servlet;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.json.Json;
-import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
-import fr.dauphine.mido.as.projet.ejb.EJBSchedulerBean;
 import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
@@ -29,7 +25,7 @@ import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 
 /**
- * Servlet implementation class ServletTest
+ * Servlet implementation class ServletEditAgenda
  */
 @WebServlet(name = "ServletEditAgenda", urlPatterns = { "/editAgenda", "/activateAgenda", "/desactivateAgenda",
 		"/ajaxEditAgenda", "/cancelPlannings"})
@@ -56,7 +52,6 @@ public class ServletEditAgenda extends HttpServlet {
 	 */
 	public ServletEditAgenda() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -67,7 +62,6 @@ public class ServletEditAgenda extends HttpServlet {
 			throws ServletException, IOException {
 		if (request.getSession().getAttribute("type") == "medecin") {
 			HttpServletMapping httpServletMapping = request.getHttpServletMapping();
-			// MappingMatch mappingMatch = httpServletMapping.getMappingMatch();
 
 			String pattern = httpServletMapping.getPattern();
 			Medecin medecin = (Medecin) request.getSession().getAttribute("medecin");
@@ -116,26 +110,11 @@ public class ServletEditAgenda extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
 	private void doAjaxEditAgenda(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// String str = "1986-04-08 12:30";
-		/*
-		 * String paramDateTime = request.getParameter("dateTime"); DateTimeFormatter
-		 * formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm");
-		 * DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		 * DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
-		 * LocalDateTime dateTime = LocalDateTime.parse(paramDateTime, formatter);
-		 * String strDate = dateTime.toLocalDate().format(formatterDate); String strTime
-		 * = dateTime.toLocalTime().format(formatterTime);
-		 */
-
-		// Récupérer date, temps, medecin, centre
-		// Requête sql pour récupérer planning
-		// Change valeur isActivated
 
 		String paramIdPlanning = request.getParameter("idPlanning");
 		String paramDisponible = request.getParameter("disponible");
@@ -208,7 +187,6 @@ public class ServletEditAgenda extends HttpServlet {
 
 		listIdPlanning.forEach(idPlanning -> {
 			servicesRendezVous.cancelRendezVous(idPlanning, paramMotif);
-			/*servicesPlanning.setRendezVousNull(idPlanning);*/
 		});
 
 		response.sendRedirect("editAgenda");

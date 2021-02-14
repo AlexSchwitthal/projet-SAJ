@@ -1,17 +1,12 @@
 package fr.dauphine.mido.as.projet.ejb;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.ejb.Timer;
 import javax.ejb.TimerService;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
@@ -19,7 +14,6 @@ import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
-import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.mail.MailSender;
 
 @Stateless
@@ -32,23 +26,12 @@ public class EJBSchedulerBean implements EJBScheduler {
 	 * Default constructor.
 	 */
 	public EJBSchedulerBean() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
-	public void stopTimer(Serializable info) {
-		Timer timer;
-		Collection timers = timerService.getTimers();
-		for (Object object : timers) {
-			timer = ((Timer) object);
-			if (timer.getInfo().equals(info)) {
-				timer.cancel();
-				break;
-			}
-		}
-	}
 
 	@Schedule(hour = "3", minute = "0", second = "0", dayOfWeek = "Mon-Sun", dayOfMonth = "*", month = "*", year = "*", info = "MyTimer")
-	public void logMessagePlanifie() {
+	public void EnvoiRappelEmail() {
 		ServicesPlanning servicesPlanning = new ServicesPlanningBean();
 		System.out.println("@Schedule called at: " + new Date());
 		LocalDate localDate = LocalDate.now().plusDays(1);

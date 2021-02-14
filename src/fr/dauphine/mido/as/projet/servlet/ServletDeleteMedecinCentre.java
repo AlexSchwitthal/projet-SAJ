@@ -18,7 +18,6 @@ import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesMedecin;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
 import fr.dauphine.mido.as.projet.ejb.ServicesSpeMedecin;
-import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
  * Servlet implementation class ServletDeleteMedecinCentre
@@ -57,8 +56,7 @@ public class ServletDeleteMedecinCentre extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int idCentre = Integer.parseInt(request.getParameter("idCentre"));
-		int idSpecialite = Integer.parseInt(request.getParameter("idSpecialite"));
-		
+
 		HttpSession session = request.getSession(true);
 		if(session.getAttribute("login") != null) {
 			String email = (String) session.getAttribute("login");

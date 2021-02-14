@@ -2,10 +2,8 @@ package fr.dauphine.mido.as.projet.dao;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,11 +15,10 @@ import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
-import fr.dauphine.mido.as.projet.beans.Spemedecin;
 
 public class DAORendezVous {
 	public static final String ETAT_ACTIF = "Actif";
-	public static final String ETAT_ANNULE = "AnnulÃ©";
+	public static final String ETAT_ANNULE = "Annulé";
 	private static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
 	
 	public List<Rendezvous> getListeRendezVousMedecin(int idMedecin) {
@@ -56,7 +53,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			return results;
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -75,7 +73,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			return results.get(0).getCentremedical();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -119,7 +118,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			updated = true;
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return updated;

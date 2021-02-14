@@ -51,7 +51,6 @@ public class ServletRendezVous extends HttpServlet {
 	 */
 	public ServletRendezVous() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -97,7 +96,6 @@ public class ServletRendezVous extends HttpServlet {
 		String nomMedecin = request.getParameter("nomMedecin");
 
 		request.setAttribute("lesMedecins", servicesRendezVous.rechercheMedecin(nomMedecin));
-		//request.setAttribute("lesCreneaux", servicesRendezVous.rechercherCreneauxDisponibles(nomMedecin));
 		this.getServletContext().getRequestDispatcher("/jsp/afficherCreneaux.jsp").forward(request, response);
 	}
 
@@ -144,8 +142,8 @@ public class ServletRendezVous extends HttpServlet {
 				}
 				return listeDates;
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -162,8 +160,8 @@ public class ServletRendezVous extends HttpServlet {
 				} 
 				return listeHeures;
 			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return null;

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
-import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.ejb.ServicesAgenda;
 import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
@@ -20,7 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Servlet implementation class ServletTest
+ * Servlet implementation class ServletAgenda
  */
 @WebServlet(name = "ServletAgenda", urlPatterns = { "/agenda" })
 public class ServletAgenda extends HttpServlet {
@@ -41,7 +40,6 @@ public class ServletAgenda extends HttpServlet {
 	 */
 	public ServletAgenda() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -94,7 +92,6 @@ public class ServletAgenda extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

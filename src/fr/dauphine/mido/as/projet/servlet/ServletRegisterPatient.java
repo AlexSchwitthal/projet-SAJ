@@ -60,8 +60,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	        Personne personne = new Personne();
 	        Patient patient = new Patient();
 	        Adresse adresse = new Adresse();
-	        //response.setContentType("text/html");
-
+	        
 	        personne.setNom(request.getParameter("nom"));
 	        personne.setPrenom(request.getParameter("prenom"));
 	        personne.setDateNaissance(sdf.parse(request.getParameter("dateNaissance")));
@@ -77,9 +76,9 @@ public class ServletRegisterPatient extends HttpServlet {
 
 	        String insert = servicesPatient.ajoutPatient(patient, personne, adresse);
 	        if(insert.equals("ok")) {
-	            request.setAttribute("success", "Vous vous ï¿½tes bien inscrit !");
+	            request.setAttribute("success", "Vous vous êtes bien inscrit !");
 		        this.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reÃ§u ce courriel car vous vous Ãªtes inscrit sur notre plateforme.<br/><br/> Vous pouvez dÃ©sormais prendre des rendez-vous mï¿½dicaux sur notre site. Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'ï¿½quipe", personne.getPrenom(), personne.getNom());
+		        this.mailContent = String.format("Bonjour %s %s,<br/><br/>Vous avez reçu ce courriel car vous vous êtes inscrit sur notre plateforme.<br/><br/> Vous pouvez désormais prendre des rendez-vous médicaux sur notre site. Nous esperons que notre service vous portera satisfaction.<br/><br/>Cordialement, l'équipe", personne.getPrenom(), personne.getNom());
 		        this.sender = new MailSender();
 		        sender.sendMail("test@test.com", patient.getEmail(), MAIL_SUBJECT, mailContent);
 	        }
@@ -89,7 +88,7 @@ public class ServletRegisterPatient extends HttpServlet {
 	        	request.setAttribute("personne", personne);
 	        	request.setAttribute("date", request.getParameter("dateNaissance"));
 	        	if(insert.equals("email")) {
-		            request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est dï¿½jï¿½ prise !");
+		            request.setAttribute("warning", "L'adresse e-mail que vous avez saisie est déjà prise !");
 	        	}
 	        	else { 
 		            request.setAttribute("warning", "Une erreur est survenue lors de votre inscription !");
