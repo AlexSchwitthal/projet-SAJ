@@ -10,10 +10,8 @@ import java.util.TreeSet;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
@@ -40,17 +38,7 @@ public class ServicesRendezVousBean implements ServicesRendezVous {
 	@Transactional
 	public ArrayList<Medecin> rechercheMedecin(String nomMedecin) {
 		try {
-			System.out.println("In rechercheMedecin()");
-			EntityManager em = emf.createEntityManager();
-			Query query = em.createQuery("SELECT m FROM Medecin m inner join m.personne p where p.nom = :nomMedecin")
-					.setParameter("nomMedecin", nomMedecin);
-			List<Medecin> listeMedecins = query.getResultList();
-			ArrayList<Medecin> resultats = new ArrayList<Medecin>();
-
-			for (Medecin m : listeMedecins) {
-				resultats.add(m);
-			}
-			return resultats;
+			return daoRendezVous.rechercheMedecin(nomMedecin);
 		}
 		catch (Exception e) {
 			return null;

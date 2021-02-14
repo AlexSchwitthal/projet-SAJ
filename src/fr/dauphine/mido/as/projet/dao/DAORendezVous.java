@@ -2,6 +2,7 @@ package fr.dauphine.mido.as.projet.dao;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -159,5 +160,25 @@ public class DAORendezVous {
 			e.printStackTrace();
 		}
 		return results;
+	}
+	
+	public ArrayList<Medecin> rechercheMedecin(String nomMedecin) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			Query query = em.createQuery("SELECT m FROM Medecin m inner join m.personne p where p.nom = :nomMedecin")
+					.setParameter("nomMedecin", nomMedecin);
+			List<Medecin> listeMedecins = query.getResultList();
+			ArrayList<Medecin> resultats = new ArrayList<Medecin>();
+			for (Medecin m : listeMedecins) {
+				resultats.add(m);
+			}
+			emf.close();
+			em.close();
+			return resultats;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 }
