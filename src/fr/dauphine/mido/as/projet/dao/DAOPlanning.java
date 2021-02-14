@@ -263,9 +263,6 @@ public class DAOPlanning {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
 			ArrayList<Planning> resultats = new ArrayList<Planning>();
 			EntityManager em = emf.createEntityManager();
-			Query query = null;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			java.util.Date d = sdf.parse("2021-02-15");
 
 			String queryString = "select planning from Planning planning," + " Spemedecin spemedecin"
 					+ " where spemedecin.medecin.idMedecin = planning.medecin.idMedecin"
@@ -277,15 +274,20 @@ public class DAOPlanning {
 			queryString += (jours != null) ? " and planning.date in :date" : " and :date IS NULL";
 			queryString += (heuresDebut != null) ? " and planning.heureDebut in :heuresDeb" : " and :heuresDeb IS NULL";
 
-			query = em.createQuery(queryString).setParameter("idSpecialite", idSpecialite)
+			Query query = em.createQuery(queryString).setParameter("idSpecialite", idSpecialite)
 					.setParameter("idCentre", idCentres).setParameter("date", jours)
 					.setParameter("heuresDeb", heuresDebut);
 
 			List<Planning> listePlannings = query.getResultList();
 
+			LocalDate localDate = LocalDate.now();
+			LocalTime localTime = LocalTime.now();
+			Time currentTime = Time.valueOf(localTime);
+			Date currentDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			for (Planning p : listePlannings) {
-				resultats.add(p);
-				System.out.println(p.getIdPlanning());
+				if(currentDate.before(p.getDate()) || (currentDate.equals(p.getDate()) && currentTime.before(p.getHeureDebut()))) {
+					resultats.add(p);
+				}
 			}
 
 			em.close();
@@ -296,6 +298,7 @@ public class DAOPlanning {
 			return null;
 		}
 	}
+
 
 	public ArrayList<ArrayList<Object>> getPlanningPatient(int idPatient) {
 		try {
