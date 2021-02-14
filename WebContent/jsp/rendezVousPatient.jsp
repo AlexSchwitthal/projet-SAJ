@@ -103,7 +103,7 @@
 							%>
 							<td>
 								<form style="padding:0;margin:0;" onSubmit="return validationSuppression()" method="post" action="mesRendezVous">
-									<input id="idRendezVous" name="idRendezVous" type="hidden" value="<%= planning.getRendezvous().getIdRendezVous() %>">
+									<input id="idPlanning" name="idPlanning" type="hidden" value="<%= planning.getIdPlanning() %>">
 									<input name="raisonAnnulation" type="hidden" value="">
 									<center><input type="submit" value="Annuler RDV" class="btn btn-danger"></center>
 								</form>

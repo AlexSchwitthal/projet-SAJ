@@ -46,9 +46,9 @@ public class ServletRendezVousPatient extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//if(request.getSession().getAttribute("type") == "patient") {
+		if(request.getSession().getAttribute("type") == "patient") {
 			String email = (String) request.getSession().getAttribute("login");
-			Patient patient = this.servicesPatient.getPatientByEmail("schwitthal.alexandre@gmail.com");
+			Patient patient = this.servicesPatient.getPatientByEmail(email);
 			List<Rendezvous> listeRendezVousPatient = this.servicesRendezVous.getRendezVousPatient(patient.getIdPatient());
 			ArrayList<ArrayList<Object>> listeDetailsRendezVous = new ArrayList<ArrayList<Object>>();
 			LocalDate date = LocalDate.now();
@@ -63,39 +63,39 @@ public class ServletRendezVousPatient extends HttpServlet {
 			request.setAttribute("date", date);
 			request.setAttribute("time", time);
 		    this.getServletContext().getRequestDispatcher("/jsp/rendezVousPatient.jsp").forward(request, response);
-	//	}
-	//	else if(request.getSession().getAttribute("login") != null) {
-	//		response.sendRedirect("home");
-	//	}
-	//	else {
-	//		response.sendRedirect("login");
-	//	}
+		}
+		else if(request.getSession().getAttribute("login") != null) {
+			response.sendRedirect("home");
+		}
+		else {
+			response.sendRedirect("login");
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idRendezVous = request.getParameter("idRendezVous");
+        int idPlanning = Integer.parseInt(request.getParameter("idPlanning"));
+        System.out.println(idPlanning);
         String raisonAnnulation = request.getParameter("raisonAnnulation");
         System.out.println(raisonAnnulation);
-        System.out.println(request.getParameter("raisonAnnulation"));
         if(raisonAnnulation.equals("")) {
         	request.setAttribute("warning", "Vous devez saisir une raison pour annuler un rendez-vous !");
-			doGet(request, response);
+        	doGet(request, response);
         }
         else {
         	// TO DO
-        	boolean lol = true;
-        	if(lol) {
+        	boolean isCancelled = servicesRendezVous.cancelRendezVous(idPlanning, raisonAnnulation);
+        	if(isCancelled) {
     			request.setAttribute("success", "Votre rendez-vous à bien été annulé !");
     			String email = (String) request.getSession().getAttribute("login");
     			String nom = (String) request.getSession().getAttribute("nom");
     			String prenom = (String) request.getSession().getAttribute("prenom");
     			doGet(request, response);
     			String mailContent = String.format("Bonjour %s %s,<br/><br/>Nous vous confirmons l'annulation de votre rendez-vous.<br/><br/>Cordialement, l'équipe", prenom, nom);
- 		        MailSender sender = new MailSender();
- 		        sender.sendMail("test@test.com", email, "Annulation d'un rendez-vous", mailContent);
+ 		       	MailSender sender = new MailSender();
+ 		       	sender.sendMail("test@test.com", email, "Annulation d'un rendez-vous", mailContent);
     		}
     		else {
     			request.setAttribute("warning", "Une erreur est survenue lors de l'annulation du rendez-vous !");
