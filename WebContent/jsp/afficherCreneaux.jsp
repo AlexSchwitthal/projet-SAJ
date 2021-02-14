@@ -20,7 +20,7 @@
 				<div id="includeMenu">
 					<jsp:include page="menu.jsp"/>
 				</div>          
-				<section class="dark-wrapper opaqued parallax" data-parallax="scroll" data-image-src="assets/img/modifInfosPersos.jpg" data-speed="0.7">						
+				<section class="dark-wrapper opaqued parallax" data-parallax="scroll" data-image-src="assets/img/prendreRDV.jpg" data-speed="0.7">						
 					<div class="section-inner ">				            	
 						<div class="container">
 							<div class="row">				                    	
