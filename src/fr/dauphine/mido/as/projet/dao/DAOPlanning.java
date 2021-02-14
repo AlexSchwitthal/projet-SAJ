@@ -320,6 +320,51 @@ public class DAOPlanning {
 		}
 	}
 
+	public ArrayList<ArrayList<Object>> getPlanningPatient(int idPatient) {
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("projet-SAJ");
+			EntityManager em = emf.createEntityManager();
+			
+			Query query = em.createQuery("select m, c, s, p from Planning p, Spemedecin s "
+					+ "inner join p.rendezvous r "
+					+ "inner join p.centremedical c "
+					+ "inner join p.medecin m "
+					+ "where r.patient.idPatient = ?1 "
+					+ "and s.centremedical =  c "
+					+ "and s.medecin = m "
+					+ "order by p.date desc, p.heureDebut desc");
+			
+			query.setParameter(1, idPatient);
+			List<Object[]> results = query.getResultList();
+			ArrayList<ArrayList<Object>> toReturn = new ArrayList<ArrayList<Object>>();
+
+			for(Object[] ligne : results) {
+				ArrayList<Object> currentLigne = new ArrayList<Object>();
+				for(Object o : ligne) {
+					if(o instanceof Medecin) {
+						currentLigne.add((Medecin) o);
+					}
+					else if(o instanceof Centremedical) {
+						currentLigne.add((Centremedical) o);
+					}
+					else if(o instanceof Spemedecin) {
+						currentLigne.add((Spemedecin) o);
+					}
+					else if(o instanceof Planning) {
+						currentLigne.add((Planning) o);
+					}
+				}
+				toReturn.add(currentLigne);
+			}
+			emf.close();
+			em.close();
+			return toReturn;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	/*public boolean setRendezVousNull(int idPlanning) {
 		boolean updated = false;
 		try {

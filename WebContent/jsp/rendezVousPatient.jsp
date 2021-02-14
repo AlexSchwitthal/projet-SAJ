@@ -10,6 +10,7 @@
 <%@page import="fr.dauphine.mido.as.projet.beans.Spemedecin"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Planning"%>
 <%@page import="fr.dauphine.mido.as.projet.beans.Centremedical"%>
+<%@page import="fr.dauphine.mido.as.projet.beans.Rendezvous"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page session="true"%>
@@ -54,17 +55,18 @@
 				<tbody>
 				<%
 				Patient patient = (Patient) request.getAttribute("patient"); 
-				ArrayList<ArrayList<Object>> listeDetailsRendezVous = (ArrayList<ArrayList<Object>>) request.getAttribute("listeDetailsRendezVous");
+				ArrayList<ArrayList<Object>>  listePlanningPatient = (ArrayList<ArrayList<Object>>) request.getAttribute("listePlanningPatient");
 				LocalDate localDate = (LocalDate) request.getAttribute("date");
 				LocalTime localTime = (LocalTime) request.getAttribute("time");
 				Time currentTime = Time.valueOf(localTime);
 				Date currentDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-				for (ArrayList<Object> detailsRendezVous : listeDetailsRendezVous) {
-					Medecin medecin = (Medecin) detailsRendezVous.get(0);
-					Centremedical centreMedical = (Centremedical) detailsRendezVous.get(1);
-					Spemedecin speMedecin = (Spemedecin) detailsRendezVous.get(2);
-					Planning planning = (Planning) detailsRendezVous.get(3);
+				for (ArrayList<Object> elements : listePlanningPatient) {
+					Medecin medecin = (Medecin) elements.get(0);
+					Centremedical centreMedical = (Centremedical) elements.get(1);
+					Spemedecin speMedecin = (Spemedecin) elements.get(2);
+					Planning planning = (Planning) elements.get(3);
+					
 				
 					String etat = planning.getRendezvous().getEtat();
 					

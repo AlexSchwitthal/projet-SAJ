@@ -1,6 +1,7 @@
 package fr.dauphine.mido.as.projet.ejb;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
@@ -69,5 +70,29 @@ public class ServicesPlanningBean implements ServicesPlanning {
 	public Planning getPlanning(int idPlanning, Rendezvous rendezvous) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Planning getPlanningByRendezVous(int idRendezVous) {
+		try {
+			return daoPlanning.getPlanningByRendezVous(idRendezVous);
+
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public ArrayList<ArrayList<Object>> getPlanningPatient(int idPatient) {
+		try {
+			return daoPlanning.getPlanningPatient(idPatient);
+
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
