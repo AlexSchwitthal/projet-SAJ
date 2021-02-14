@@ -43,3 +43,27 @@ body {
 .carousel-inner {
 	background-color: #f5f5fa;
 }
+
+.formRendezVous {
+	margin: 35px 0px 35px 0px;
+}
+
+.formRendezVousMulticriteres {
+	margin: 70px 0px 35px 0px;
+}
+
+.container-checkBox {
+	margin-top : 0px;
+	border:2px solid #ccc;
+	height: 150px;
+	overflow-y: scroll;
+}
+
+.critere {
+	margin: 10px 0px 0px 0px;
+	padding: 0px 0px 0px 10px;
+}
+
+.checkForm {
+	padding-left: 10px;
+}
