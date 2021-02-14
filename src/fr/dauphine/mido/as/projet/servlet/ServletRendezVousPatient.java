@@ -77,9 +77,8 @@ public class ServletRendezVousPatient extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idPlanning = Integer.parseInt(request.getParameter("idPlanning"));
-        System.out.println(idPlanning);
         String raisonAnnulation = request.getParameter("raisonAnnulation");
-        System.out.println(raisonAnnulation);
+        raisonAnnulation += " [Patient]";
         if(raisonAnnulation.equals("")) {
         	request.setAttribute("warning", "Vous devez saisir une raison pour annuler un rendez-vous !");
         	doGet(request, response);
@@ -87,12 +86,12 @@ public class ServletRendezVousPatient extends HttpServlet {
         else {
         	boolean isCancelled = servicesRendezVous.cancelRendezVous(idPlanning, raisonAnnulation);
         	if(isCancelled) {
-    			request.setAttribute("success", "Votre rendez-vous à bien été annulé !");
+    			request.setAttribute("success", "Votre rendez-vous ï¿½ bien ï¿½tï¿½ annulï¿½ !");
     			String email = (String) request.getSession().getAttribute("login");
     			String nom = (String) request.getSession().getAttribute("nom");
     			String prenom = (String) request.getSession().getAttribute("prenom");
     			doGet(request, response);
-    			String mailContent = String.format("Bonjour %s %s,<br/><br/>Nous vous confirmons l'annulation de votre rendez-vous.<br/><br/>Cordialement, l'équipe", prenom, nom);
+    			String mailContent = String.format("Bonjour %s %s,<br/><br/>Nous vous confirmons l'annulation de votre rendez-vous.<br/><br/>Cordialement, l'ï¿½quipe", prenom, nom);
  		       	MailSender sender = new MailSender();
  		       	sender.sendMail("test@test.com", email, "Annulation d'un rendez-vous", mailContent);
     		}

@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.mido.as.projet.beans.Centremedical;
 import fr.dauphine.mido.as.projet.beans.Medecin;
+import fr.dauphine.mido.as.projet.beans.Patient;
 import fr.dauphine.mido.as.projet.beans.Planning;
 import fr.dauphine.mido.as.projet.beans.Rendezvous;
 import fr.dauphine.mido.as.projet.beans.Spemedecin;
 import fr.dauphine.mido.as.projet.dao.DAORendezVous;
+import fr.dauphine.mido.as.projet.ejb.ServicesCentre;
 import fr.dauphine.mido.as.projet.ejb.ServicesPatient;
 import fr.dauphine.mido.as.projet.ejb.ServicesPlanning;
 import fr.dauphine.mido.as.projet.ejb.ServicesRendezVous;
+import fr.dauphine.mido.as.projet.ejb.ServicesSpecialite;
 import fr.dauphine.mido.as.projet.mail.MailSender;
 
 /**
@@ -27,7 +30,7 @@ import fr.dauphine.mido.as.projet.mail.MailSender;
 @WebServlet("/enregistrerRendezVous")
 public class ServletEnregistrerRendezVous extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private ServletRendezVous servletRendezVous = new ServletRendezVous();   
 	@EJB
 	ServicesPatient servicesPatient;
 	
@@ -37,12 +40,17 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 	@EJB
 	ServicesRendezVous servicesRendezVous;
 	
+	@EJB
+	ServicesSpecialite servicesSpecialite;
+	
+	@EJB
+	ServicesCentre servicesCentre;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ServletEnregistrerRendezVous() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -68,13 +76,24 @@ public class ServletEnregistrerRendezVous extends HttpServlet {
 		Planning planningInserted = servicesPlanning.enregistrerPlanning(idPlanning, rendezVous);
 		
 		if(planningInserted != null) {
-			
-		} 
-		else {
-			
-		}
+			request.setAttribute("success", "Votre rendez-vous � bien �t� pris !");
+    	}
+    	else { 
+            request.setAttribute("warning", "Une erreur est survenue lors de la prise du rendez-vous !");
+    	}
 		
-		doGet(request, response);
+		//servletRendezVous
+		Patient patient = this.servicesPatient.getPatientByEmail(email);
+		request.setAttribute("patient", patient);
+		request.setAttribute("listeSpecialites", servicesSpecialite.getAllSpecialite());
+		request.setAttribute("listeCentres", servicesCentre.getAllCentre());
+		request.setAttribute("listeCreneauxHoraires", this.servletRendezVous.genererCreneauxHoraires());
+		request.setAttribute("lesJours", servicesRendezVous.getJoursDisponibles());
+		
+		this.getServletContext().getRequestDispatcher("/jsp/prendreRendezVous.jsp").forward(request, response);
+		
+		
+		
 		if(planningInserted != null) {
 			ArrayList<Object> elements = servicesRendezVous.getDetailsRendezVous(planningInserted.getRendezvous().getIdRendezVous());
 			Medecin medecin = (Medecin) elements.get(0);

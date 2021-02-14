@@ -194,7 +194,8 @@ public class ServletEditAgenda extends HttpServlet {
 		List<Centremedical> listCentre = servicesCentre.getCentresByMedecin(medecin.getIdMedecin());
 		Centremedical centre = listCentre.get(0);
 
-		String paramMotif = request.getParameter("motif");
+		String paramMotif = request.getParameter("motif")+" [Medecin]";
+
 		String paramListIdPlanning = request.getParameter("listIdPlanning");
 		if (idCentre > 0) {
 			final int id = idCentre;
