@@ -87,7 +87,8 @@ public class DAORendezVous {
 			emf.close();
 			em.close();
 			return results.get(0).getMedecin();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -104,7 +105,7 @@ public class DAORendezVous {
 			query.setParameter(1, idPlanning);
 			query.setMaxResults(1);
 			Rendezvous rendezvous = query.getSingleResult();
-			rendezvous.setEtat("AnnulÃ©");
+			rendezvous.setEtat("Annulé");
 			rendezvous.setMessageAnnulation(messageAnnulation);
 			em.merge(rendezvous);
 			em.flush();

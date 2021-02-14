@@ -29,8 +29,8 @@ public class MailSender {
 			msg.setSubject(subject);
 			msg.setSentDate(new Date());
 			Transport.send(msg);
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (MessagingException e) {
 			e.printStackTrace();
 		}
 		
